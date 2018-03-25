@@ -1,6 +1,3 @@
 <resources>
   <string name="app_name">AhbapApp</string>
-  <string name="facebook_app_id">2011361572518473</string>
-  <string name="fb_login_protocol_scheme">fb2011361572518473</string>
-
 </resources>

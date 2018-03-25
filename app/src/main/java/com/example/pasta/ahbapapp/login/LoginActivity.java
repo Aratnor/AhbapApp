@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
-    private SignInButton googleSignInBtn;
+    private FirebaseFirestore db;
 
 
     @Override
@@ -45,10 +45,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        googleSignInBtn = findViewById(R.id.google_sign_in_btn);
+        SignInButton googleSignInBtn = findViewById(R.id.google_sign_in_btn);
         googleSignInBtn.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        checkUserExist();
+                        checkUserExists();
 
                     } else {
 
@@ -114,12 +115,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void checkUserExist(){
+    private void checkUserExists(){
 
         if (mAuth.getCurrentUser() != null){
-
             final String userId = mAuth.getCurrentUser().getUid();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
             final DocumentReference userRef = db.collection("users").document(userId);
             userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -127,20 +127,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
 
-                        Toast.makeText(LoginActivity.this, task.getResult().toString(),
-                            Toast.LENGTH_SHORT).show();
-
                         if (document.exists()) {
                             updateUI(mAuth.getCurrentUser());
                         }
-
-
                         else {
                             Log.d("Document", "null");
                             addUser();
                             updateUI(mAuth.getCurrentUser());
                         }
-
                     }
                     else {
                         Log.d("checkUserExist", task.getException().toString());
@@ -153,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void addUser() {
         final String userId = mAuth.getCurrentUser().getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("name", mAuth.getCurrentUser().getDisplayName());
         userInfo.put("email", mAuth.getCurrentUser().getEmail());
