@@ -1,4 +1,5 @@
 package com.example.pasta.ahbapapp.login;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -37,7 +38,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private SignInButton googleSignInBtn;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
 
 
     @Override
@@ -45,19 +45,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        googleSignInBtn = findViewById(R.id.sign_in_button);
+        googleSignInBtn = findViewById(R.id.google_sign_in_btn);
         googleSignInBtn.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
-
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
-            @Override public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                if (firebaseAuth.getCurrentUser() != null){
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                }
-            }
-        };
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -67,13 +58,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
-
-    @Override protected void onStart() {
-        super.onStart();
-
-        mAuth.addAuthStateListener(mAuthStateListener);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -81,27 +65,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (requestCode == RC_SIGN_IN) {
 
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
+            try {
+
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+
+                Log.w("Failed Sign In", "signInResult:failed code=" + e.getStatusCode());
+                updateUI(null);
+            }
+
         }
+
     }
 
-    private void signIn() {
+    private void googleSignIn() {
 
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> task) {
-
-        try {
-
-            GoogleSignInAccount account = task.getResult(ApiException.class);
-            firebaseAuthWithGoogle(account);
-        } catch (ApiException e) {
-
-            Log.w("Failed Sign In", "signInResult:failed code=" + e.getStatusCode());
-            updateUI(null);
-        }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -173,21 +154,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void addUser() {
         final String userId = mAuth.getCurrentUser().getUid();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Map<String, Object> city = new HashMap<>();
-        city.put("name", mAuth.getCurrentUser().getDisplayName());
-        city.put("email", mAuth.getCurrentUser().getEmail());
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("name", mAuth.getCurrentUser().getDisplayName());
+        userInfo.put("email", mAuth.getCurrentUser().getEmail());
+        userInfo.put("image_url", mAuth.getCurrentUser().getPhotoUrl().toString());
 
-        db.collection("users").document(userId).set(city)
+        db.collection("users").document(userId).set(userInfo)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override public void onSuccess(Void aVoid) {
-                Toast.makeText(LoginActivity.this
-                    , "user added", Toast.LENGTH_SHORT).show();
+                Log.d("addUser", "User added");
             }
         })
         .addOnFailureListener(new OnFailureListener() {
             @Override public void onFailure(@NonNull Exception e) {
-                Toast.makeText(LoginActivity.this
-                    , "something went wrong when user added", Toast.LENGTH_SHORT).show();
+                Log.d("addUser", "Something went wrong" + e.getMessage());
 
             }
         });
@@ -195,8 +175,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
-                signIn();
+            case R.id.google_sign_in_btn:
+                googleSignIn();
                 break;
         }
     }

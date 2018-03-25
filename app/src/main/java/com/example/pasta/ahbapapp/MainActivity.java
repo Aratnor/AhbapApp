@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.pasta.ahbapapp.login.LoginActivity;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,5 +44,6 @@ private FirebaseAuth.AuthStateListener mAuthStateListener;
     @Override protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
+
     }
 }
