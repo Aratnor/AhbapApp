@@ -20,6 +20,8 @@
     </activity>
     <activity android:name=".login.LoginActivity">
     </activity>
+    <activity android:name=".view.NewPostActivity">
+    </activity>
   </application>
 
 </manifest>
