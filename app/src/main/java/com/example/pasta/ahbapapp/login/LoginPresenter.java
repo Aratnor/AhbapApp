@@ -67,7 +67,6 @@ class LoginPresenter implements LoginContract.Presenter{
                         else {
                             Log.d("Document", "null");
                             addUser();
-                            mView.updateUI();
                         }
                     }
                     else {
@@ -91,6 +90,7 @@ class LoginPresenter implements LoginContract.Presenter{
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override public void onSuccess(Void aVoid) {
                     Log.d("addUser", "User added");
+                    mView.updateUI();
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
