@@ -15,6 +15,8 @@ import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.interfaces.NewPostContract;
 import com.example.pasta.ahbapapp.presenter.NewPostPresenter;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class NewPostActivity extends AppCompatActivity implements NewPostContract.NewPostView,
     View.OnClickListener {
@@ -26,8 +28,8 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
     private TextView contentErrorText;
     private TextView cityErrorText;
     private TextView catErrorText;
-    private ImageView newImageBtn;
     private Uri imageUri;
+    private ImageView imageView;
     private NewPostPresenter presenter;
 
     @Override
@@ -46,9 +48,27 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         content = findViewById(R.id.contentEditText);
         city = findViewById(R.id.cityEditText);
         category = findViewById(R.id.catEditText);
-        newImageBtn = findViewById(R.id.newImage);
+        imageView = findViewById(R.id.newImage);
         findViewById(R.id.newImage).setOnClickListener(this);
         findViewById(R.id.addPost).setOnClickListener(this);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+
+                imageUri = result.getUri();
+                imageView.setImageURI(imageUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+
+                Toast.makeText(this, result.getError().toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
 
     }
 
@@ -105,5 +125,12 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
 
 
     private void newImage() {
+        CropImage.activity()
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropResultSize(512, 512)
+                .setAspectRatio(1, 1)
+                .start(NewPostActivity.this);
     }
+
+
 }

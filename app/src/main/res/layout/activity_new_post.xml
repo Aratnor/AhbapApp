@@ -101,9 +101,10 @@
       android:layout_height="100dp"
       android:layout_marginStart="8dp"
       android:text="New Image"
+      app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/catEditText"
-      app:layout_constraintEnd_toEndOf="parent"/>
+      app:srcCompat="@android:drawable/ic_input_add" />
 
   <Button
       android:id="@+id/addPost"
