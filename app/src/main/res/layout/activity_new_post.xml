@@ -94,25 +94,25 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/catErrorText"
       />
-  <Button
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+
+  <ImageView
+      android:id="@+id/newImage"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
       android:layout_marginStart="8dp"
+      android:text="New Image"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/catEditText"
-      app:layout_constraintEnd_toStartOf="@id/addPost"
-      android:text="New Image"
-      android:id="@+id/newImage"
-      />
+      app:layout_constraintEnd_toEndOf="parent"/>
+
   <Button
+      android:id="@+id/addPost"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginEnd="8dp"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/newImage"
-      android:id="@+id/addPost"
       android:text="Add Post"
-      app:layout_constraintTop_toBottomOf="@+id/catEditText"
-      />
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/newImage" />
 
 </android.support.constraint.ConstraintLayout>

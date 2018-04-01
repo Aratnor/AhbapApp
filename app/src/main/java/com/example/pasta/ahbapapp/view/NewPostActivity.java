@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
     private TextView contentErrorText;
     private TextView cityErrorText;
     private TextView catErrorText;
+    private ImageView newImageBtn;
     private Uri imageUri;
     private NewPostPresenter presenter;
 
@@ -44,6 +46,7 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         content = findViewById(R.id.contentEditText);
         city = findViewById(R.id.cityEditText);
         category = findViewById(R.id.catEditText);
+        newImageBtn = findViewById(R.id.newImage);
         findViewById(R.id.newImage).setOnClickListener(this);
         findViewById(R.id.addPost).setOnClickListener(this);
 
