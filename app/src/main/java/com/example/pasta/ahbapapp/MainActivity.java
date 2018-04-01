@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.pasta.ahbapapp.login.LoginActivity;
+import com.example.pasta.ahbapapp.view.NewPostActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -53,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+
+
+        findViewById(R.id.post).setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NewPostActivity.class));
+            }
+        });
     }
 
     @Override protected void onStart() {

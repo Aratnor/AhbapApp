@@ -1,3 +1,8 @@
 <resources>
   <string name="app_name">AhbapApp</string>
+  <string name="empty_content_error">İçerik boş bırakılamaz.</string>
+  <string name="small_content_error">İçerik 3 karakterden küçük olamaz.</string>
+  <string name="large_content_error">İçerik 1000 karakterden büyük olamaz.</string>
+  <string name="city_empty_error">Şehir boş bırakılamaz.</string>
+  <string name="category_empty_error">Kategori boş bırakılamaz.</string>
 </resources>

@@ -10,7 +10,6 @@
 
 
   <style name="CircularProgress" parent="Theme.AppCompat.Light.DarkActionBar">
-    <item name="colorAccent">@color/colorGreen</item>
+    <item name="colorAccent">@color/colorBlack</item>
   </style>
-
 </resources>
