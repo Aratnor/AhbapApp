@@ -35,6 +35,7 @@ ext{
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:${androidSupportVersion}"
+    compile "com.android.support:design:${androidSupportVersion}"
     implementation "com.android.support.constraint:constraint-layout:${constraintVersion}"
     compile "com.theartofdev.edmodo:android-image-cropper:${cropImageVersion}"
     compile "id.zelory:compressor:${compressorVersion}"
