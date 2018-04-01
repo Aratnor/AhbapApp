@@ -112,7 +112,6 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
                 newImage();
                 break;
         }
-
     }
 
     private void addPost() {
@@ -123,7 +122,6 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         presenter.addPost(contentS, imageUri, cityS, categoryS);
     }
 
-
     private void newImage() {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -131,6 +129,4 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
                 .setAspectRatio(1, 1)
                 .start(NewPostActivity.this);
     }
-
-
 }

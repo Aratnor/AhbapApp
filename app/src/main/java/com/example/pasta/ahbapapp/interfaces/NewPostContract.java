@@ -22,7 +22,8 @@ public interface NewPostContract {
 
     interface NewPostPresenter{
 
-        String uploadImage(Uri imageUri);
         void addPost(String content, Uri imageUri, String city, String category);
+        void uploadPost(String content, String imageUrl, String city, String category);
+        void uploadImageAndPost(String content, Uri imageUri, String city, String category);
     }
 }
