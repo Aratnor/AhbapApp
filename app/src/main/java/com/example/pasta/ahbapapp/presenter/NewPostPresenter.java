@@ -2,11 +2,10 @@ package com.example.pasta.ahbapapp.presenter;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.interfaces.NewPostContract;
-import com.example.pasta.ahbapapp.interfaces.NewPostInteractor;
-import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -24,7 +23,6 @@ import java.util.Map;
 public class NewPostPresenter implements NewPostContract.NewPostPresenter {
 
     private NewPostContract.NewPostView mView;
-    //private NewPostInteractor mInteractor;
 
     private static final String USER_ID = "user_id";
     private static final String CONTENT = "content";
@@ -42,8 +40,6 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
         this.mView = mView;
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
-
-
     }
 
     @Override public String uploadImage(Uri imageUri) {
@@ -51,15 +47,15 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
     }
 
     @Override public void addPost(String content, Uri imageUri, String city, String category) {
-        if(content == null || content.length() < 3 || content.length() > 1000 || city.isEmpty()
-            || category.isEmpty()){
+        if(TextUtils.isEmpty(content) || content.length() < 3 || content.length() > 1000 || TextUtils.isEmpty(city)
+            || TextUtils.isEmpty(category)){
 
-            if (content == null) mView.contentError(R.string.empty_content_error);
+            if (TextUtils.isEmpty(content)) mView.contentError(R.string.empty_content_error);
             else if(content.length() < 3) mView.contentError(R.string.small_content_error);
             else if (content.length() > 1000) mView.contentError(R.string.large_content_error);
 
-            if (city.isEmpty()) mView.cityError(R.string.city_empty_error);
-            if (category.isEmpty()) mView.categoryError(R.string.category_empty_error);
+            if (TextUtils.isEmpty(city)) mView.cityError(R.string.city_empty_error);
+            if (TextUtils.isEmpty(category)) mView.categoryError(R.string.category_empty_error);
         }
         else{
             mView.showProgress();
@@ -77,7 +73,6 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
             postMap.put(IMAGE_URL, imageUrl);
             postMap.put(CREATED_AT, FieldValue.serverTimestamp());
             postMap.put(UPDATED_AT, FieldValue.serverTimestamp());
-
 
             firebaseFirestore.collection("posts").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override public void onComplete(@NonNull Task<DocumentReference> task) {

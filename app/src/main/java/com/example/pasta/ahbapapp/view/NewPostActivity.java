@@ -6,7 +6,6 @@ import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,8 +13,6 @@ import android.widget.Toast;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.interfaces.NewPostContract;
-import com.example.pasta.ahbapapp.interfaces.NewPostInteractor;
-import com.example.pasta.ahbapapp.model.NewPostInteractorImp;
 import com.example.pasta.ahbapapp.presenter.NewPostPresenter;
 
 public class NewPostActivity extends AppCompatActivity implements NewPostContract.NewPostView,
