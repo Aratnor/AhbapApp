@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 
         mAuth = FirebaseAuth.getInstance();
 
