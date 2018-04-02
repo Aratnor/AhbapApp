@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/home"
-        android:icon="@drawable/googleg_standard_color_18"
+        android:icon="@drawable/ic_home_white_48dp"
         android:title="Anasayfa"
         android:visible="true" />
 </menu>

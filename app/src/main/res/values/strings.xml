@@ -5,7 +5,4 @@
   <string name="large_content_error">İçerik 1000 karakterden büyük olamaz.</string>
   <string name="city_empty_error">Şehir boş bırakılamaz.</string>
   <string name="category_empty_error">Kategori boş bırakılamaz.</string>
-    <string name="notifications">notifications</string>
-  <string name="settings">settings</string>
-  <string name="search">search</string>
 </resources>

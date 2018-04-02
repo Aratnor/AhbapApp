@@ -33,13 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        findViewById(R.id.sign_out).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                mAuth.signOut();
-                mGoogleSignInClient.signOut();
-            }
-        });
-
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
 
@@ -48,19 +41,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
-
-
-        findViewById(R.id.post).setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewPostActivity.class));
-            }
-        });
     }
 
     @Override protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthStateListener);
-
     }
 }

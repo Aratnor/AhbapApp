@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/notifications"
-        android:title="@string/notifications" />
-    <item android:id="settings"
-        android:title="@string/settings" />
-    <item android:id="@+id/search"
-        android:title="@string/search" />
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/notificationNavView"
+        android:title="Notifications" />
+    <item
+        android:id="@+id/settingsNavView"
+        android:title="Settings" />
+    <item
+        android:id="@+id/searchNavView"
+        android:title="Search" />
 </menu>
