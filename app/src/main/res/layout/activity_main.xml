@@ -21,8 +21,8 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addPostBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:clickable="true"
@@ -37,10 +37,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
+            app:itemIconTint="@drawable/nav_item_color_state"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_menu"/>
+            app:menu="@menu/bottom_menu"
+            />
     </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
