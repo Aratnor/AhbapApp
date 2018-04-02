@@ -7,30 +7,28 @@
     android:layout_height="match_parent"
     tools:context="com.example.pasta.ahbapapp.MainActivity">
 
-  <TextView
-      android:id="@+id/textView"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:textSize="50sp"
-      />
-  <Button
-      android:id="@+id/sign_out"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="8dp"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:text="Sign Out"
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/addPostBtn"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginBottom="16dp"
+      android:layout_marginEnd="16dp"
+      android:clickable="true"
+      android:focusable="true"
+      app:backgroundTint="@color/colorPrimary"
+      app:layout_constraintBottom_toTopOf="@+id/mainBottomNav"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView"
-      />
+      app:srcCompat="@android:drawable/ic_menu_add" />
 
-  <Button
-      android:layout_width="wrap_content"
+  <android.support.design.widget.BottomNavigationView
+      android:id="@+id/mainBottomNav"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:text="Post"
-      android:id="@+id/post"
-      />
+      android:background="@color/colorPrimary"
+      app:menu="@menu/bottom_menu"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>
