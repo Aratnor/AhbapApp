@@ -21,7 +21,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/addPostBtn"
+            android:id="@+id/addFloatingBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="16dp"

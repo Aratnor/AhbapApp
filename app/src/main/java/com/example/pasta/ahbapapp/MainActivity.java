@@ -3,6 +3,7 @@ package com.example.pasta.ahbapapp;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -19,11 +20,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private GoogleSignInClient mGoogleSignInClient;
+    private FloatingActionButton mFloatingActionButton;
 
     private DrawerLayout mDrawerLayout;
 
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
+        mFloatingActionButton = findViewById(R.id.addFloatingBtn);
+
+        mFloatingActionButton.setOnClickListener(this);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(
@@ -91,4 +96,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.addFloatingBtn:
+                startNewPostActivity();
+        }
+    }
+
+    private void startNewPostActivity() {
+        Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
+        startActivity(intent);
+
+    }
 }
