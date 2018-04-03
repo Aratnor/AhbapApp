@@ -9,6 +9,9 @@
   <string name="notifications">Bildirimler</string>
   <string name="messages">Mesajlar</string>
   <string name="account">Hesabım</string>
-    <string name="settings">Ayarlar</string>
+  <string name="settings">Ayarlar</string>
   <string name="search">Ara</string>
+  <string name="post_user_image_desc">Post User Image</string>
+  <string name="post_image_desc">Post Image</string>
+  <string name="post_comment_desc">Post Comment</string>
 </resources>

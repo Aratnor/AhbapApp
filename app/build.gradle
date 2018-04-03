@@ -23,6 +23,7 @@ ext{
     firebaseVersion = '12.0.1'
     constraintVersion = '1.0.2'
     cropImageVersion = '2.6.+'
+    circleImageVersion = '2.2.0'
     compressorVersion = '2.1.0'
     //Test
     junitVersion = '4.12'
@@ -35,9 +36,12 @@ ext{
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:${androidSupportVersion}"
-    compile "com.android.support:design:${androidSupportVersion}"
+    implementation "com.android.support:design:${androidSupportVersion}"
+    implementation "com.android.support:cardview-v7:${androidSupportVersion}"
     implementation "com.android.support.constraint:constraint-layout:${constraintVersion}"
+
     compile "com.theartofdev.edmodo:android-image-cropper:${cropImageVersion}"
+    compile "de.hdodenhof:circleimageview:${circleImageVersion}"
     compile "id.zelory:compressor:${compressorVersion}"
     //Firebase
     implementation "com.google.firebase:firebase-auth:${firebaseVersion}"
