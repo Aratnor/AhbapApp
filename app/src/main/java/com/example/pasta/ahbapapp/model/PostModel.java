@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by pasta on 28.03.2018.
  */
 
-public class PostModel {
+public class PostModel extends PostId {
 
     private String user_id;
     private String city;

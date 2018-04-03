@@ -25,6 +25,7 @@ ext{
     cropImageVersion = '2.6.+'
     circleImageVersion = '2.2.0'
     compressorVersion = '2.1.0'
+    glideVersion = '4.6.1'
     //Test
     junitVersion = '4.12'
     runnerVersion = '1.0.1'
@@ -43,6 +44,8 @@ dependencies {
     compile "com.theartofdev.edmodo:android-image-cropper:${cropImageVersion}"
     compile "de.hdodenhof:circleimageview:${circleImageVersion}"
     compile "id.zelory:compressor:${compressorVersion}"
+    implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
     //Firebase
     implementation "com.google.firebase:firebase-auth:${firebaseVersion}"
     implementation "com.google.firebase:firebase-storage:${firebaseVersion}"

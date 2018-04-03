@@ -48,12 +48,13 @@
                     android:id="@+id/post_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="8dp"
                     android:text="post Post Date"
-                    app:layout_constraintStart_toEndOf="@+id/post_user_image"
-                    app:layout_constraintTop_toBottomOf="@+id/post_user_name" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
                 <TextView
-                    android:id="@+id/post_desc"
+                    android:id="@+id/post_content"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -74,7 +75,7 @@
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/post_desc"
+                    app:layout_constraintTop_toBottomOf="@+id/post_content"
                     app:srcCompat="@color/colorAccent" />
 
                 <ImageView
