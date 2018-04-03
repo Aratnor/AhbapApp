@@ -9,4 +9,6 @@
   <string name="notifications">Bildirimler</string>
   <string name="messages">Mesajlar</string>
   <string name="account">Hesabım</string>
+    <string name="settings">Ayarlar</string>
+  <string name="search">Ara</string>
 </resources>

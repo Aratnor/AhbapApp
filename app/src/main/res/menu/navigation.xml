@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/notificationNavView"
-        android:title="Notifications" />
+        android:title="@string/notifications" />
     <item
         android:id="@+id/settingsNavView"
-        android:title="Settings" />
+        android:title="@string/settings" />
     <item
         android:id="@+id/searchNavView"
-        android:title="Search" />
+        android:title="@string/search" />
 </menu>

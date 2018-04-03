@@ -17,33 +17,33 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/colorWhite"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addPostBtn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="@color/colorPrimaryLight"
+            app:backgroundTint="@color/colorPrimaryDark"
             app:layout_constraintBottom_toTopOf="@+id/mainBottomNav"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:srcCompat="@drawable/ic_add_white_48dp" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/mainBottomNav"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:menu="@menu/bottom_menu"
             android:background="@color/colorPrimary"
-            app:itemIconTint="@drawable/nav_item_color_state"
+            app:itemIconTint="@color/bottom_nav_color"
+            app:itemTextColor="@color/bottom_nav_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_menu"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

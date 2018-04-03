@@ -5,5 +5,6 @@
   <color name="colorPrimaryLight">#76d275</color>
   <color name="colorAccent">#FF4081</color>
   <color name="colorBlack">#000000</color>
-    <color name="white">#FFFFFF</color>
+  <color name="colorWhite">#FFFFFF</color>
+  <color name="coloWhiteTransparent">#80FFFFFF</color>
 </resources>
