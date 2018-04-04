@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -122,7 +124,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         }
 
         void setUserData(String name, String image){
-
             postUserImage = mView.findViewById(R.id.post_user_image);
             postUserName = mView.findViewById(R.id.post_user_name);
 
