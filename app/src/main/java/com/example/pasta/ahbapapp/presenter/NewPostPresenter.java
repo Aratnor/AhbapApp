@@ -120,6 +120,7 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
     }
 
     @Override public void uploadPost(String content, String imageUrl, String city, String category) {
+        //TODO add author name and image url to post
         Map<String, Object> postMap = new HashMap<>();
         postMap.put(USER_ID, currentUserID);
         postMap.put(CONTENT, content);

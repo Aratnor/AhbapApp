@@ -33,14 +33,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_white_48dp" />
 
-        <android.support.design.widget.BottomNavigationView
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/mainBottomNav"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_menu"
             android:background="@color/colorPrimary"
             app:itemIconTint="@color/bottom_nav_color"
-            app:itemTextColor="@color/bottom_nav_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

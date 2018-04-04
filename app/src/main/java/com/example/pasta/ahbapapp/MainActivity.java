@@ -25,12 +25,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class MainActivity extends AppCompatActivity{
 
     private GoogleSignInClient mGoogleSignInClient;
     private DrawerLayout mDrawerLayout;
-    private BottomNavigationView mainBottomNav;
     private HomeFragment mHomeFragment;
 
 
@@ -85,7 +85,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initializeBottomNav(){
-        mainBottomNav = findViewById(R.id.mainBottomNav);
+        BottomNavigationViewEx mainBottomNav = findViewById(R.id.mainBottomNav);
+        mainBottomNav.enableAnimation(false);
+        mainBottomNav.enableItemShiftingMode(false);
+        mainBottomNav.enableShiftingMode(false);
+        mainBottomNav.setTextVisibility(false);
         mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
