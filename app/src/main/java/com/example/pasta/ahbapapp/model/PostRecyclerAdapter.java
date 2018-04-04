@@ -58,7 +58,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         String contentData = postList.get(position).getContent();
         holder.setContentText(contentData);
         String imageUrl = postList.get(position).getImage_url();
-        if (!imageUrl.isEmpty()) holder.setPostImage(imageUrl);
+        if (imageUrl == null || !imageUrl.isEmpty()) holder.setPostImage(imageUrl);
         String postUserId = postList.get(position).getUser_id();
         setUserData(holder,postUserId);
         Date postCreatedAt = postList.get(position).getCreated_at();
