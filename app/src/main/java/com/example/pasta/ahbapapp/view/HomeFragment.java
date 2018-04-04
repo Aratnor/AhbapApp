@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment{
     private FirebaseFirestore mFirebaseFirestore;
     private DocumentSnapshot lastVisible;
     private Boolean isFirstPageFirstLoad = true;
+    private RecyclerView mPostRecyclerView;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment{
 
         mPostModelList = new ArrayList<>();
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-        RecyclerView mPostRecyclerView = view.findViewById(R.id.postListRecyclerView);
+        mPostRecyclerView = view.findViewById(R.id.postListRecyclerView);
         mPostRecyclerAdapter = new PostRecyclerAdapter(mPostModelList);
         mPostRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()
                 , LinearLayoutManager.VERTICAL, false));
@@ -136,5 +137,8 @@ public class HomeFragment extends Fragment{
                 }
             }
         });
+    }
+    public void scrollTop(){
+        mPostRecyclerView.smoothScrollToPosition(0);
     }
 }

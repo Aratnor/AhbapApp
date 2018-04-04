@@ -26,11 +26,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,
-        BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity{
 
     private GoogleSignInClient mGoogleSignInClient;
     private DrawerLayout mDrawerLayout;
+    private BottomNavigationView mainBottomNav;
     private HomeFragment mHomeFragment;
 
 
@@ -42,41 +42,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null) {
-
             mDrawerLayout = findViewById(R.id.drawer_layout);
-            BottomNavigationView mainBottomNav = findViewById(R.id.mainBottomNav);
             //Fragments
-            mHomeFragment= new HomeFragment();
+            mHomeFragment = new HomeFragment();
             initializeFragment();
-
-            mainBottomNav.setOnNavigationItemSelectedListener(this);
+            initializeBottomNav();
+            initializeFloatingActionBtn();
+            initializeToolbar();
         }
-
-        FloatingActionButton mFloatingActionButton = findViewById(R.id.addFloatingBtn);
-        mFloatingActionButton.setOnClickListener(this);
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        // close drawer when item is tapped
-                        mDrawerLayout.closeDrawers();
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-
-                        return true;
-                    }
-                });
-
-        Toolbar toolbar = findViewById(R.id.mainToolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
     }
 
     @Override protected void onStart() {
@@ -86,13 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(currentUser == null){
             sendToLogin();
         }
-        GoogleSignInOptions gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        initializeGoogleClient();
     }
 
     @Override
@@ -117,33 +84,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.commit();
     }
 
-    private void startNewPostActivity() {
-        Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
-        startActivity(intent);
+    private void initializeBottomNav(){
+        mainBottomNav = findViewById(R.id.mainBottomNav);
+        mainBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                case R.id.homeNav:
+                    replaceFragment(mHomeFragment);
+                    return true;
+                default:
+                    return false;
+                }
+            }
+        });
+
+        mainBottomNav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                mHomeFragment.scrollTop();
+        }});
+    }
+    private void initializeFloatingActionBtn(){
+        FloatingActionButton mFloatingActionButton = findViewById(R.id.addFloatingBtn);
+        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initializeToolbar(){
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                // set item as selected to persist highlight
+                menuItem.setChecked(true);
+                // close drawer when item is tapped
+                mDrawerLayout.closeDrawers();
+
+                // Add code here to update the UI based on the item selected
+                // For example, swap UI fragments here
+
+                return true;
+            }
+        });
+
+        Toolbar toolbar = findViewById(R.id.mainToolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+    }
+
+    private void initializeGoogleClient() {
+        GoogleSignInOptions gso = new GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame_container,fragment);
         fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.addFloatingBtn:
-                startNewPostActivity();
-        }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.homeNav:
-                replaceFragment(mHomeFragment);
-                return true;
-            default:
-                return false;
-        }
     }
 }
