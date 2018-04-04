@@ -56,7 +56,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         String contentData = postList.get(position).getContent();
         holder.setContentText(contentData);
         String imageUrl = postList.get(position).getImage_url();
-        holder.setBlogImage(imageUrl);
+        if (!imageUrl.isEmpty()) holder.setPostImage(imageUrl);
         String postUserId = postList.get(position).getUser_id();
         setUserData(holder,postUserId);
         Date postCreatedAt = postList.get(position).getCreated_at();
@@ -89,18 +89,19 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        View mView;
+        private View mView;
         private TextView contentView;
         private ImageView postImageView;
         private TextView postDate;
         private TextView postUserName;
         private CircleImageView postUserImage;
         private ImageView postCommentBtn;
-        private TextView postCommentCount;
+        //private TextView postCommentCount;
 
         ViewHolder(View itemView) {
             super(itemView);
 
+            mView = itemView;
             postCommentBtn = mView.findViewById(R.id.post_comment_icon);
         }
 
@@ -109,9 +110,9 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             contentView.setText(contentText);
         }
 
-        void setBlogImage(String downloadUri){
+        void setPostImage(String downloadUri){
             postImageView = mView.findViewById(R.id.post_image);
-
+            postImageView.setVisibility(View.VISIBLE);
             Glide.with(context).load(downloadUri).into(postImageView);
         }
 

@@ -12,7 +12,7 @@ public class PostId {
     @Exclude
     private String postId;
 
-    private  <T extends PostId> T withId(@NonNull final String postId) {
+    public  <T extends PostId> T withId(@NonNull final String postId) {
         this.postId = postId;
         return (T) this;
     }

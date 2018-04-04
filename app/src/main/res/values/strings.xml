@@ -1,17 +1,17 @@
 <resources>
-  <string name="app_name">AhbapApp</string>
-  <string name="empty_content_error">İçerik boş bırakılamaz.</string>
-  <string name="small_content_error">İçerik 3 karakterden küçük olamaz.</string>
-  <string name="large_content_error">İçerik 1000 karakterden büyük olamaz.</string>
-  <string name="city_empty_error">Şehir boş bırakılamaz.</string>
-  <string name="category_empty_error">Kategori boş bırakılamaz.</string>
-  <string name="home">Anasayfa</string>
-  <string name="notifications">Bildirimler</string>
-  <string name="messages">Mesajlar</string>
-  <string name="account">Hesabım</string>
-  <string name="settings">Ayarlar</string>
-  <string name="search">Ara</string>
-  <string name="post_user_image_desc">Post User Image</string>
-  <string name="post_image_desc">Post Image</string>
-  <string name="post_comment_desc">Post Comment</string>
+    <string name="app_name">AhbapApp</string>
+    <string name="empty_content_error">İçerik boş bırakılamaz.</string>
+    <string name="small_content_error">İçerik 3 karakterden küçük olamaz.</string>
+    <string name="large_content_error">İçerik 1000 karakterden büyük olamaz.</string>
+    <string name="city_empty_error">Şehir boş bırakılamaz.</string>
+    <string name="category_empty_error">Kategori boş bırakılamaz.</string>
+    <string name="home">Anasayfa</string>
+    <string name="notifications">Bildirimler</string>
+    <string name="messages">Mesajlar</string>
+    <string name="account">Hesabım</string>
+    <string name="settings">Ayarlar</string>
+    <string name="search">Ara</string>
+    <string name="post_user_image_desc">Post User Image</string>
+    <string name="post_image_desc">Post Image</string>
+    <string name="post_comment_desc">Post Comment</string>
 </resources>
