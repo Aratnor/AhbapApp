@@ -48,8 +48,8 @@ public class HomeFragment extends Fragment{
         FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
         RecyclerView mPostRecyclerView = view.findViewById(R.id.postListRecyclerView);
         mPostRecyclerAdapter = new PostRecyclerAdapter(mPostModelList);
-
-        mPostRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        mPostRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()
+                , LinearLayoutManager.VERTICAL, false));
         mPostRecyclerView.setAdapter(mPostRecyclerAdapter);
         mPostRecyclerView.setHasFixedSize(true);
 
