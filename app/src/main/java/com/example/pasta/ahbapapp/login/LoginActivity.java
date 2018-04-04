@@ -18,8 +18,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 @SuppressLint("RestrictedApi")
-public class LoginActivity extends AppCompatActivity implements LoginContract.View,
-    View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements LoginContract.View{
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -33,18 +32,42 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        SignInButton googleSignInBtn = findViewById(R.id.google_sign_in_btn);
         progressBar = findViewById(R.id.progressBar);
-        googleSignInBtn.setOnClickListener(this);
 
+        initializeGoogleClient();
+        initializeGoogleSignInBtn();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         presenter = new LoginPresenter(this);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter = null;
+    }
+
+    private void initializeGoogleClient() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build();
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+    private void initializeGoogleSignInBtn(){
+        SignInButton googleSignInBtn = findViewById(R.id.google_sign_in_btn);
+
+        googleSignInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+            }
+        });
     }
 
     @Override
@@ -64,11 +87,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         }
     }
 
-    private void googleSignIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
     @Override public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -81,13 +99,5 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         hideProgress();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-    }
-
-    @Override public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.google_sign_in_btn:
-                googleSignIn();
-                break;
-        }
     }
 }

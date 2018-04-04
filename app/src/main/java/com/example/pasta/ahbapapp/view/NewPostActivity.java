@@ -14,12 +14,14 @@ import android.widget.Toast;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.interfaces.NewPostContract;
+import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.presenter.NewPostPresenter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-public class NewPostActivity extends AppCompatActivity implements NewPostContract.NewPostView,
-    View.OnClickListener {
+public class NewPostActivity extends AppCompatActivity implements NewPostContract.NewPostView {
 
     private ProgressBar progressBar;
     private EditText content;
@@ -37,10 +39,25 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
 
-        presenter = new NewPostPresenter(this);
-
         imageUri = null;
+        initializeView();
+        initializeNewImageBtn();
+        initializeAddBtn();
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter = new NewPostPresenter(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter = null;
+    }
+
+    private void initializeView() {
         progressBar = findViewById(R.id.progressBarPost);
         contentErrorText = findViewById(R.id.contentErrorText);
         cityErrorText = findViewById(R.id.cityErrorText);
@@ -49,9 +66,32 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         city = findViewById(R.id.cityEditText);
         category = findViewById(R.id.catEditText);
         imageView = findViewById(R.id.newImage);
-        findViewById(R.id.newImage).setOnClickListener(this);
-        findViewById(R.id.addPost).setOnClickListener(this);
+    }
 
+    private void initializeNewImageBtn() {
+        findViewById(R.id.newImage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setMinCropResultSize(512, 512)
+                        .setAspectRatio(1, 1)
+                        .start(NewPostActivity.this);
+            }
+        });
+    }
+
+    private void initializeAddBtn() {
+        findViewById(R.id.addPost).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String contentS = content.getText().toString();
+                String cityS = city.getText().toString();
+                String categoryS = category.getText().toString();
+
+                presenter.addPost(contentS, imageUri, cityS, categoryS);
+            }
+        });
     }
 
     @Override
@@ -65,11 +105,9 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
                 imageUri = result.getUri();
                 imageView.setImageURI(imageUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-
                 Toast.makeText(this, result.getError().toString(), Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     @Override public void showProgress() {
@@ -100,33 +138,5 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
         startActivity(mainIntent);
         finish();
-    }
-
-    @Override public void onClick(View v) {
-
-        switch (v.getId()){
-            case R.id.addPost:
-                addPost();
-                break;
-            case R.id.newImage:
-                newImage();
-                break;
-        }
-    }
-
-    private void addPost() {
-        String contentS = content.getText().toString();
-        String cityS = city.getText().toString();
-        String categoryS = category.getText().toString();
-
-        presenter.addPost(contentS, imageUri, cityS, categoryS);
-    }
-
-    private void newImage() {
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setMinCropResultSize(512, 512)
-                .setAspectRatio(1, 1)
-                .start(NewPostActivity.this);
     }
 }
