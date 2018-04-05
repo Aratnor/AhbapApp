@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -36,25 +37,26 @@ import id.zelory.compressor.Compressor;
 public class NewPostPresenter implements NewPostContract.NewPostPresenter {
 
     private NewPostContract.NewPostView mView;
-    //private Context mContext;
-
-    private static final String USER_ID = "user_id";
+    private Map<String, Object> postMap;
+    private static final String AUTHOR_ID = "author_id";
+    private static final String AUTHOR_NAME = "author_name";
+    private static final String AUTHOR_IMAGE = "author_image";
     private static final String CONTENT = "content";
     private static final String CITY = "city";
     private static final String CATEGORY = "category";
     private static final String IMAGE_URL = "image_url";
     private static final String CREATED_AT = "created_at";
     private static final String UPDATED_AT = "updated_at";
-
     private String currentUserID;
     private FirebaseFirestore firebaseFirestore;
 
 
     public NewPostPresenter(NewPostContract.NewPostView mView) {
         this.mView = mView;
-        //this.mContext = mContext;
+        postMap = new HashMap<>();
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
+        setUserData();
     }
 
     @Override public void uploadImageAndPost(final String content, Uri imageUri, final String city, final String category) {
@@ -95,6 +97,25 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
         return imageData;
     }
 
+    private void setUserData() {
+        firebaseFirestore.collection("users").document(currentUserID).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            String name = task.getResult().getString("name");
+                            String imageUrl = task.getResult().getString("image_url");
+                            postMap.put(AUTHOR_ID, currentUserID);
+                            postMap.put(AUTHOR_NAME,  name);
+                            postMap.put(AUTHOR_IMAGE, imageUrl);
+                        }
+                        else{
+                            //TODO Error handling
+                        }
+                    }
+                });
+    }
+
     @Override public void addPost(String content, Uri imageUri, String city, String category) {
         if(TextUtils.isEmpty(content) || content.length() < 3 || content.length() > 1000 || TextUtils.isEmpty(city)
             || TextUtils.isEmpty(category)){
@@ -107,22 +128,23 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
             if (TextUtils.isEmpty(category)) mView.categoryError(R.string.category_empty_error);
         }
         else{
-            mView.showProgress();
+            if (postMap.get(AUTHOR_ID) != null && postMap.get(AUTHOR_NAME) != null
+                    && postMap.get(AUTHOR_IMAGE) != null  ){
 
-            if (imageUri != null){
-                uploadImageAndPost(content, imageUri,city,category);
-            }
-            else{
-                String imageUrl = "";
-                uploadPost(content,imageUrl, city, category);
+                mView.showProgress();
+                if (imageUri != null){
+                    uploadImageAndPost(content, imageUri,city,category);
+                }
+                else{
+                    String imageUrl = "";
+                    uploadPost(content,imageUrl, city, category);
+                }
             }
         }
     }
 
     @Override public void uploadPost(String content, String imageUrl, String city, String category) {
         //TODO add author name and image url to post
-        Map<String, Object> postMap = new HashMap<>();
-        postMap.put(USER_ID, currentUserID);
         postMap.put(CONTENT, content);
         postMap.put(CITY, city);
         postMap.put(CATEGORY, category);

@@ -8,18 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.Date;
 import java.util.List;
@@ -57,10 +50,14 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
         String contentData = postList.get(position).getContent();
         holder.setContentText(contentData);
+
         String imageUrl = postList.get(position).getImage_url();
         if (imageUrl == null || !imageUrl.isEmpty()) holder.setPostImage(imageUrl);
-        String postUserId = postList.get(position).getUser_id();
-        setUserData(holder,postUserId);
+
+        String postAuthorName = postList.get(position).getAuthor_name();
+        String postAuthorImage = postList.get(position).getAuthor_image();
+        holder.setUserData(postAuthorName,postAuthorImage);
+
         Date postCreatedAt = postList.get(position).getCreated_at();
         String createdAtString = DateFormat.format("MM/dd/yyyy", postCreatedAt).toString();
         holder.setTime(createdAtString);
@@ -69,24 +66,6 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     @Override
     public int getItemCount() {
         return postList.size();
-    }
-
-    private void setUserData(@NonNull final ViewHolder holder, String postUserId) {
-
-        firebaseFirestore.collection("users").document(postUserId).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
-                            String name = task.getResult().getString("name");
-                            String imageUrl = task.getResult().getString("image_url");
-                            holder.setUserData(name,imageUrl);
-                        }
-                        else{
-                            //TODO Error handling
-                        }
-                    }
-                });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
