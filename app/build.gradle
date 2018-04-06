@@ -27,6 +27,7 @@ ext {
     compressorVersion = '2.1.0'
     glideVersion = '4.6.1'
     bottomNavViewExVersion = '1.2.4'
+    butterKnifeVersion = '8.8.1'
     //Test
     junitVersion = '4.12'
     runnerVersion = '1.0.1'
@@ -49,6 +50,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:${glideVersion}"
     annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
     compile "com.github.ittianyu:BottomNavigationViewEx:${bottomNavViewExVersion}"
+    compile "com.jakewharton:butterknife:${butterKnifeVersion}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
     //Firebase
     implementation "com.google.firebase:firebase-auth:${firebaseVersion}"
     implementation "com.google.firebase:firebase-storage:${firebaseVersion}"
