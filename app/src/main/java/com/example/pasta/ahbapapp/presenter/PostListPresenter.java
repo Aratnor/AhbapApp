@@ -2,11 +2,6 @@ package com.example.pasta.ahbapapp.presenter;
 
 import com.example.pasta.ahbapapp.interfaces.PostListContract;
 import com.example.pasta.ahbapapp.model.PostModel;
-import com.example.pasta.ahbapapp.model.PostRecyclerAdapter;
-import com.example.pasta.ahbapapp.view.HomeFragment;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 

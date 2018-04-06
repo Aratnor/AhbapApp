@@ -14,4 +14,15 @@
     <string name="post_user_image_desc">Post User Image</string>
     <string name="post_image_desc">Post Image</string>
     <string name="post_comment_desc">Post Comment</string>
+
+
+    <string-array name="cities">
+        <item>İstanbul</item>
+        <item>Eskişehir</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>Sağlık</item>
+        <item>Barınma</item>
+    </string-array>
 </resources>

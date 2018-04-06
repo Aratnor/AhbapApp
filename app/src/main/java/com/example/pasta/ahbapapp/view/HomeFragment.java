@@ -1,144 +1,112 @@
 package com.example.pasta.ahbapapp.view;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.pasta.ahbapapp.R;
-import com.example.pasta.ahbapapp.interfaces.PostListContract;
-import com.example.pasta.ahbapapp.model.PostModel;
-import com.example.pasta.ahbapapp.model.PostRecyclerAdapter;
-import com.example.pasta.ahbapapp.presenter.PostListPresenter;
+import com.example.pasta.ahbapapp.adapter.PostAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class HomeFragment extends Fragment{
-
-    private List<PostModel> mPostModelList;
-    private PostRecyclerAdapter mPostRecyclerAdapter;
-    private FirebaseFirestore mFirebaseFirestore;
-    private DocumentSnapshot lastVisible;
-    private Boolean isFirstPageFirstLoad = true;
-    private RecyclerView mPostRecyclerView;
-
-    public HomeFragment() {
-        // Required empty public constructor
-    }
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
+public class HomeFragment extends Fragment implements PostAdapter.OnPostSelectedListener{
+
+    private static final String TAG = "HomeFragment";
+
+    @BindView(R.id.postListRecyclerView)
+    RecyclerView mPostRecycler;
+
+    private FirebaseFirestore mFirestore;
+    private Query mQuery;
+    private PostAdapter mAdapter;
+
+    private static final int LIMIT = 10;
+
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        ButterKnife.bind(this,view);
 
-        mPostModelList = new ArrayList<>();
-        FirebaseAuth mFirebaseAuth = FirebaseAuth.getInstance();
-        mPostRecyclerView = view.findViewById(R.id.postListRecyclerView);
-        mPostRecyclerAdapter = new PostRecyclerAdapter(mPostModelList);
-        mPostRecyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()
-                , LinearLayoutManager.VERTICAL, false));
-        mPostRecyclerView.setAdapter(mPostRecyclerAdapter);
-        mPostRecyclerView.setHasFixedSize(true);
-
-        if(mFirebaseAuth.getCurrentUser() != null){
-            mFirebaseFirestore = FirebaseFirestore.getInstance();
-            
-            mPostRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-
-                    Boolean reachedBottom = !recyclerView.canScrollVertically(1);
-
-                    if(reachedBottom){
-                        loadMorePost();
-                    }
-                }
-            });
-
-            Query firstQuery = mFirebaseFirestore.collection("posts")
-                    .orderBy("created_at", Query.Direction.DESCENDING).limit(3);
-            firstQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-
-                        if (isFirstPageFirstLoad) {
-                            lastVisible = queryDocumentSnapshots.getDocuments()
-                                    .get(queryDocumentSnapshots.size() - 1);
-
-                            mPostModelList.clear();
-                        }
-                        for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
-
-                            if (doc.getType() == DocumentChange.Type.ADDED) {
-
-                                String blogPostId = doc.getDocument().getId();
-                                PostModel post = doc.getDocument()
-                                        .toObject(PostModel.class).withId(blogPostId);
-
-                                if (isFirstPageFirstLoad) {
-                                    mPostModelList.add(post);
-                                } else {
-                                    mPostModelList.add(0, post);
-                                }
-
-                                mPostRecyclerAdapter.notifyDataSetChanged();
-                            }
-                        }
-                        isFirstPageFirstLoad = false;
-                    }
-                }
-            });
-
+        if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            initFirestore();
+            initRecyclerView();
         }
 
         return view;
     }
 
-    private void loadMorePost() {
+    @Override
+    public void onStart() {
+        super.onStart();
 
-        Query nextQuery = mFirebaseFirestore.collection("posts")
-                .orderBy("created_at", Query.Direction.DESCENDING)
-                .startAfter(lastVisible)
-                .limit(3);
-        nextQuery.addSnapshotListener(getActivity(), new EventListener<QuerySnapshot>() {
+        // Start listening for Firestore updates
+        if (mAdapter != null) {
+            mAdapter.startListening();
+            Log.d(TAG,"onStart");
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAdapter != null) {
+            mAdapter.stopListening();
+            Log.d(TAG,"onStop");
+        }
+    }
+
+    private void initFirestore() {
+        mFirestore = FirebaseFirestore.getInstance();
+
+        // Get the 50 highest rated restaurants
+        mQuery = mFirestore.collection("posts")
+                .orderBy("created_at", Query.Direction.DESCENDING);
+    }
+
+    private void initRecyclerView(){
+        if (mQuery == null){
+            Log.d(TAG, "No query, not initializing RecyclerView");
+        }
+        Query firstQuery = mQuery.limit(LIMIT);
+        mAdapter = new PostAdapter(firstQuery,this);
+        mPostRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
+                , LinearLayoutManager.VERTICAL, false));
+        mPostRecycler.setAdapter(mAdapter);
+        mPostRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
-                if (!queryDocumentSnapshots.isEmpty()){
-                    lastVisible = queryDocumentSnapshots.getDocuments()
-                            .get(queryDocumentSnapshots.size() - 1);
-                    for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
-
-                        if (doc.getType() == DocumentChange.Type.ADDED) {
-
-                            String blogPostId= doc.getDocument().getId();
-                            PostModel post = doc.getDocument().toObject(PostModel.class).withId(blogPostId);
-                            mPostModelList.add(post);
-
-                            mPostRecyclerAdapter.notifyDataSetChanged();
-                        }
-
-                    }
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Boolean bottomReached = !recyclerView.canScrollVertically(1);
+                if (bottomReached){
+                    Query moreQ = mQuery.startAfter(mAdapter.getLastVisible()).limit(LIMIT);
+                    mAdapter.loadMore(moreQ);
                 }
             }
         });
     }
-    public void scrollTop(){
-        mPostRecyclerView.smoothScrollToPosition(0);
+
+    public void scrollTop() {
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mPostRecycler
+                .getLayoutManager();
+        layoutManager.scrollToPositionWithOffset(0,0);
+    }
+
+    @Override
+    public void onPostSelected(DocumentSnapshot post) {
+
     }
 }

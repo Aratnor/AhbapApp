@@ -16,7 +16,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+
 import com.example.pasta.ahbapapp.login.LoginActivity;
+import com.example.pasta.ahbapapp.model.PostModel;
+import com.example.pasta.ahbapapp.util.PostUtil;
 import com.example.pasta.ahbapapp.view.HomeFragment;
 import com.example.pasta.ahbapapp.view.NewPostActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -24,11 +28,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity{
 
+    @BindView(R.id.randomPosts)
+    Button randomPosts;
     private GoogleSignInClient mGoogleSignInClient;
     private DrawerLayout mDrawerLayout;
     private HomeFragment mHomeFragment;
@@ -38,9 +50,24 @@ public class MainActivity extends AppCompatActivity{
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ButterKnife.bind(this);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+        randomPosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+                CollectionReference posts = mFirestore.collection("posts");
+
+                for (int i = 0; i < 10; i++) {
+                    // Get a random Restaurant POJO
+                    PostModel post = PostUtil.getRandom(getApplicationContext());
+
+                    // Add a new document to the restaurants collection
+                    posts.add(post);
+                }
+            }
+        });
         if(mAuth.getCurrentUser() != null) {
             mDrawerLayout = findViewById(R.id.drawer_layout);
             //Fragments
@@ -51,7 +78,6 @@ public class MainActivity extends AppCompatActivity{
             initializeToolbar();
         }
     }
-
     @Override protected void onStart() {
         super.onStart();
 
