@@ -33,6 +33,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_add_white_48dp" />
 
+        <Button
+            android:id="@+id/randomPosts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="RandomPosts"
+            app:layout_constraintBottom_toBottomOf="@+id/main_frame_container"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
             android:id="@+id/mainBottomNav"
             android:layout_width="0dp"
