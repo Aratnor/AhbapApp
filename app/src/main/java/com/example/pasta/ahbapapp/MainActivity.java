@@ -5,19 +5,13 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.example.pasta.ahbapapp.util.PostUtil;
@@ -30,19 +24,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.randomPosts)
     Button randomPosts;
     private GoogleSignInClient mGoogleSignInClient;
-    private DrawerLayout mDrawerLayout;
     private HomeFragment mHomeFragment;
 
 
@@ -69,13 +59,11 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         if(mAuth.getCurrentUser() != null) {
-            mDrawerLayout = findViewById(R.id.drawer_layout);
             //Fragments
             mHomeFragment = new HomeFragment();
             initializeFragment();
             initializeBottomNav();
             initializeFloatingActionBtn();
-            initializeToolbar();
         }
     }
     @Override protected void onStart() {
@@ -86,16 +74,6 @@ public class MainActivity extends AppCompatActivity{
             sendToLogin();
         }
         initializeGoogleClient();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void sendToLogin() {
@@ -135,6 +113,7 @@ public class MainActivity extends AppCompatActivity{
                 mHomeFragment.scrollTop();
         }});
     }
+
     private void initializeFloatingActionBtn(){
         FloatingActionButton mFloatingActionButton = findViewById(R.id.addFloatingBtn);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -144,30 +123,6 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-    }
-
-    private void initializeToolbar(){
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                // set item as selected to persist highlight
-                menuItem.setChecked(true);
-                // close drawer when item is tapped
-                mDrawerLayout.closeDrawers();
-
-                // Add code here to update the UI based on the item selected
-                // For example, swap UI fragments here
-
-                return true;
-            }
-        });
-
-        Toolbar toolbar = findViewById(R.id.mainToolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
     }
 
     private void initializeGoogleClient() {
