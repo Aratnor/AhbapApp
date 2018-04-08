@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pasta.ahbapapp.login.LoginActivity"
-    >
+    tools:context="com.example.pasta.ahbapapp.login.LoginActivity">
+
+  <ImageView
+      android:id="@+id/loginAhbapLogo"
+      android:layout_width="wrap_content"
+      android:layout_height="150dp"
+      android:layout_alignParentTop="true"
+      android:layout_marginTop="48dp"
+      android:src="@drawable/logo" />
+
+  <TextView
+      android:id="@+id/loginAhbapTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/loginAhbapLogo"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="10dp"
+      android:text="@string/ver_elini_ahbap"
+      android:textSize="40sp" />
 
   <com.google.android.gms.common.SignInButton
       android:id="@+id/google_sign_in_btn"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="32dp"
-      android:layout_marginStart="32dp"
-      app:layout_constraintBottom_toTopOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.0"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      />
+      android:layout_below="@id/loginAhbapTextView"
+      android:layout_marginEnd="14dp"
+      android:layout_marginStart="14dp"
+      android:layout_marginTop="72dp"
+      android:backgroundTint="@color/colorPrimary"
+      app:buttonSize="wide" />
 
   <ProgressBar
       android:id="@+id/progressBar"
-      android:layout_width="50dp"
-      android:layout_height="50dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginStart="8dp"
-      android:layout_marginTop="8dp"
-      android:padding="8dp"
-      android:theme="@style/CircularProgress"
-      android:visibility="gone"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      style="@style/Widget.AppCompat.ProgressBar"
-      />
-</android.support.constraint.ConstraintLayout>
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentTop="true"
+      android:indeterminate="true"
+      android:progressTint="@color/colorPrimaryLight"
+      android:visibility="gone" />
+</RelativeLayout>
