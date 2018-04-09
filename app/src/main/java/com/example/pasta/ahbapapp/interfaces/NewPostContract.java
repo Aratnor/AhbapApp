@@ -13,10 +13,8 @@ public interface NewPostContract {
 
         void showProgress();
         void hideProgress();
-        void contentError(@StringRes int resId);
-        void cityError(@StringRes int resId);
-        void categoryError(@StringRes int resId);
-        void postError(String err);
+        void contentError(String err);
+        void uploadError(String err);
         void startMain();
     }
 

@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.interfaces.NewPostContract;
-import com.example.pasta.ahbapapp.view.NewPostActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -36,8 +35,6 @@ import id.zelory.compressor.Compressor;
 
 public class NewPostPresenter implements NewPostContract.NewPostPresenter {
 
-    private NewPostContract.NewPostView mView;
-    private Map<String, Object> postMap;
     private static final String AUTHOR_ID = "author_id";
     private static final String AUTHOR_NAME = "author_name";
     private static final String AUTHOR_IMAGE = "author_image";
@@ -47,8 +44,12 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
     private static final String IMAGE_URL = "image_url";
     private static final String CREATED_AT = "created_at";
     private static final String UPDATED_AT = "updated_at";
+
+    private NewPostContract.NewPostView mView;
+    private Map<String, Object> postMap;
     private String currentUserID;
     private FirebaseFirestore firebaseFirestore;
+    private String contentError = "";
 
 
     public NewPostPresenter(NewPostContract.NewPostView mView) {
@@ -117,15 +118,19 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
     }
 
     @Override public void addPost(String content, Uri imageUri, String city, String category) {
-        if(TextUtils.isEmpty(content) || content.length() < 3 || content.length() > 1000 || TextUtils.isEmpty(city)
-            || TextUtils.isEmpty(category)){
+        if(TextUtils.isEmpty(content) || content.length() < 3 || content.length() > 1000
+                || TextUtils.isEmpty(city) || city.equals("İl Seçiniz")
+                || TextUtils.isEmpty(category) || category.equals("Kategori")){
 
-            if (TextUtils.isEmpty(content)) mView.contentError(R.string.empty_content_error);
-            else if(content.length() < 3) mView.contentError(R.string.small_content_error);
-            else if (content.length() > 1000) mView.contentError(R.string.large_content_error);
+            if (TextUtils.isEmpty(content)) contentError += ("İçerik boş bırakılamaz."+ "\n");
+            else if(content.length() < 3) contentError += ("İçerik 3 karakterden küçük olamaz."+ "\n");
+            else if (content.length() > 1000) contentError += ("İçerik 1000 karakterden büyük olamaz."+ "\n");
 
-            if (TextUtils.isEmpty(city)) mView.cityError(R.string.city_empty_error);
-            if (TextUtils.isEmpty(category)) mView.categoryError(R.string.category_empty_error);
+            if (TextUtils.isEmpty(city) || city.equals("İl Seçiniz")) contentError += ("Şehir boş bırakılamaz."+ "\n");
+            if (TextUtils.isEmpty(category) || category.equals("Kategori")) contentError += ("Kategori boş bırakılamaz."+ "\n");
+
+            mView.contentError(contentError);
+            contentError = "";
         }
         else{
             if (postMap.get(AUTHOR_ID) != null && postMap.get(AUTHOR_NAME) != null
@@ -162,7 +167,7 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override public void onFailure(@NonNull Exception e) {
-                mView.postError(e.getMessage());
+                mView.uploadError(e.getMessage());
                 mView.hideProgress();
                 Log.d("OnComplete","exception" + e.getMessage());
             }

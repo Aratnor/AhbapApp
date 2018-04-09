@@ -2,13 +2,14 @@ package com.example.pasta.ahbapapp.view;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,29 +24,40 @@ import com.example.pasta.ahbapapp.presenter.NewPostPresenter;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class NewPostActivity extends AppCompatActivity implements NewPostContract.NewPostView {
 
-    private ProgressBar progressBar;
-    private EditText content;
-    private EditText city;
-    private EditText category;
-    private TextView contentErrorText;
-    private TextView cityErrorText;
-    private TextView catErrorText;
+    @BindView(R.id.newPostProgress)
+    ProgressBar progressBar;
+    @BindView(R.id.contentEditText)
+    EditText content;
+    @BindView(R.id.newImage)
+    ImageView newImage;
+    @BindView(R.id.postImagePreview)
+    ImageView newImagePreview;
+    @BindView(R.id.addPost)
+    Button addBtn;
+    @BindView(R.id.spinnerCity)
+    Spinner spinnerCity;
+    @BindView(R.id.spinnerCat)
+    Spinner spinnerCat;
+    @BindView(R.id.newPostErrors)
+    TextView contentErrors;
+
     private Uri imageUri;
-    private ImageView newImage;
-    private ImageView newImagePreview;
     private NewPostPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
+        ButterKnife.bind(this);
 
         imageUri = null;
-        initializeView();
-        initializeNewImageBtn();
-        initializeAddBtn();
+        newImageClickEvent();
+        addBtnClickEvent();
     }
 
     @Override
@@ -60,20 +72,8 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         presenter = null;
     }
 
-    private void initializeView() {
-        //progressBar = findViewById(R.id.progressBarPost);
-        //contentErrorText = findViewById(R.id.contentErrorText);
-        //cityErrorText = findViewById(R.id.cityErrorText);
-        //catErrorText = findViewById(R.id.catErrorText);
-        content = findViewById(R.id.contentEditText);
-        //city = findViewById(R.id.cityEditText);
-        //category = findViewById(R.id.catEditText);
-        newImage = findViewById(R.id.newImage);
-        newImagePreview = findViewById(R.id.postImagePreview);
-    }
-
-    private void initializeNewImageBtn() {
-        findViewById(R.id.newImage).setOnClickListener(new View.OnClickListener() {
+    private void newImageClickEvent() {
+        newImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CropImage.activity()
@@ -85,15 +85,14 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         });
     }
 
-    private void initializeAddBtn() {
-        findViewById(R.id.addPost).setOnClickListener(new View.OnClickListener() {
+    private void addBtnClickEvent() {
+        addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String contentS = content.getText().toString();
-                String cityS = city.getText().toString();
-                String categoryS = category.getText().toString();
-
-                presenter.addPost(contentS, imageUri, cityS, categoryS);
+                String sContent = content.getText().toString();
+                String sCity = spinnerCity.getSelectedItem().toString();
+                String sCategory = spinnerCat.getSelectedItem().toString();
+                presenter.addPost(sContent, imageUri, sCity, sCategory);
             }
         });
     }
@@ -127,19 +126,13 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         progressBar.setVisibility(View.GONE);
     }
 
-    @Override public void contentError(@StringRes int resId) {
-        contentErrorText.setText(resId);
+    @Override
+    public void contentError(String err) {
+        contentErrors.setText(err);
+        contentErrors.setVisibility(View.VISIBLE);
     }
-
-    @Override public void cityError(@StringRes int resId) {
-        cityErrorText.setText(resId);
-    }
-
-    @Override public void categoryError(@StringRes int resId) {
-        catErrorText.setText(resId);
-    }
-
-    @Override public void postError(String err) {
+    @Override
+    public void uploadError(String err) {
         Toast.makeText(NewPostActivity.this, err, Toast.LENGTH_SHORT).show();
     }
 

@@ -35,12 +35,20 @@
       android:indeterminate="true"
       android:progressTint="@color/colorPrimary"
       android:visibility="gone" />
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/newPostErrors"
+      android:layout_below="@id/newPostSpinner"
+      android:layout_marginStart="8dp"
+      android:text="Lorem ipsum"
+      android:visibility="gone"/>
 
   <EditText
       android:layout_width="match_parent"
       android:layout_height="150dp"
       android:id="@+id/contentEditText"
-      android:layout_below="@+id/newPostSpinner"
+      android:layout_below="@+id/newPostErrors"
       android:layout_margin="8dp"
       android:gravity="top"
       android:padding="12dp"
