@@ -2,9 +2,9 @@ package com.example.pasta.ahbapapp.view;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -32,7 +30,7 @@ import butterknife.ButterKnife;
 public class NewPostActivity extends AppCompatActivity implements NewPostContract.NewPostView {
 
     @BindView(R.id.newPostToolbar)
-    android.support.v7.widget.Toolbar mToolbar;
+    Toolbar mToolbar;
     @BindView(R.id.newPostProgress)
     ProgressBar progressBar;
     @BindView(R.id.contentEditText)
@@ -77,6 +75,7 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
     }
 
     private void initToolbar() {
+        mToolbar.setElevation(14f);
         setSupportActionBar(mToolbar);
     }
 

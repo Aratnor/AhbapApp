@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,10 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity{
 
+    @BindView(R.id.mainToolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.mainBottomNav)
+    BottomNavigationViewEx mainBottomNav;
     @BindView(R.id.randomPosts)
     Button randomPosts;
     private GoogleSignInClient mGoogleSignInClient;
@@ -61,11 +66,17 @@ public class MainActivity extends AppCompatActivity{
         if(mAuth.getCurrentUser() != null) {
             //Fragments
             mHomeFragment = new HomeFragment();
-            initializeFragment();
-            initializeBottomNav();
-            initializeFloatingActionBtn();
+            initToolbar();
+            initFragment();
+            initBottomNav();
+            initFloatingActionBtn();
         }
     }
+
+    private void initToolbar() {
+        mToolbar.setElevation(14f);
+    }
+
     @Override protected void onStart() {
         super.onStart();
 
@@ -82,14 +93,13 @@ public class MainActivity extends AppCompatActivity{
         finish();
     }
 
-    private void initializeFragment() {
+    private void initFragment() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.main_frame_container, mHomeFragment);
         fragmentTransaction.commit();
     }
 
-    private void initializeBottomNav(){
-        BottomNavigationViewEx mainBottomNav = findViewById(R.id.mainBottomNav);
+    private void initBottomNav(){
         mainBottomNav.enableAnimation(false);
         mainBottomNav.enableItemShiftingMode(false);
         mainBottomNav.enableShiftingMode(false);
@@ -114,7 +124,7 @@ public class MainActivity extends AppCompatActivity{
         }});
     }
 
-    private void initializeFloatingActionBtn(){
+    private void initFloatingActionBtn(){
         FloatingActionButton mFloatingActionButton = findViewById(R.id.addFloatingBtn);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
