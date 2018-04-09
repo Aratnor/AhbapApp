@@ -1,5 +1,6 @@
 package com.example.pasta.ahbapapp.postdetail;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.R;
+import com.example.pasta.ahbapapp.comment.CommentListFragment;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -64,6 +66,7 @@ public class PostDetailActivity extends AppCompatActivity {
         initFirestore();
         getPostData();
         initToolbar();
+        addFragment();
     }
 
     @Override
@@ -130,6 +133,13 @@ public class PostDetailActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    private void addFragment() {
+        CommentListFragment fragment = new CommentListFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.comments_frame_container, fragment);
+        fragmentTransaction.commit();
     }
 
 }
