@@ -58,6 +58,8 @@ dependencies {
     compile "com.google.firebase:firebase-firestore:${firebaseVersion}"
     compile "com.google.firebase:firebase-auth:${firebaseVersion}"
     compile "com.google.android.gms:play-services-auth:${firebaseVersion}"
+    compile "com.google.firebase:firebase-messaging:${firebaseVersion}"
+
     //Test
     testImplementation "junit:junit:${junitVersion}"
     androidTestImplementation "com.android.support.test:runner:${runnerVersion}"
