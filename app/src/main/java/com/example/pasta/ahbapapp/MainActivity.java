@@ -35,8 +35,11 @@ public class MainActivity extends AppCompatActivity{
     Toolbar mToolbar;
     @BindView(R.id.mainBottomNav)
     BottomNavigationViewEx mainBottomNav;
+    @BindView(R.id.addFloatingBtn)
+    FloatingActionButton mFloatingActionButton;
     @BindView(R.id.randomPosts)
     Button randomPosts;
+
     private GoogleSignInClient mGoogleSignInClient;
     private HomeFragment mHomeFragment;
 
@@ -125,7 +128,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void initFloatingActionBtn(){
-        FloatingActionButton mFloatingActionButton = findViewById(R.id.addFloatingBtn);
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

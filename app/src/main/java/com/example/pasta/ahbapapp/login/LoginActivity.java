@@ -17,22 +17,27 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 @SuppressLint("RestrictedApi")
 public class LoginActivity extends AppCompatActivity implements LoginContract.View{
+
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.google_sign_in_btn)
+    SignInButton googleSignInBtn;
 
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleSignInClient mGoogleSignInClient;
-    private ProgressBar progressBar;
     private LoginPresenter presenter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        progressBar = findViewById(R.id.progressBar);
+        ButterKnife.bind(this);
 
         initializeGoogleClient();
         initializeGoogleSignInBtn();
@@ -59,8 +64,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
     private void initializeGoogleSignInBtn(){
-        SignInButton googleSignInBtn = findViewById(R.id.google_sign_in_btn);
-
         googleSignInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
