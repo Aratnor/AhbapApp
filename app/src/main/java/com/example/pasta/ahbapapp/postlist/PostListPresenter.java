@@ -1,6 +1,5 @@
-package com.example.pasta.ahbapapp.presenter;
+package com.example.pasta.ahbapapp.postlist;
 
-import com.example.pasta.ahbapapp.interfaces.PostListContract;
 import com.example.pasta.ahbapapp.model.PostModel;
 
 import java.util.List;

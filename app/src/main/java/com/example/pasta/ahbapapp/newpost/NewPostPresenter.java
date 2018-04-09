@@ -1,4 +1,4 @@
-package com.example.pasta.ahbapapp.presenter;
+package com.example.pasta.ahbapapp.newpost;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,8 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
-import com.example.pasta.ahbapapp.R;
-import com.example.pasta.ahbapapp.interfaces.NewPostContract;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;

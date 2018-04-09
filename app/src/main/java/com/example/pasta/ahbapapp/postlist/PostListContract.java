@@ -1,4 +1,4 @@
-package com.example.pasta.ahbapapp.interfaces;
+package com.example.pasta.ahbapapp.postlist;
 
 import com.example.pasta.ahbapapp.model.PostModel;
 

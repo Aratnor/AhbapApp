@@ -1,4 +1,4 @@
-package com.example.pasta.ahbapapp.interfaces;
+package com.example.pasta.ahbapapp.newpost;
 
 import android.net.Uri;
 import android.support.annotation.StringRes;

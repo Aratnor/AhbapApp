@@ -1,4 +1,4 @@
-package com.example.pasta.ahbapapp.view;
+package com.example.pasta.ahbapapp.newpost;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -19,8 +19,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
-import com.example.pasta.ahbapapp.interfaces.NewPostContract;
-import com.example.pasta.ahbapapp.presenter.NewPostPresenter;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 

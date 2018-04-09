@@ -85,8 +85,20 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             Glide.with(postUserImage.getContext())
                     .load(postModel.getAuthor_image())
                     .into(postUserImage);
+            postUserImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(), "User Image Clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             postUserName.setText(postModel.getAuthor_name());
+            postUserName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(), "Username Clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             try{
                 long millisecond = postModel.getCreated_at().getTime();
@@ -109,6 +121,13 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             else {
                 postImage.setVisibility(View.GONE);
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(), "Item Clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

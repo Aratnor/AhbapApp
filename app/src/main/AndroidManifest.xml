@@ -24,7 +24,7 @@
     </activity>
     <activity android:name=".login.LoginActivity">
     </activity>
-    <activity android:name=".view.NewPostActivity">
+    <activity android:name=".newpost.NewPostActivity">
     </activity>
     <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
         android:theme="@style/Base.Theme.AppCompat"/>

@@ -1,4 +1,4 @@
-package com.example.pasta.ahbapapp.view;
+package com.example.pasta.ahbapapp.postlist;
 
 import android.nfc.Tag;
 import android.os.Bundle;

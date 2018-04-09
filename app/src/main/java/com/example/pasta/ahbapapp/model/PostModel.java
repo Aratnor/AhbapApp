@@ -1,14 +1,12 @@
 package com.example.pasta.ahbapapp.model;
 
-import com.google.firebase.firestore.FieldValue;
-
 import java.util.Date;
 
 /**
  * Created by pasta on 28.03.2018.
  */
 
-public class PostModel extends PostId {
+public class PostModel{
 
     private String author_id;
     private String author_name;
