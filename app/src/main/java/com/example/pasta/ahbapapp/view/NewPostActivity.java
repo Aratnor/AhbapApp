@@ -11,13 +11,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.interfaces.NewPostContract;
-import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.presenter.NewPostPresenter;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -31,7 +33,8 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
     private TextView cityErrorText;
     private TextView catErrorText;
     private Uri imageUri;
-    private ImageView imageView;
+    private ImageView newImage;
+    private ImageView newImagePreview;
     private NewPostPresenter presenter;
 
     @Override
@@ -58,14 +61,15 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
     }
 
     private void initializeView() {
-        progressBar = findViewById(R.id.progressBarPost);
-        contentErrorText = findViewById(R.id.contentErrorText);
-        cityErrorText = findViewById(R.id.cityErrorText);
-        catErrorText = findViewById(R.id.catErrorText);
+        //progressBar = findViewById(R.id.progressBarPost);
+        //contentErrorText = findViewById(R.id.contentErrorText);
+        //cityErrorText = findViewById(R.id.cityErrorText);
+        //catErrorText = findViewById(R.id.catErrorText);
         content = findViewById(R.id.contentEditText);
-        city = findViewById(R.id.cityEditText);
-        category = findViewById(R.id.catEditText);
-        imageView = findViewById(R.id.newImage);
+        //city = findViewById(R.id.cityEditText);
+        //category = findViewById(R.id.catEditText);
+        newImage = findViewById(R.id.newImage);
+        newImagePreview = findViewById(R.id.postImagePreview);
     }
 
     private void initializeNewImageBtn() {
@@ -103,7 +107,12 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
             if (resultCode == RESULT_OK) {
 
                 imageUri = result.getUri();
-                imageView.setImageURI(imageUri);
+
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(8));
+                Glide.with(getApplicationContext()).load(imageUri).apply(requestOptions).into(newImagePreview);
+                newImagePreview.setVisibility(View.VISIBLE);
+
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Toast.makeText(this, result.getError().toString(), Toast.LENGTH_SHORT).show();
             }

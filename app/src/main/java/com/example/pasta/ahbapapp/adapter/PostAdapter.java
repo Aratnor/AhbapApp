@@ -12,6 +12,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -99,7 +102,9 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             String postImageUrl = postModel.getImage_url();
             if (postImageUrl == null || !postImageUrl.isEmpty()){
                 postImage.setVisibility(View.VISIBLE);
-                Glide.with(postImage.getContext()).load(postImageUrl).into(postImage);
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(8));
+                Glide.with(postImage.getContext()).load(postImageUrl).apply(requestOptions).into(postImage);
             }
             else {
                 postImage.setVisibility(View.GONE);

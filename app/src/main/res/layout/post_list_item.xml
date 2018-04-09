@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/post_bottom_border">
+    android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="50dp"
@@ -52,9 +51,7 @@
         android:layout_toEndOf="@id/post_user_image"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
-        android:scaleType="centerCrop"
-        android:background="@color/colorBlack"/>
+        android:layout_marginTop="4dp"/>
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
