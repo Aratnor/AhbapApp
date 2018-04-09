@@ -17,6 +17,16 @@
         app:titleMarginStart="24dp"
         app:titleTextColor="@color/colorWhite" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainSpinner"
+        android:layout_below="@id/mainToolbar">
+
+        <include layout="@layout/layout_spinner" />
+
+    </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addFloatingBtn"
         android:layout_width="50dp"
@@ -51,7 +61,7 @@
         android:id="@+id/main_frame_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/mainToolbar"
+        android:layout_below="@id/mainSpinner"
         android:layout_above="@id/mainBottomNav"/>
 
 </RelativeLayout>

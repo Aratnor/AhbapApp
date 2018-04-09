@@ -5,35 +5,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pasta.ahbapapp.view.NewPostActivity"
-    >
+    tools:context="com.example.pasta.ahbapapp.view.NewPostActivity">
 
   <android.support.v7.widget.Toolbar
-      android:id="@+id/newPostToolbar"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:id="@+id/newPostToolbar"
       android:layout_alignParentTop="true"
-      android:background="@drawable/bottom_shadow_primary_color"
+      android:background="@color/colorPrimary"
       android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
       app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
       app:title="Ahbap Yardım"
       app:titleTextColor="@color/colorWhite" />
-
-  <ProgressBar
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:id="@+id/newPostSpinner"
+      android:layout_below="@id/newPostToolbar">
+
+    <include layout="@layout/layout_spinner" />
+  </LinearLayout>
+
+  <ProgressBar
       android:id="@+id/newPostProgress"
-      android:layout_below="@id/newPostToolbar"
       style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="8dp"
+      android:layout_below="@id/newPostToolbar"
       android:indeterminate="true"
       android:progressTint="@color/colorPrimary"
-      android:visibility="invisible"/>
+      android:visibility="gone" />
 
   <EditText
       android:layout_width="match_parent"
       android:layout_height="150dp"
       android:id="@+id/contentEditText"
-      android:layout_below="@+id/newPostProgress"
+      android:layout_below="@+id/newPostSpinner"
       android:layout_margin="8dp"
       android:gravity="top"
       android:padding="12dp"
@@ -70,17 +77,5 @@
       android:layout_below="@id/addPost"
       android:layout_margin="8dp"
       android:visibility="gone"/>
-
-  <ImageView
-      android:layout_width="24dp"
-      android:layout_height="24dp"
-      android:src="@drawable/ic_mode_comment_white_24dp"
-      android:tint="@color/colorBlack"
-      android:layout_marginEnd="8dp"
-      android:layout_marginTop="8dp"
-      android:layout_below="@id/addPost"
-      android:layout_alignParentEnd="true"/>
-
-
 
 </RelativeLayout>

@@ -18,11 +18,13 @@
 
 
     <string-array name="cities">
+        <item>İl Seçiniz</item>
         <item>İstanbul</item>
         <item>Eskişehir</item>
     </string-array>
 
     <string-array name="categories">
+        <item>Kategori</item>
         <item>Sağlık</item>
         <item>Barınma</item>
     </string-array>

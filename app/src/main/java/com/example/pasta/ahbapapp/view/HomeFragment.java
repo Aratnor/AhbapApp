@@ -83,13 +83,15 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
         }
         Query firstQuery = mQuery.limit(LIMIT);
         mAdapter = new PostAdapter(firstQuery,this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext()
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()
                 , LinearLayoutManager.VERTICAL, false);
         mPostRecycler.setLayoutManager(layoutManager);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration
                 (mPostRecycler.getContext(),layoutManager.getOrientation());
         mPostRecycler.addItemDecoration(mDividerItemDecoration);
         mPostRecycler.setAdapter(mAdapter);
+
         mPostRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
