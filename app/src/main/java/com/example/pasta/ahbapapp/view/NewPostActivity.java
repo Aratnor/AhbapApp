@@ -2,6 +2,7 @@ package com.example.pasta.ahbapapp.view;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -29,6 +31,8 @@ import butterknife.ButterKnife;
 
 public class NewPostActivity extends AppCompatActivity implements NewPostContract.NewPostView {
 
+    @BindView(R.id.newPostToolbar)
+    android.support.v7.widget.Toolbar mToolbar;
     @BindView(R.id.newPostProgress)
     ProgressBar progressBar;
     @BindView(R.id.contentEditText)
@@ -54,8 +58,8 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
         ButterKnife.bind(this);
-
         imageUri = null;
+        initToolbar();
         newImageClickEvent();
         addBtnClickEvent();
     }
@@ -70,6 +74,16 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
     protected void onDestroy() {
         super.onDestroy();
         presenter = null;
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void newImageClickEvent() {
