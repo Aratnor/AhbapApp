@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -83,8 +83,12 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
         }
         Query firstQuery = mQuery.limit(LIMIT);
         mAdapter = new PostAdapter(firstQuery,this);
-        mPostRecycler.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()
-                , LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext()
+                , LinearLayoutManager.VERTICAL, false);
+        mPostRecycler.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration
+                (mPostRecycler.getContext(),layoutManager.getOrientation());
+        mPostRecycler.addItemDecoration(mDividerItemDecoration);
         mPostRecycler.setAdapter(mAdapter);
         mPostRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
