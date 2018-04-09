@@ -1,5 +1,6 @@
 package com.example.pasta.ahbapapp.postlist;
 
+import android.content.Intent;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,8 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.PostAdapter;
+import com.example.pasta.ahbapapp.postdetail.PostDetailActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -113,6 +117,9 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
 
     @Override
     public void onPostSelected(DocumentSnapshot post) {
-
+        Log.d("onPostSelected", "go");
+        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+        intent.putExtra(PostDetailActivity.POST_ID, post.getId());
+        startActivity(intent);
     }
 }
