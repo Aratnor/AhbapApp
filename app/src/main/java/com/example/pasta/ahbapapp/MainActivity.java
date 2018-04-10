@@ -12,7 +12,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.example.pasta.ahbapapp.util.PostUtil;
@@ -39,6 +43,10 @@ public class MainActivity extends AppCompatActivity{
     FloatingActionButton mFloatingActionButton;
     @BindView(R.id.randomPosts)
     Button randomPosts;
+    @BindView(R.id.spinnerCity)
+    Spinner spinnerCity;
+    @BindView(R.id.spinnerCat)
+    Spinner spinnerCat;
 
     private GoogleSignInClient mGoogleSignInClient;
     private HomeFragment mHomeFragment;
@@ -51,6 +59,31 @@ public class MainActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
+        spinnerCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this,spinnerCat.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,spinnerCity.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString()
+                        ,spinnerCity.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         randomPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

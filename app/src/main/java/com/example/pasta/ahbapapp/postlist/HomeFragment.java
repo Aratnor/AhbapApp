@@ -110,7 +110,26 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
                 .getLayoutManager();
         layoutManager.scrollToPositionWithOffset(0,0);
     }
-
+    public void setQuery(String cat, String city) {
+        if(cat.equals("Kategori") && city.equals("İl Seçiniz")) {
+            mQuery = mFirestore.collection("posts").orderBy("created_at",Query.Direction.DESCENDING);
+            mAdapter.setQuery(mQuery.limit(LIMIT));
+        }
+        else if(cat.equals("Kategori") && !city.equals("İl Seçiniz")) {
+            mQuery = mFirestore.collection("posts").whereEqualTo("city",city).orderBy("created_at",Query.Direction.DESCENDING);
+            mAdapter.setQuery(mQuery.limit(LIMIT));
+        }
+        else if(!cat.equals("Kategori") && city.equals("İl Seçiniz")) {
+            mQuery =mFirestore.collection("posts").whereEqualTo("category",cat).orderBy("created_at",Query.Direction.DESCENDING);
+            mAdapter.setQuery(mQuery.limit(LIMIT));
+        }
+        else {
+            mQuery = mFirestore.collection("posts").whereEqualTo("category", cat)
+                    .whereEqualTo("city", city)
+                    .orderBy("created_at", Query.Direction.DESCENDING);
+            mAdapter.setQuery(mQuery.limit(LIMIT));
+        }
+    }
     @Override
     public void onPostSelected(DocumentSnapshot post) {
 
