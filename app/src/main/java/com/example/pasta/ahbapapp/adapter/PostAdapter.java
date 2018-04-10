@@ -125,7 +125,9 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Item Clicked", Toast.LENGTH_SHORT).show();
+                    if (listener != null){
+                        listener.onPostSelected(snapshot);
+                    }
                 }
             });
         }
