@@ -43,11 +43,31 @@
         android:layout_marginEnd="8dp"
         android:text="printer took a galley y. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley "
         android:textColor="@color/colorBlackTransparent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewCityTag"
+        android:layout_below="@id/post_content"
+        android:layout_toEndOf="@id/post_user_image"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorPrimaryLight"
+        android:text="cityhashtag"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewCatTag"
+        android:layout_below="@id/post_content"
+        android:layout_toEndOf="@id/textViewCityTag"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/colorPrimaryLight"
+        android:text="cathashtag"/>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:id="@+id/post_image"
-        android:layout_below="@id/post_content"
+        android:layout_below="@id/textViewCityTag"
         android:layout_toEndOf="@id/post_user_image"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"

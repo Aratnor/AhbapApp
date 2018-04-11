@@ -1,8 +1,12 @@
 package com.example.pasta.ahbapapp.adapter;
 
+import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.example.pasta.ahbapapp.MainActivity;
+import com.example.pasta.ahbapapp.postlist.HomeFragment;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -27,13 +31,17 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
 
     private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
     private DocumentSnapshot lastVisible;
-
-    public FirestoreAdapter(Query query) {
+    private boolean isFirstLoaded;
+    private Activity activity;
+    public FirestoreAdapter(Query query, Activity activity) {
         mQuery = query;
+        isFirstLoaded = true;
+        this.activity = activity;
+        mRegistration = mQuery.addSnapshotListener(this);
     }
 
     public void startListening() {
-        if (mQuery != null) {
+        if (mQuery != null && mRegistration == null) {
             mRegistration = mQuery.addSnapshotListener(this);
         }
     }
@@ -43,6 +51,8 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
             mRegistration.remove();
             mRegistration = null;
         }
+        mSnapshots.clear();
+        notifyDataSetChanged();
     }
 
     public void setQuery(Query query) {
@@ -55,6 +65,7 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
 
         // Listen to new query
         mQuery = query;
+        isFirstLoaded = true;
         startListening();
     }
 
@@ -81,15 +92,17 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
             Log.w(TAG, "onEvent:error", e);
             return;
         }
-
         // Dispatch the event
         for (DocumentChange change : queryDocumentSnapshots.getDocumentChanges()) {
             // Snapshot of the changed document
             Log.d(TAG, "OnEvent");
 
-            if (!queryDocumentSnapshots.isEmpty()) {
-                lastVisible = queryDocumentSnapshots.getDocuments()
-                        .get(queryDocumentSnapshots.size() - 1);
+            if (isFirstLoaded) {
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    Log.d(TAG, "firsPageLoaded");
+                    lastVisible = queryDocumentSnapshots.getDocuments()
+                            .get(queryDocumentSnapshots.size() - 1);
+                }
             }
 
             DocumentSnapshot snapshot = change.getDocument();
@@ -105,12 +118,14 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
                     break;
             }
         }
+        isFirstLoaded = false;
         onDataChanged();
     }
 
     protected void onDocumentAdded(DocumentChange change) {
         mSnapshots.add(change.getNewIndex(), change.getDocument());
         notifyItemInserted(change.getNewIndex());
+        Log.d(TAG, "onDocumentAdded");
     }
 
     protected void onDocumentModified(DocumentChange change) {
@@ -118,21 +133,25 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
             // Item changed but remained in same position
             mSnapshots.set(change.getOldIndex(), change.getDocument());
             notifyItemChanged(change.getOldIndex());
+            Log.d(TAG, "onDocumentModified");
+
         } else {
             // Item changed and changed position
             mSnapshots.remove(change.getOldIndex());
             mSnapshots.add(change.getNewIndex(), change.getDocument());
             notifyItemMoved(change.getOldIndex(), change.getNewIndex());
+            Log.d(TAG, "onDocumentModified");
         }
     }
 
     protected void onDocumentRemoved(DocumentChange change) {
         mSnapshots.remove(change.getOldIndex());
         notifyItemRemoved(change.getOldIndex());
+        Log.d(TAG, "onDocumentRemoved");
     }
 
     public void loadMore(Query query){
-        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        query.addSnapshotListener(activity,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
                 if (!queryDocumentSnapshots.isEmpty()) {
@@ -142,6 +161,7 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
                         if (doc.getType() == DocumentChange.Type.ADDED) {
                             mSnapshots.add(getItemCount(),doc.getDocument());
                             notifyItemInserted(getItemCount());
+                            Log.d(TAG, "loadMore");
                         }
                     }
                 }

@@ -148,8 +148,7 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
     }
 
     @Override public void startMain() {
-        Intent mainIntent = new Intent(NewPostActivity.this, MainActivity.class);
-        startActivity(mainIntent);
+        onBackPressed();
         finish();
     }
 }

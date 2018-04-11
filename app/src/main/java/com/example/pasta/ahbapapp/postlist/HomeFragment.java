@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
     private Query mQuery;
     private PostAdapter mAdapter;
 
-    private static final int LIMIT = 10;
+    private static final int LIMIT = 15;
 
     @Nullable
     @Override
@@ -53,26 +53,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Start listening for Firestore updates
-        if (mAdapter != null) {
-            mAdapter.startListening();
-            Log.d(TAG,"onStart");
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAdapter != null) {
-            mAdapter.stopListening();
-            Log.d(TAG,"onStop");
-        }
-    }
-
     private void initFirestore() {
         mFirestore = FirebaseFirestore.getInstance();
 
@@ -86,7 +66,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
             Log.d(TAG, "No query, not initializing RecyclerView");
         }
         Query firstQuery = mQuery.limit(LIMIT);
-        mAdapter = new PostAdapter(firstQuery,this);
+        mAdapter = new PostAdapter(firstQuery,getActivity(),this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()
                 , LinearLayoutManager.VERTICAL, false);
@@ -95,6 +75,8 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
                 (mPostRecycler.getContext(),layoutManager.getOrientation());
         mPostRecycler.addItemDecoration(mDividerItemDecoration);
         mPostRecycler.setAdapter(mAdapter);
+        mPostRecycler.setHasFixedSize(true);
+        mPostRecycler.setItemViewCacheSize(30);
 
         mPostRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -114,6 +96,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
                 .getLayoutManager();
         layoutManager.scrollToPositionWithOffset(0,0);
     }
+
     public void setQuery(String cat, String city) {
         if(cat.equals("Kategori") && city.equals("İl Seçiniz")) {
             mQuery = mFirestore.collection("posts").orderBy("created_at",Query.Direction.DESCENDING);
@@ -134,6 +117,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
             mAdapter.setQuery(mQuery.limit(LIMIT));
         }
     }
+
     @Override
     public void onPostSelected(DocumentSnapshot post) {
         Log.d("onPostSelected", "go");

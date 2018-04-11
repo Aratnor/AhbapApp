@@ -43,6 +43,10 @@ public class PostDetailActivity extends AppCompatActivity {
     TextView postContent;
     @BindView(R.id.postDetailImage)
     ImageView postImage;
+    @BindView(R.id.textViewCityTag)
+    TextView cityHashTag;
+    @BindView(R.id.textViewCatTag)
+    TextView catHashTag;
 
     private static final String TAG = "PostDetail";
     public static final String POST_ID = "post_id";
@@ -109,6 +113,8 @@ public class PostDetailActivity extends AppCompatActivity {
                 }
 
                 postContent.setText(post.getContent());
+                cityHashTag.setText("#" + post.getCity());
+                catHashTag.setText("#" + post.getCategory());
 
                 String postImageUrl = post.getImage_url();
                 if (postImageUrl == null || !postImageUrl.isEmpty()){

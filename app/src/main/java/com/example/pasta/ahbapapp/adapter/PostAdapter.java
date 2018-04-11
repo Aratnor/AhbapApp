@@ -1,5 +1,6 @@
 package com.example.pasta.ahbapapp.adapter;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -19,6 +20,9 @@ import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
+
+import org.w3c.dom.Text;
+
 import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +43,8 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
     private OnPostSelectedListener mListener;
 
 
-    public PostAdapter(Query query, OnPostSelectedListener mListener) {
-        super(query);
+    public PostAdapter(Query query, Activity activity, OnPostSelectedListener mListener) {
+        super(query, activity);
         this.mListener = mListener;
     }
 
@@ -72,6 +76,10 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
         ImageView commentIcon;
         @BindView(R.id.post_comment_count)
         TextView commentCount;
+        @BindView(R.id.textViewCityTag)
+        TextView cityHashTag;
+        @BindView(R.id.textViewCatTag)
+        TextView catHashTag;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -110,7 +118,8 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
 
 
             postContent.setText(postModel.getContent());
-
+            cityHashTag.setText("#" + postModel.getCity());
+            catHashTag.setText("#" + postModel.getCategory());
             String postImageUrl = postModel.getImage_url();
             if (postImageUrl == null || !postImageUrl.isEmpty()){
                 postImage.setVisibility(View.VISIBLE);
