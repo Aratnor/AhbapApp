@@ -118,8 +118,8 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
 
 
             postContent.setText(postModel.getContent());
-            cityHashTag.setText("#" + postModel.getCity());
-            catHashTag.setText("#" + postModel.getCategory());
+            cityHashTag.setText(String.format("#%s", postModel.getCity().toLowerCase()));
+            catHashTag.setText(String.format("#%s", postModel.getCategory().toLowerCase()));
             String postImageUrl = postModel.getImage_url();
             if (postImageUrl == null || !postImageUrl.isEmpty()){
                 postImage.setVisibility(View.VISIBLE);

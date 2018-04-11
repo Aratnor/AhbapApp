@@ -113,8 +113,8 @@ public class PostDetailActivity extends AppCompatActivity {
                 }
 
                 postContent.setText(post.getContent());
-                cityHashTag.setText("#" + post.getCity());
-                catHashTag.setText("#" + post.getCategory());
+                cityHashTag.setText(String.format("#%s", post.getCity().toLowerCase()));
+                catHashTag.setText(String.format("#%s", post.getCategory().toLowerCase()));
 
                 String postImageUrl = post.getImage_url();
                 if (postImageUrl == null || !postImageUrl.isEmpty()){
