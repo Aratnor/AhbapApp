@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -22,6 +23,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -45,7 +47,7 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
     private static final String UPDATED_AT = "updated_at";
 
     private NewPostContract.NewPostView mView;
-    private Map<String, Object> postMap;
+    private PostModel post;
     private String currentUserID;
     private FirebaseFirestore firebaseFirestore;
     private String contentError = "";
@@ -53,10 +55,9 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
 
     public NewPostPresenter(NewPostContract.NewPostView mView) {
         this.mView = mView;
-        postMap = new HashMap<>();
+        post = new PostModel();
         currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         firebaseFirestore = FirebaseFirestore.getInstance();
-        setUserData();
     }
 
     @Override public void uploadImageAndPost(final String content, Uri imageUri, final String city, final String category) {
@@ -97,25 +98,6 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
         return imageData;
     }
 
-    private void setUserData() {
-        firebaseFirestore.collection("users").document(currentUserID).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()){
-                            String name = task.getResult().getString("name");
-                            String imageUrl = task.getResult().getString("image_url");
-                            postMap.put(AUTHOR_ID, currentUserID);
-                            postMap.put(AUTHOR_NAME,  name);
-                            postMap.put(AUTHOR_IMAGE, imageUrl);
-                        }
-                        else{
-                            //TODO Error handling
-                        }
-                    }
-                });
-    }
-
     @Override public void addPost(String content, Uri imageUri, String city, String category) {
         if(TextUtils.isEmpty(content) || content.length() < 3 || content.length() > 1000
                 || TextUtils.isEmpty(city) || city.equals("İl Seçiniz")
@@ -132,8 +114,6 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
             contentError = "";
         }
         else{
-            if (postMap.get(AUTHOR_ID) != null && postMap.get(AUTHOR_NAME) != null
-                    && postMap.get(AUTHOR_IMAGE) != null  ){
 
                 mView.showProgress();
                 if (imageUri != null){
@@ -144,19 +124,19 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
                     uploadPost(content,imageUrl, city, category);
                 }
             }
-        }
     }
 
     @Override public void uploadPost(String content, String imageUrl, String city, String category) {
         //TODO add author name and image url to post
-        postMap.put(CONTENT, content);
-        postMap.put(CITY, city);
-        postMap.put(CATEGORY, category);
-        postMap.put(IMAGE_URL, imageUrl);
-        postMap.put(CREATED_AT, FieldValue.serverTimestamp());
-        postMap.put(UPDATED_AT, FieldValue.serverTimestamp());
 
-        firebaseFirestore.collection("posts").add(postMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        post.setContent(content);
+        post.setCity(city);
+        post.setCategory(category);
+        post.setImage_url(imageUrl);
+        post.setCreated_at(new Date());
+        post.setUpdated_at(new Date());
+
+        firebaseFirestore.collection("posts").add(post).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override public void onComplete(@NonNull Task<DocumentReference> task) {
                 Log.d("OnComplete","before if");
                 if (task.isSuccessful()){
@@ -171,5 +151,12 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
                 Log.d("OnComplete","exception" + e.getMessage());
             }
         });
+    }
+
+    @Override
+    public void userData(String userID, String userName, String userImage) {
+        post.setAuthor_id(userID);
+        post.setAuthor_name(userName);
+        post.setAuthor_image(userImage);
     }
 }
