@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -39,15 +42,12 @@ public class MainActivity extends AppCompatActivity{
     Toolbar mToolbar;
     @BindView(R.id.mainBottomNav)
     BottomNavigationViewEx mainBottomNav;
-    @BindView(R.id.addFloatingBtn)
-    FloatingActionButton mFloatingActionButton;
-    @BindView(R.id.randomPosts)
-    Button randomPosts;
     @BindView(R.id.spinnerCity)
     Spinner spinnerCity;
     @BindView(R.id.spinnerCat)
     Spinner spinnerCat;
 
+    private static final String TAG = "MainActivity";
     private GoogleSignInClient mGoogleSignInClient;
     private HomeFragment mHomeFragment;
 
@@ -57,55 +57,15 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        spinnerCat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this,spinnerCat.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
-                Toast.makeText(MainActivity.this,spinnerCity.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
-                mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString()
-                        ,spinnerCity.getSelectedItem().toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        randomPosts.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-                CollectionReference posts = mFirestore.collection("posts");
-
-                for (int i = 0; i < 10; i++) {
-                    // Get a random Restaurant POJO
-                    PostModel post = PostUtil.getRandom(getApplicationContext());
-
-                    // Add a new document to the restaurants collection
-                    posts.add(post);
-                }
-            }
-        });
         if(mAuth.getCurrentUser() != null) {
             //Fragments
             mHomeFragment = new HomeFragment();
             initToolbar();
             initFragment();
             initBottomNav();
-            initFloatingActionBtn();
         }
     }
 
@@ -160,16 +120,6 @@ public class MainActivity extends AppCompatActivity{
         }});
     }
 
-    private void initFloatingActionBtn(){
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
     private void initializeGoogleClient() {
         GoogleSignInOptions gso = new GoogleSignInOptions
                 .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -184,5 +134,40 @@ public class MainActivity extends AppCompatActivity{
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame_container,fragment);
         fragmentTransaction.commit();
+    }
+
+    @OnItemSelected(R.id.spinnerCity)
+    public void spinnerCitySelected(int position){
+        Log.d(TAG, "spinnerCitySelected" + spinnerCity.getSelectedItem().toString()
+                + spinnerCat.getSelectedItem().toString());
+        mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
+    }
+
+    @OnItemSelected(R.id.spinnerCat)
+    public void spinnerCatSelected(int position){
+        Log.d(TAG, "spinnerCatSelected" + spinnerCat.getSelectedItem().toString()
+                + spinnerCity.getSelectedItem().toString());
+        mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
+    }
+
+    @OnClick(R.id.randomPosts)
+    public void setRandomPosts(){
+
+        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+        CollectionReference posts = mFirestore.collection("posts");
+
+        for (int i = 0; i < 10; i++) {
+            // Get a random Restaurant POJO
+            PostModel post = PostUtil.getRandom(getApplicationContext());
+
+            // Add a new document to the restaurants collection
+            posts.add(post);
+        }
+    }
+
+    @OnClick(R.id.addFloatingBtn)
+    public void sendNewPostActivity(){
+        Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
+        startActivity(intent);
     }
 }
