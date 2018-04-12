@@ -53,6 +53,13 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPostRecycler.setAdapter(null);
+        Log.d(TAG,"onDestroy");
+    }
+
     private void initFirestore() {
         mFirestore = FirebaseFirestore.getInstance();
 
