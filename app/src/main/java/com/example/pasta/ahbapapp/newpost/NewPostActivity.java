@@ -1,6 +1,8 @@
 package com.example.pasta.ahbapapp.newpost;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
+import com.example.pasta.ahbapapp.model.PostModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -103,6 +106,7 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
                 String sContent = content.getText().toString();
                 String sCity = spinnerCity.getSelectedItem().toString();
                 String sCategory = spinnerCat.getSelectedItem().toString();
+                setUserData();
                 presenter.addPost(sContent, imageUri, sCity, sCategory);
             }
         });
@@ -127,6 +131,14 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
                 Toast.makeText(this, result.getError().toString(), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void setUserData() {
+        SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp",Context.MODE_PRIVATE);
+        String userID = sharedPref.getString("userID", "");
+        String userName = sharedPref.getString("userName", "");
+        String userImage = sharedPref.getString("userImage", "");
+        presenter.userData(userID,userName,userImage);
     }
 
     @Override public void showProgress() {
