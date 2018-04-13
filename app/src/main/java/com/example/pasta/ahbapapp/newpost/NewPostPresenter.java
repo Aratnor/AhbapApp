@@ -1,6 +1,7 @@
 package com.example.pasta.ahbapapp.newpost;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -155,8 +156,10 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
 
     @Override
     public void userData(String userID, String userName, String userImage) {
-        post.setAuthor_id(userID);
-        post.setAuthor_name(userName);
-        post.setAuthor_image(userImage);
+        if (currentUserID.equals(userID)){
+            post.setAuthor_id(userID);
+            post.setAuthor_name(userName);
+            post.setAuthor_image(userImage);
+        }
     }
 }

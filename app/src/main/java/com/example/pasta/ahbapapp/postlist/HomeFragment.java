@@ -82,7 +82,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
                 (mPostRecycler.getContext(),layoutManager.getOrientation());
         mPostRecycler.addItemDecoration(mDividerItemDecoration);
         mPostRecycler.setAdapter(mAdapter);
-        mPostRecycler.setHasFixedSize(true);
         mPostRecycler.setItemViewCacheSize(30);
 
         mPostRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {

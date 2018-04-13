@@ -68,12 +68,12 @@ public class MainActivity extends AppCompatActivity{
         mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null) {
+            setUserDataSharedPref();
             //Fragments
             mHomeFragment = new HomeFragment();
             initToolbar();
             initFragment();
             initBottomNav();
-            setUserDateSharedPref();
         }
     }
 
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity{
         }});
     }
 
-    private void setUserDateSharedPref() {
+    private void setUserDataSharedPref() {
         Log.d(TAG,"setUserDataSharedPref");
         final String currentUserID = mAuth.getCurrentUser().getUid();
         FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
