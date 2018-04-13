@@ -128,7 +128,6 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
     }
 
     @Override public void uploadPost(String content, String imageUrl, String city, String category) {
-        //TODO add author name and image url to post
 
         post.setContent(content);
         post.setCity(city);
