@@ -1,0 +1,33 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/newCommentLayout"
+    android:background="@color/colorPrimary"
+    tools:context="com.example.pasta.ahbapapp.comment.NewCommentFragment"
+    android:focusableInTouchMode="true">
+
+    <EditText
+        android:id="@+id/new_comment_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/colorWhiteTransparent"
+        android:textColor="@color/colorWhite"
+        android:maxHeight="150dp"
+        android:scrollbars="vertical" />
+
+    <ImageButton
+        android:id="@+id/send_comment_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_send_white_36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

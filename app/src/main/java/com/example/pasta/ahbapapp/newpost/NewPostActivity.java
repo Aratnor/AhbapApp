@@ -135,9 +135,9 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
 
     public void setUserData() {
         SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp",Context.MODE_PRIVATE);
-        String userID = sharedPref.getString("userID", "");
-        String userName = sharedPref.getString("userName", "");
-        String userImage = sharedPref.getString("userImage", "");
+        String userID = sharedPref.getString(MainActivity.USER_ID, "");
+        String userName = sharedPref.getString(MainActivity.USER_NAME, "");
+        String userImage = sharedPref.getString(MainActivity.USER_IMAGE, "");
         presenter.userData(userID,userName,userImage);
     }
 

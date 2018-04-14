@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.comment.CommentListFragment;
+import com.example.pasta.ahbapapp.comment.NewCommentFragment;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -142,10 +143,17 @@ public class PostDetailActivity extends AppCompatActivity {
     }
 
     private void addFragment() {
-        CommentListFragment fragment = new CommentListFragment();
+        CommentListFragment commentListFragment = new CommentListFragment();
+        NewCommentFragment newCommentFragment = new NewCommentFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(POST_ID, postId);
+        commentListFragment.setArguments(bundle);
+        newCommentFragment.setArguments(bundle);
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.comments_frame_container, fragment);
+        fragmentTransaction.add(R.id.comments_frame_container, commentListFragment);
+        fragmentTransaction.add(R.id.new_comment_frame_container, newCommentFragment);
         fragmentTransaction.commit();
     }
-
 }

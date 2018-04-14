@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,12 +13,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.example.pasta.ahbapapp.util.PostUtil;
@@ -28,9 +22,7 @@ import com.example.pasta.ahbapapp.newpost.NewPostActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -54,6 +46,9 @@ public class MainActivity extends AppCompatActivity{
     Spinner spinnerCat;
 
     private static final String TAG = "MainActivity";
+    public static final String USER_ID = "userID";
+    public static final String USER_NAME = "userName";
+    public static final String USER_IMAGE = "userImage";
     private GoogleSignInClient mGoogleSignInClient;
     private HomeFragment mHomeFragment;
     private FirebaseAuth mAuth;
@@ -143,9 +138,9 @@ public class MainActivity extends AppCompatActivity{
                         SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp"
                                 ,Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("userID", currentUserID);
-                        editor.putString("userName", name);
-                        editor.putString("userImage", imageUrl);
+                        editor.putString(USER_ID, currentUserID);
+                        editor.putString(USER_NAME, name);
+                        editor.putString(USER_IMAGE, imageUrl);
                         editor.apply();
                         Log.d(TAG,"setUserDataSharedPref onSuccess");
                     }
@@ -169,14 +164,14 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @OnItemSelected(R.id.spinnerCity)
-    public void spinnerCitySelected(int position){
+    public void spinnerCitySelected(){
         Log.d(TAG, "spinnerCitySelected" + spinnerCity.getSelectedItem().toString()
                 + spinnerCat.getSelectedItem().toString());
         mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
     }
 
     @OnItemSelected(R.id.spinnerCat)
-    public void spinnerCatSelected(int position){
+    public void spinnerCatSelected(){
         Log.d(TAG, "spinnerCatSelected" + spinnerCat.getSelectedItem().toString()
                 + spinnerCity.getSelectedItem().toString());
         mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());

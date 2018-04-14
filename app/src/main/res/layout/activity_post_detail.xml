@@ -99,4 +99,9 @@
         android:layout_height="match_parent"
         android:id="@+id/comments_frame_container"
         android:layout_below="@id/postDetail"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_comment_frame_container"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
