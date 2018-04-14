@@ -24,6 +24,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,8 +35,8 @@ public class NewCommentFragment extends Fragment {
     @BindView(R.id.new_comment_edit_text)
     EditText commentEditText;
 
-    CommentModel comment = new CommentModel();
-    String postId;
+    private CommentModel comment = new CommentModel();
+    private String postId;
 
     public NewCommentFragment()
     {
@@ -88,6 +90,7 @@ public class NewCommentFragment extends Fragment {
             comment.setAuthor_id(userID);
             comment.setAuthor_name(userName);
             comment.setAuthor_image_url(userImage);
+            comment.setCreated_at(new Date());
         }
     }
 

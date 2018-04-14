@@ -102,6 +102,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="30dp"
         android:id="@+id/new_comment_frame_container"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>

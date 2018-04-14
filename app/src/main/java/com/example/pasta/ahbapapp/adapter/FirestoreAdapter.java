@@ -32,12 +32,9 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
     private ArrayList<DocumentSnapshot> mSnapshots = new ArrayList<>();
     private DocumentSnapshot lastVisible;
     private boolean isFirstLoaded;
-    private Activity activity;
-    public FirestoreAdapter(Query query, Activity activity) {
+    public FirestoreAdapter(Query query) {
         mQuery = query;
         isFirstLoaded = true;
-        this.activity = activity;
-        mRegistration = mQuery.addSnapshotListener(this);
     }
 
     public void startListening() {
@@ -151,7 +148,7 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
     }
 
     public void loadMore(Query query){
-        query.addSnapshotListener(activity,new EventListener<QuerySnapshot>() {
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
                 if (!queryDocumentSnapshots.isEmpty()) {

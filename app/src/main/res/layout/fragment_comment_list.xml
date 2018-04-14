@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.pasta.ahbapapp.comment.CommentListFragment">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Comments" />
+        android:id="@+id/comment_list_recycler"/>
 
 </FrameLayout>

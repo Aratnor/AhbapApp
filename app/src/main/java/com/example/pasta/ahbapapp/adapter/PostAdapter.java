@@ -1,6 +1,5 @@
 package com.example.pasta.ahbapapp.adapter;
 
-import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -20,9 +18,6 @@ import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-
-import org.w3c.dom.Text;
-
 import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,8 +38,8 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
     private OnPostSelectedListener mListener;
 
 
-    public PostAdapter(Query query, Activity activity, OnPostSelectedListener mListener) {
-        super(query, activity);
+    public PostAdapter(Query query, OnPostSelectedListener mListener) {
+        super(query);
         this.mListener = mListener;
     }
 
