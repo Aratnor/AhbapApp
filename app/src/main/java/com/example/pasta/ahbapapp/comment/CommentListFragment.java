@@ -86,7 +86,7 @@ public class CommentListFragment extends Fragment {
 
         // Get the 50 highest rated restaurants
         mQuery = mFirestore.collection("posts").document(postId).collection("comments")
-                .orderBy("created_at", Query.Direction.ASCENDING);
+                .orderBy("created_at", Query.Direction.DESCENDING);
     }
 
     private void initRecyclerView() {

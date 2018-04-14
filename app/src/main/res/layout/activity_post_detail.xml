@@ -16,93 +16,110 @@
         app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
         app:title="Ahbap"
         app:titleTextColor="@color/colorWhite" />
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/postDetail"
-        android:layout_below="@id/postDetailToolbar">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/postDetailUserImage"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="16dp"
-            android:src="@color/colorPrimary"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/postDetailUserName"
-            android:layout_alignTop="@id/postDetailUserImage"
-            android:layout_toEndOf="@id/postDetailUserImage"
-            android:layout_marginStart="8dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="User Name"
-            android:textColor="@color/colorBlackTransparent"
-            android:textStyle="bold"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/postDetailDate"
-            android:layout_alignTop="@id/postDetailUserImage"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:text="04/04/2018"
-            android:textSize="10sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/postDetailContent"
-            android:layout_below="@id/postDetailUserName"
-            android:layout_toEndOf="@id/postDetailUserImage"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="printer took a galley y. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley "
-            android:textColor="@color/colorBlackTransparent"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewCityTag"
-            android:layout_below="@id/postDetailContent"
-            android:layout_toEndOf="@id/postDetailUserImage"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/colorPrimaryLight"
-            android:text="cityhashtag"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewCatTag"
-            android:layout_below="@id/postDetailContent"
-            android:layout_toEndOf="@id/textViewCityTag"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="8dp"
-            android:textColor="@color/colorPrimaryLight"
-            android:text="cathashtag"/>
-        <ImageView
+        android:layout_below="@id/postDetailToolbar"
+        android:layout_above="@id/new_comment_frame_container">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:id="@+id/postDetailImage"
-            android:layout_below="@id/textViewCityTag"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="4dp"
-            android:src="@color/colorPrimary"/>
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/postDetail">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/postDetailUserImage"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:src="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/postDetailUserName"
+                android:layout_alignTop="@id/postDetailUserImage"
+                android:layout_toEndOf="@id/postDetailUserImage"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="User Name"
+                android:textColor="@color/colorBlackTransparent"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/postDetailDate"
+                android:layout_alignTop="@id/postDetailUserImage"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:text="04/04/2018"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/postDetailContent"
+                android:layout_below="@id/postDetailUserName"
+                android:layout_toEndOf="@id/postDetailUserImage"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="printer took a galley y. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley "
+                android:textColor="@color/colorBlackTransparent"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCityTag"
+                android:layout_below="@id/postDetailContent"
+                android:layout_toEndOf="@id/postDetailUserImage"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/colorPrimaryLight"
+                android:text="cityhashtag"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCatTag"
+                android:layout_below="@id/postDetailContent"
+                android:layout_toEndOf="@id/textViewCityTag"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/colorPrimaryLight"
+                android:text="cathashtag"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:id="@+id/postDetailImage"
+                android:layout_below="@id/textViewCityTag"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"
+                android:src="@color/colorPrimary"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/commentTextView"
+                android:layout_below="@id/postDetailImage"
+                android:layout_marginTop="8dp"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/comments"
+                android:textSize="24sp"
+                android:background="@drawable/post_bottom_border"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/comments_frame_container"
+                android:layout_below="@id/commentTextView" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/comments_frame_container"
-        android:layout_below="@id/postDetail"/>
-    <FrameLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="30dp"
         android:id="@+id/new_comment_frame_container"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>
