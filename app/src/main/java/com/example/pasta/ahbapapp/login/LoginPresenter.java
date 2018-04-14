@@ -15,6 +15,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,6 +87,7 @@ class LoginPresenter implements LoginContract.Presenter{
         userInfo.put("name", mAuth.getCurrentUser().getDisplayName());
         userInfo.put("email", mAuth.getCurrentUser().getEmail());
         userInfo.put("image_url", mAuth.getCurrentUser().getPhotoUrl().toString());
+        userInfo.put("token_id", FirebaseInstanceId.getInstance().getToken());
 
         db.collection("users").document(userId).set(userInfo)
             .addOnSuccessListener(new OnSuccessListener<Void>() {

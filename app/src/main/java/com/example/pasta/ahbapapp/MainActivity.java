@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity{
             setUserDataSharedPref();
             //Fragments
             mHomeFragment = new HomeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("user_id",FirebaseAuth.getInstance().getCurrentUser().getUid());
+            mHomeFragment.setArguments(bundle);
             initToolbar();
             initFragment();
             initBottomNav();

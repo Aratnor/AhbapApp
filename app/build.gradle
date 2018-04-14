@@ -21,7 +21,7 @@ ext {
     //dependencies
     androidSupportVersion = '27.+'
     firebaseVersion = '12.0.1'
-    constraintVersion = '1.0.2'
+    constraintVersion = '1.+'
     cropImageVersion = '2.6.+'
     circleImageVersion = '2.2.0'
     compressorVersion = '2.1.0'
@@ -44,8 +44,6 @@ dependencies {
     implementation "com.android.support:support-v4:${androidSupportVersion}"
     implementation "com.android.support.constraint:constraint-layout:${constraintVersion}"
 
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:support-v4:27.1.1'
     compile "com.theartofdev.edmodo:android-image-cropper:${cropImageVersion}"
     compile "de.hdodenhof:circleimageview:${circleImageVersion}"
     compile "id.zelory:compressor:${compressorVersion}"
