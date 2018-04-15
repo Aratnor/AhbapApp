@@ -36,14 +36,9 @@ import butterknife.OnItemSelected;
 
 public class MainActivity extends AppCompatActivity{
 
-    @BindView(R.id.mainToolbar)
-    Toolbar mToolbar;
     @BindView(R.id.mainBottomNav)
     BottomNavigationViewEx mainBottomNav;
-    @BindView(R.id.spinnerCity)
-    Spinner spinnerCity;
-    @BindView(R.id.spinnerCat)
-    Spinner spinnerCat;
+
 
     private static final String TAG = "MainActivity";
     public static final String USER_ID = "userID";
@@ -69,15 +64,15 @@ public class MainActivity extends AppCompatActivity{
             Bundle bundle = new Bundle();
             bundle.putString("user_id",FirebaseAuth.getInstance().getCurrentUser().getUid());
             mHomeFragment.setArguments(bundle);
-            initToolbar();
+            //initToolbar();
             initFragment();
             initBottomNav();
         }
     }
 
-    private void initToolbar() {
+    /*private void initToolbar() {
         mToolbar.setElevation(14f);
-    }
+    }*/
 
     @Override protected void onStart() {
         super.onStart();
@@ -166,7 +161,7 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
     }
 
-    @OnItemSelected(R.id.spinnerCity)
+    /*@OnItemSelected(R.id.spinnerCity)
     public void spinnerCitySelected(){
         Log.d(TAG, "spinnerCitySelected" + spinnerCity.getSelectedItem().toString()
                 + spinnerCat.getSelectedItem().toString());
@@ -199,5 +194,5 @@ public class MainActivity extends AppCompatActivity{
     public void sendNewPostActivity(){
         Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
         startActivity(intent);
-    }
+    }*/
 }
