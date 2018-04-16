@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.model.PostModel;
+import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import java.util.Date;
@@ -103,14 +104,7 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
                 }
             });
 
-            try{
-                long millisecond = postModel.getCreated_at().getTime();
-                String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
-                postDate.setText(dateString);
-            }catch (Exception e){
-                Log.d("PostAdapter", "time problem");
-            }
-
+            postDate.setText(TimeAgo.getTimeAgo(postModel.getCreated_at()));
 
             postContent.setText(postModel.getContent());
             cityHashTag.setText(String.format("#%s", postModel.getCity().toLowerCase()));

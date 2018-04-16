@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.model.CommentModel;
+import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 
@@ -83,14 +84,7 @@ public class CommentAdapter extends FirestoreAdapter<CommentAdapter.ViewHolder> 
                 }
             });
 
-            try{
-                long millisecond = commentModel.getCreated_at().getTime();
-                String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
-                commentDate.setText(dateString);
-            }catch (Exception e){
-                Log.d("commentAdapter", "time problem");
-            }
-
+            commentDate.setText(TimeAgo.getTimeAgo(commentModel.getCreated_at()));
             commentBody.setText(commentModel.getComment_body());
         }
     }
