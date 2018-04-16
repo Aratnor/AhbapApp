@@ -40,11 +40,6 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
     private final int LIMIT = 10;
 
-    public NotificationFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,10 +47,10 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         ButterKnife.bind(this,root);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            currentUser_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
             initFirestore();
             initRecyclerView();
-            currentUser_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            Log.i("Current user is", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+            Log.i("Current user is", FirebaseAuth.getInstance().getCurrentUser().getUid());
         }
         return root;
     }
@@ -64,7 +59,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         mFirestore = FirebaseFirestore.getInstance();
 
         // Get the 50 highest rated restaurants
-        mQuery = mFirestore.collection("users/" + currentUser_id + "/Notifications");
+        mQuery = mFirestore.collection("users/" + currentUser_id + "/Notifications/");
     }
 
     public void scrollTop() {
