@@ -1,6 +1,7 @@
 package com.example.pasta.ahbapapp.notificationlist;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.NotificationAdapter;
 import com.example.pasta.ahbapapp.adapter.PostAdapter;
+import com.example.pasta.ahbapapp.postdetail.PostDetailActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -100,6 +102,8 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
     @Override
     public void onNotificationSelected(DocumentSnapshot documentSnapshot) {
-
+        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+        intent.putExtra(PostDetailActivity.POST_ID, (String)documentSnapshot.get("post_id"));
+        startActivity(intent);
     }
 }
