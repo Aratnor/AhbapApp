@@ -57,6 +57,13 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         return root;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mNotificationRecycler.setAdapter(null);
+        Log.d(TAG,"onDestroy");
+    }
+
     private void initFirestore() {
         mFirestore = FirebaseFirestore.getInstance();
 

@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
     public static final String USER_IMAGE = "userImage";
     private GoogleSignInClient mGoogleSignInClient;
     private HomeFragment mHomeFragment;
+    private NotificationFragment mNotificationFragment;
     private FirebaseAuth mAuth;
 
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
             setUserDataSharedPref();
             //Fragments
             mHomeFragment = new HomeFragment();
+            mNotificationFragment = new NotificationFragment();
             initFragment();
             initBottomNav();
         }
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity{
                     replaceFragment(mHomeFragment);
                     return true;
                     case R.id.notificationNav:
-                        replaceFragment(new NotificationFragment());
+                        replaceFragment(mNotificationFragment);
                         return true;
                 default:
                     return false;
@@ -113,8 +115,16 @@ public class MainActivity extends AppCompatActivity{
         mainBottomNav.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
             public void onNavigationItemReselected(@NonNull MenuItem item) {
-                mHomeFragment.scrollTop();
+                switch (item.getItemId()){
+                    case R.id.homeNav:
+                        mHomeFragment.scrollTop();
+                        break;
+                    case R.id.notificationNav:
+                        mNotificationFragment.scrollTop();
+                        break;
+                }
         }});
+
     }
 
     private void setUserDataSharedPref() {
