@@ -2,6 +2,7 @@ package com.example.pasta.ahbapapp.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class NotificationAdapter extends FirestoreAdapter<NotificationAdapter.Vi
     public NotificationAdapter(Query query, OnNotificationSelectedListener onNotificationSelectedListener) {
         super(query);
         this.mListener = onNotificationSelectedListener;
+        Log.i("Adapter setup","Notification Adapted set up");
     }
 
     @NonNull
@@ -73,6 +75,7 @@ public class NotificationAdapter extends FirestoreAdapter<NotificationAdapter.Vi
                 }
             });
             notification_text.setText(model.getMessage());
+            Log.i("Notification Message", model.getMessage());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
