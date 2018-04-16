@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +19,18 @@ import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.model.CommentModel;
 import com.example.pasta.ahbapapp.postdetail.PostDetailActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -96,9 +102,32 @@ public class NewCommentFragment extends Fragment {
 
 
     private void addCommentFirestore() {
-        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+        final FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = mFirestore.collection("posts").document(postId)
                 .collection("comments");
+        final Map<String,String> notification = new HashMap<>();
+        SharedPreferences sharedPref = getActivity()
+                .getSharedPreferences("com.example.pasta.ahbapapp", Context.MODE_PRIVATE);
+        notification.put("from",sharedPref.getString(MainActivity.USER_ID, ""));
+        notification.put("message", sharedPref.getString(MainActivity.USER_NAME, "") + "add comment to your post");
+        notification.put("post_id", postId);
+        DocumentReference documentReference = mFirestore.collection("posts").document(postId);
+        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                mFirestore.collection("users/"+ documentSnapshot.get("author_id").toString()+"/Notifications")
+                        .add(notification).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if(task.isSuccessful()) {
+                            Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+            }
+        });
+
 
         collectionRef.add(comment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
