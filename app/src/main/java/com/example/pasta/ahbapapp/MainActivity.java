@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.Spinner;
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.model.PostModel;
+import com.example.pasta.ahbapapp.notificationlist.NotificationFragment;
 import com.example.pasta.ahbapapp.util.PostUtil;
 import com.example.pasta.ahbapapp.postlist.HomeFragment;
 import com.example.pasta.ahbapapp.newpost.NewPostActivity;
@@ -66,9 +67,6 @@ public class MainActivity extends AppCompatActivity{
             setUserDataSharedPref();
             //Fragments
             mHomeFragment = new HomeFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString("user_id",FirebaseAuth.getInstance().getCurrentUser().getUid());
-            mHomeFragment.setArguments(bundle);
             initToolbar();
             initFragment();
             initBottomNav();
@@ -113,6 +111,9 @@ public class MainActivity extends AppCompatActivity{
                 case R.id.homeNav:
                     replaceFragment(mHomeFragment);
                     return true;
+                    case R.id.notificationNav:
+                        replaceFragment(new NotificationFragment());
+                        return true;
                 default:
                     return false;
                 }
