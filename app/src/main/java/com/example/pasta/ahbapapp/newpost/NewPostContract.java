@@ -17,7 +17,7 @@ public interface NewPostContract {
         void hideProgress();
         void contentError(String err);
         void uploadError(String err);
-        void startMain();
+        void sendBack();
     }
 
     interface NewPostPresenter{

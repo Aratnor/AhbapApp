@@ -37,14 +37,9 @@ import butterknife.OnItemSelected;
 
 public class MainActivity extends AppCompatActivity{
 
-    @BindView(R.id.mainToolbar)
-    Toolbar mToolbar;
     @BindView(R.id.mainBottomNav)
     BottomNavigationViewEx mainBottomNav;
-    @BindView(R.id.spinnerCity)
-    Spinner spinnerCity;
-    @BindView(R.id.spinnerCat)
-    Spinner spinnerCat;
+
 
     private static final String TAG = "MainActivity";
     public static final String USER_ID = "userID";
@@ -67,14 +62,9 @@ public class MainActivity extends AppCompatActivity{
             setUserDataSharedPref();
             //Fragments
             mHomeFragment = new HomeFragment();
-            initToolbar();
             initFragment();
             initBottomNav();
         }
-    }
-
-    private void initToolbar() {
-        mToolbar.setElevation(14f);
     }
 
     @Override protected void onStart() {
@@ -165,40 +155,5 @@ public class MainActivity extends AppCompatActivity{
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame_container,fragment);
         fragmentTransaction.commit();
-    }
-
-    @OnItemSelected(R.id.spinnerCity)
-    public void spinnerCitySelected(){
-        Log.d(TAG, "spinnerCitySelected" + spinnerCity.getSelectedItem().toString()
-                + spinnerCat.getSelectedItem().toString());
-        mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
-    }
-
-    @OnItemSelected(R.id.spinnerCat)
-    public void spinnerCatSelected(){
-        Log.d(TAG, "spinnerCatSelected" + spinnerCat.getSelectedItem().toString()
-                + spinnerCity.getSelectedItem().toString());
-        mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
-    }
-
-    @OnClick(R.id.randomPosts)
-    public void setRandomPosts(){
-
-        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-        CollectionReference posts = mFirestore.collection("posts");
-
-        for (int i = 0; i < 10; i++) {
-            // Get a random Restaurant POJO
-            PostModel post = PostUtil.getRandom(getApplicationContext());
-
-            // Add a new document to the restaurants collection
-            posts.add(post);
-        }
-    }
-
-    @OnClick(R.id.addFloatingBtn)
-    public void sendNewPostActivity(){
-        Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
-        startActivity(intent);
     }
 }

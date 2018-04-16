@@ -18,6 +18,7 @@ import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.comment.CommentListFragment;
 import com.example.pasta.ahbapapp.comment.NewCommentFragment;
 import com.example.pasta.ahbapapp.model.PostModel;
+import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -104,15 +105,7 @@ public class PostDetailActivity extends AppCompatActivity {
                         .into(userImage);
 
                 userName.setText(post.getAuthor_name());
-
-                try{
-                    long millisecond = post.getCreated_at().getTime();
-                    String dateString = DateFormat.format("MM/dd/yyyy", new Date(millisecond)).toString();
-                    postDate.setText(dateString);
-                }catch (Exception ex){
-                    Log.d(TAG, "getPostData", ex);
-                }
-
+                postDate.setText(TimeAgo.getTimeAgo(post.getCreated_at()));
                 postContent.setText(post.getContent());
                 cityHashTag.setText(String.format("#%s", post.getCity().toLowerCase()));
                 catHashTag.setText(String.format("#%s", post.getCategory().toLowerCase()));

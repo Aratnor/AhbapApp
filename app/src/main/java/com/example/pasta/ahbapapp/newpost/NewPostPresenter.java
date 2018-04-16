@@ -1,7 +1,6 @@
 package com.example.pasta.ahbapapp.newpost;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -14,8 +13,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -25,8 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import id.zelory.compressor.Compressor;
@@ -140,7 +135,7 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
             @Override public void onComplete(@NonNull Task<DocumentReference> task) {
                 Log.d("OnComplete","before if");
                 if (task.isSuccessful()){
-                    mView.startMain();
+                    mView.sendBack();
                     mView.hideProgress();
                 }
             }
