@@ -59,11 +59,11 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this,view);
 
-        currentUser_id = getArguments().getString("user_id");
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             initFirestore();
             initRecyclerView();
+            currentUser_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
         return view;
@@ -178,16 +178,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
     @Override
     public void onPostSelected(DocumentSnapshot post) {
         Log.d("onPostSelected", "go");
-        Map<String,String> notification = new HashMap<>();
-        notification.put("from",currentUser_id);
-        notification.put("message","User look your post");
-        String author_id = (String) post.get("author_id");
-        mFirestore.collection("users/"+ author_id + "/Notifications").add(notification).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getContext(), "Notification Send", Toast.LENGTH_SHORT).show();
-            }
-        });
+
         Intent intent = new Intent(getActivity(), PostDetailActivity.class);
         intent.putExtra(PostDetailActivity.POST_ID, post.getId());
         startActivity(intent);

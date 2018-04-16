@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
+import com.example.pasta.ahbapapp.model.NotificationMessage;
 import com.example.pasta.ahbapapp.model.NotificationModel;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -33,16 +34,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             id = Integer.valueOf(obj.toString());
         }
 
-        this.sendNotification(new NotificationModel(image, id, title, text, sound));
+        this.sendNotification(new NotificationMessage(image, id, title, text, sound));
     }
 
-    private void sendNotification(NotificationModel notificationData) {
+   private void sendNotification(NotificationMessage notificationData) {
 
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(NotificationModel.TEXT, notificationData.getTextMessage());
+        intent.putExtra(NotificationMessage.TEXT, notificationData.getText());
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+       PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notificationBuilder = null;
@@ -51,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(URLDecoder.decode(notificationData.getTitle(), "UTF-8"))
-                    .setContentText(URLDecoder.decode(notificationData.getTextMessage(), "UTF-8"))
+                    .setContentText(URLDecoder.decode(notificationData.getText(), "UTF-8"))
                     .setAutoCancel(true)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .setContentIntent(pendingIntent);
