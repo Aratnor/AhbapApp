@@ -1,12 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.pasta.ahbapapp.notificationlist.NotificationFragment">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/notification_list_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary">
+
+        <ImageView
+            android:id="@+id/main_toolbar_logo"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:src="@drawable/logo"
+            android:layout_marginEnd="14dp"/>
+    </android.support.v7.widget.Toolbar>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/notification_list_recycler"/>
+        android:id="@+id/notification_list_recycler"
+        android:layout_below="@id/notification_list_toolbar"/>
 
-</FrameLayout>
+</RelativeLayout>
