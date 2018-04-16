@@ -6,62 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.pasta.ahbapapp.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/mainToolbar"
+    <FrameLayout
+        android:id="@+id/main_frame_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:title="AhbapApp"
-        app:titleMarginStart="24dp"
-        app:titleTextColor="@color/colorWhite" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/mainSpinner"
-        android:layout_below="@id/mainToolbar">
-
-        <include layout="@layout/layout_spinner" />
-
-    </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addFloatingBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@color/colorPrimaryDark"
-        android:layout_above="@id/mainBottomNav"
-        android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/ic_add_white_48dp" />
-
-    <Button
-        android:id="@+id/randomPosts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:text="RandomPosts"
+        android:layout_height="match_parent"
         android:layout_above="@id/mainBottomNav"/>
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
         android:id="@+id/mainBottomNav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         app:menu="@menu/bottom_menu"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:layout_alignParentBottom="true"/>
-
-    <FrameLayout
-        android:id="@+id/main_frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/mainSpinner"
-        android:layout_above="@id/mainBottomNav"/>
 
 </RelativeLayout>
