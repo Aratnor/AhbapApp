@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         app:menu="@menu/bottom_menu"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:layout_gravity="bottom" />
 
 </android.support.design.widget.CoordinatorLayout>
