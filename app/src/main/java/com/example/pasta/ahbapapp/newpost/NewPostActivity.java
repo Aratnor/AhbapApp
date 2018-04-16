@@ -159,7 +159,7 @@ public class NewPostActivity extends AppCompatActivity implements NewPostContrac
         Toast.makeText(NewPostActivity.this, err, Toast.LENGTH_SHORT).show();
     }
 
-    @Override public void startMain() {
+    @Override public void sendBack() {
         onBackPressed();
         finish();
     }

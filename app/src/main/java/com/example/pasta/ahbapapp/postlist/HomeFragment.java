@@ -1,7 +1,6 @@
 package com.example.pasta.ahbapapp.postlist;
 
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,26 +12,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
-
-import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.PostAdapter;
+import com.example.pasta.ahbapapp.model.PostModel;
+import com.example.pasta.ahbapapp.newpost.NewPostActivity;
 import com.example.pasta.ahbapapp.postdetail.PostDetailActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.pasta.ahbapapp.util.PostUtil;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemSelected;
 
 
 public class HomeFragment extends Fragment implements PostAdapter.OnPostSelectedListener{
@@ -41,6 +41,10 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
 
     @BindView(R.id.postListRecyclerView)
     RecyclerView mPostRecycler;
+    @BindView(R.id.spinnerCity)
+    Spinner spinnerCity;
+    @BindView(R.id.spinnerCat)
+    Spinner spinnerCat;
 
     private FirebaseFirestore mFirestore;
     private Query mQuery;
@@ -75,7 +79,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
     private void initFirestore() {
         mFirestore = FirebaseFirestore.getInstance();
 
-        // Get the 50 highest rated restaurants
         mQuery = mFirestore.collection("posts")
                 .orderBy("created_at", Query.Direction.DESCENDING);
     }
@@ -135,6 +138,41 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
                     .orderBy("created_at", Query.Direction.DESCENDING);
             mAdapter.setQuery(mQuery.limit(LIMIT));
         }
+    }
+
+    @OnClick(R.id.randomPosts)
+    public void setRandomPosts(){
+
+        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
+        CollectionReference posts = mFirestore.collection("posts");
+
+        for (int i = 0; i < 10; i++) {
+            // Get a random Restaurant POJO
+            PostModel post = PostUtil.getRandom(getActivity().getApplicationContext());
+
+            // Add a new document to the restaurants collection
+            posts.add(post);
+        }
+    }
+
+    @OnItemSelected(R.id.spinnerCity)
+    public void spinnerCitySelected(){
+        Log.d(TAG, "spinnerCitySelected" + spinnerCity.getSelectedItem().toString()
+                + spinnerCat.getSelectedItem().toString());
+        setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
+    }
+
+    @OnItemSelected(R.id.spinnerCat)
+    public void spinnerCatSelected(){
+        Log.d(TAG, "spinnerCatSelected" + spinnerCat.getSelectedItem().toString()
+                + spinnerCity.getSelectedItem().toString());
+        setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
+    }
+
+    @OnClick(R.id.addFloatingBtn)
+    public void sendNewPostActivity(){
+        Intent intent = new Intent(getActivity(), NewPostActivity.class);
+        startActivity(intent);
     }
 
     @Override

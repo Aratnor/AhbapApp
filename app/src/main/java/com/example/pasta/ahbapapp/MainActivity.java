@@ -64,15 +64,10 @@ public class MainActivity extends AppCompatActivity{
             Bundle bundle = new Bundle();
             bundle.putString("user_id",FirebaseAuth.getInstance().getCurrentUser().getUid());
             mHomeFragment.setArguments(bundle);
-            //initToolbar();
             initFragment();
             initBottomNav();
         }
     }
-
-    /*private void initToolbar() {
-        mToolbar.setElevation(14f);
-    }*/
 
     @Override protected void onStart() {
         super.onStart();
@@ -160,39 +155,4 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.replace(R.id.main_frame_container,fragment);
         fragmentTransaction.commit();
     }
-
-    /*@OnItemSelected(R.id.spinnerCity)
-    public void spinnerCitySelected(){
-        Log.d(TAG, "spinnerCitySelected" + spinnerCity.getSelectedItem().toString()
-                + spinnerCat.getSelectedItem().toString());
-        mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
-    }
-
-    @OnItemSelected(R.id.spinnerCat)
-    public void spinnerCatSelected(){
-        Log.d(TAG, "spinnerCatSelected" + spinnerCat.getSelectedItem().toString()
-                + spinnerCity.getSelectedItem().toString());
-        mHomeFragment.setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
-    }
-
-    @OnClick(R.id.randomPosts)
-    public void setRandomPosts(){
-
-        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-        CollectionReference posts = mFirestore.collection("posts");
-
-        for (int i = 0; i < 10; i++) {
-            // Get a random Restaurant POJO
-            PostModel post = PostUtil.getRandom(getApplicationContext());
-
-            // Add a new document to the restaurants collection
-            posts.add(post);
-        }
-    }
-
-    @OnClick(R.id.addFloatingBtn)
-    public void sendNewPostActivity(){
-        Intent intent = new Intent(MainActivity.this, NewPostActivity.class);
-        startActivity(intent);
-    }*/
 }
