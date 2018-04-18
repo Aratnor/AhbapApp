@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,11 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountActivity extends AppCompatActivity implements PostAdapter.OnPostSelectedListener {
-    @BindView(R.id.account_user_image);
+    @BindView(R.id.account_user_image)
     CircleImageView account_user_image;
-    @BindView(R.id.account_user_name);
+    @BindView(R.id.account_user_name)
     TextView account_user_name;
-    @BindView(R.id.account_post_recycler);
+    @BindView(R.id.account_post_recycler)
     RecyclerView account_post_recycler;
 
     private FirebaseFirestore mFirestore;
@@ -70,6 +71,13 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
         mAdapter = new PostAdapter(mQuery,this);
 
         account_post_recycler.setAdapter(mAdapter);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext()
+                , LinearLayoutManager.VERTICAL, false);
+
+        account_post_recycler.setLayoutManager(layoutManager);
+
+        mAdapter.startListening();
     }
 
     @Override
