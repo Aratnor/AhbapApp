@@ -10,32 +10,23 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Spinner;
-
 import com.example.pasta.ahbapapp.account.AccountActivity;
 import com.example.pasta.ahbapapp.login.LoginActivity;
-import com.example.pasta.ahbapapp.model.PostModel;
 import com.example.pasta.ahbapapp.notificationlist.NotificationFragment;
-import com.example.pasta.ahbapapp.util.PostUtil;
 import com.example.pasta.ahbapapp.postlist.HomeFragment;
-import com.example.pasta.ahbapapp.newpost.NewPostActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.OnItemSelected;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -108,6 +99,9 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.notificationNav:
                         replaceFragment(mNotificationFragment);
                         return true;
+                    case R.id.accountNav:
+                        startAccountActivity();
+                        return true;
                 default:
                     return false;
                 }
@@ -167,5 +161,12 @@ public class MainActivity extends AppCompatActivity{
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame_container,fragment);
         fragmentTransaction.commit();
+    }
+
+    private void startAccountActivity() {
+        String userID = mAuth.getCurrentUser().getUid();
+        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+        intent.putExtra("user_id", userID);
+        startActivity(intent);
     }
 }
