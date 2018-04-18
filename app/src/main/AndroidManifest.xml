@@ -20,8 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity"></activity>
-        <activity android:name=".newpost.NewPostActivity"></activity>
+        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".newpost.NewPostActivity"/>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
@@ -32,7 +32,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".postdetail.PostDetailActivity"></activity>
+        <activity android:name=".postdetail.PostDetailActivity"/>
+        <activity android:name=".account.AccountActivity"/>
     </application>
 
 </manifest>
