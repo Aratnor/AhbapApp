@@ -1,5 +1,8 @@
 package com.example.pasta.ahbapapp.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -15,6 +18,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.R;
+import com.example.pasta.ahbapapp.account.AccountActivity;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -77,6 +81,8 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
         @BindView(R.id.textViewCatTag)
         TextView catHashTag;
 
+        Context activityContext;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -84,7 +90,7 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
 
         public void bind(final DocumentSnapshot snapshot,
                          final OnPostSelectedListener listener) {
-            PostModel postModel = snapshot.toObject(PostModel.class);
+            final PostModel postModel = snapshot.toObject(PostModel.class);
 
             Glide.with(postUserImage.getContext())
                     .load(postModel.getAuthor_image())
@@ -92,7 +98,11 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             postUserImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "User Image Clicked", Toast.LENGTH_SHORT).show();
+                    Intent startIntent = new Intent(itemView.getContext(), AccountActivity.class);
+                    Bundle extras = startIntent.getExtras();
+                    extras.putString("user_id",postModel.getAuthor_id());
+                    startIntent.putExtras(extras);
+                    itemView.getContext().startActivity(startIntent);
                 }
             });
 
@@ -100,7 +110,11 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             postUserName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Username Clicked", Toast.LENGTH_SHORT).show();
+                    Intent startIntent = new Intent(itemView.getContext(), AccountActivity.class);
+                    Bundle extras = startIntent.getExtras();
+                    extras.putString("user_id",postModel.getAuthor_id());
+                    startIntent.putExtras(extras);
+                    itemView.getContext().startActivity(startIntent);
                 }
             });
 
