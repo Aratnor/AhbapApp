@@ -3,6 +3,7 @@ package com.example.pasta.ahbapapp.notificationlist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,7 +44,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
     private final int LIMIT = 10;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_notification_list,container,false);
         ButterKnife.bind(this,root);
