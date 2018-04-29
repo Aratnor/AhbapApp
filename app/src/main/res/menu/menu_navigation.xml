@@ -8,6 +8,6 @@
         android:id="@+id/settingsNavView"
         android:title="@string/settings" />
     <item
-        android:id="@+id/searchNavView"
-        android:title="@string/search" />
+        android:id="@+id/logOutNavView"
+        android:title="@string/logout" />
 </menu>

@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.profileNavView :
                         startAccountActivity();
                         mDrawerLayout.closeDrawers();
+                    case R.id.logOutNavView:
+                        logOut();
+                        mDrawerLayout.closeDrawers();
                 }
                 return false;
             }
@@ -187,7 +190,6 @@ public class MainActivity extends AppCompatActivity{
 
         String image_url;
         String name;
-        String email;
 
         SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp"
                 ,Context.MODE_PRIVATE);
@@ -251,5 +253,11 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = new Intent(MainActivity.this, AccountActivity.class);
         intent.putExtra("user_id", userID);
         startActivity(intent);
+    }
+
+    private void logOut() {
+        mAuth.signOut();
+        mGoogleSignInClient.signOut();
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
     }
 }

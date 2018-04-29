@@ -97,9 +97,7 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent startIntent = new Intent(itemView.getContext(), AccountActivity.class);
-                    Bundle extras = startIntent.getExtras();
-                    extras.putString("user_id",postModel.getAuthor_id());
-                    startIntent.putExtras(extras);
+                    startIntent.putExtra("user_id",postModel.getAuthor_id());
                     itemView.getContext().startActivity(startIntent);
                 }
             });
@@ -109,9 +107,7 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent startIntent = new Intent(itemView.getContext(), AccountActivity.class);
-                    Bundle extras = startIntent.getExtras();
-                    extras.putString("user_id",postModel.getAuthor_id());
-                    startIntent.putExtras(extras);
+                    startIntent.putExtra("user_id",postModel.getAuthor_id());
                     itemView.getContext().startActivity(startIntent);
                 }
             });
