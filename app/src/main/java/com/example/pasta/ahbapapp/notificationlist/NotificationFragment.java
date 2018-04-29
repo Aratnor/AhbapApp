@@ -69,7 +69,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         mFirestore = FirebaseFirestore.getInstance();
 
         // Get the 50 highest rated restaurants
-        mQuery = mFirestore.collection("users/" + currentUser_id + "/Notifications/");
+        mQuery = mFirestore.collection("users/" + currentUser_id + "/Notifications/").orderBy("created_at", Query.Direction.DESCENDING);
     }
 
     public void scrollTop() {

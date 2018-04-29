@@ -105,12 +105,13 @@ public class NewCommentFragment extends Fragment {
         final FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = mFirestore.collection("posts").document(postId)
                 .collection("comments");
-        final Map<String,String> notification = new HashMap<>();
+        final Map<String,Object> notification = new HashMap<>();
         SharedPreferences sharedPref = getActivity()
                 .getSharedPreferences("com.example.pasta.ahbapapp", Context.MODE_PRIVATE);
         notification.put("from",sharedPref.getString(MainActivity.USER_ID, ""));
-        notification.put("message", sharedPref.getString(MainActivity.USER_NAME, "") + "add comment to your post");
+        notification.put("message", sharedPref.getString(MainActivity.USER_NAME, "") + " içeriğine yorum ekledi.");
         notification.put("post_id", postId);
+        notification.put("created_at",new Date());
         DocumentReference documentReference = mFirestore.collection("posts").document(postId);
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
