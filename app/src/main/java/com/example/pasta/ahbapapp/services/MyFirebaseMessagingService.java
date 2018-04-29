@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -50,7 +51,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         try {
 
             notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),R.mipmap.ic_launcher))
+                    .setSmallIcon(R.drawable.ic_stat_name)
                     .setContentTitle(URLDecoder.decode(notificationData.getTitle(), "UTF-8"))
                     .setContentText(URLDecoder.decode(notificationData.getText(), "UTF-8"))
                     .setAutoCancel(true)

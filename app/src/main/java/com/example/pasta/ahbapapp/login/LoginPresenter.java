@@ -64,7 +64,12 @@ class LoginPresenter implements LoginContract.Presenter{
                         DocumentSnapshot document = task.getResult();
 
                         if (document.exists()) {
-                            mView.updateUI();
+                            userRef.update("token_id", FirebaseInstanceId.getInstance().getToken()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    mView.updateUI();
+                                }
+                            });
                         }
                         else {
                             Log.d("Document", "null");
