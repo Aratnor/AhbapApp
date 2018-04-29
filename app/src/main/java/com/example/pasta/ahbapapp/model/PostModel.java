@@ -15,7 +15,7 @@ public class PostModel{
     private String category;
     private String content;
     private String image_url;
-    private int comment_count;
+    private Long comment_count;
     private Date created_at;
     private Date updated_at;
 
@@ -79,11 +79,11 @@ public class PostModel{
         this.image_url = image_url;
     }
 
-    public int getComment_count() {
+    public Long getComment_count() {
         return comment_count;
     }
 
-    public void setComment_count(int comment_count) {
+    public void setComment_count(Long comment_count) {
         this.comment_count = comment_count;
     }
 

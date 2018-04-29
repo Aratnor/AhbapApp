@@ -38,10 +38,12 @@ import butterknife.OnClick;
 
 public class NewCommentFragment extends Fragment {
 
+    private static final String TAG = "NewCommentFragment";
     @BindView(R.id.new_comment_edit_text)
     EditText commentEditText;
 
     private CommentModel comment = new CommentModel();
+    private FirebaseFirestore mFirestore;
     private String postId;
 
     public NewCommentFragment()
@@ -55,7 +57,7 @@ public class NewCommentFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_comment, container, false);
         ButterKnife.bind(this,view);
-
+        mFirestore = FirebaseFirestore.getInstance();
         getPostId();
         return view;
     }
@@ -102,9 +104,20 @@ public class NewCommentFragment extends Fragment {
 
 
     private void addCommentFirestore() {
-        final FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
         CollectionReference collectionRef = mFirestore.collection("posts").document(postId)
                 .collection("comments");
+
+        collectionRef.add(comment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                afterSendAction();
+                sendNotification();
+                updateCommentCount();
+            }
+        });
+    }
+
+    private void sendNotification() {
         final Map<String,Object> notification = new HashMap<>();
         SharedPreferences sharedPref = getActivity()
                 .getSharedPreferences("com.example.pasta.ahbapapp", Context.MODE_PRIVATE);
@@ -128,14 +141,6 @@ public class NewCommentFragment extends Fragment {
 
             }
         });
-
-
-        collectionRef.add(comment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                afterSendAction();
-            }
-        });
     }
 
     private void afterSendAction() {
@@ -144,5 +149,22 @@ public class NewCommentFragment extends Fragment {
         InputMethodManager inputManager =
                 (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(commentEditText.getWindowToken(),0);
+    }
+
+    private void updateCommentCount() {
+        final DocumentReference postRef = mFirestore.collection("posts").document(postId);
+        postRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot snapshot) {
+                Long commentCount = (Long) snapshot.get("comment_count");
+                postRef.update("comment_count", ++commentCount).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "updateComment successful");
+                    }
+                });
+            }
+        });
+
     }
 }

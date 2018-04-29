@@ -118,7 +118,7 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
         post.setCity(city);
         post.setCategory(category);
         post.setImage_url(imageUrl);
-        post.setComment_count(0);
+        post.setComment_count(0l);
         post.setCreated_at(new Date());
         post.setUpdated_at(new Date());
 
