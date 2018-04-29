@@ -21,7 +21,7 @@
         android:id="@+id/randomPosts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="58dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_gravity="bottom|start"
         android:text="RandomPosts"/>
@@ -30,7 +30,7 @@
         android:id="@+id/addFloatingBtn"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="54dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="16dp"
         android:clickable="true"
         android:focusable="true"
