@@ -81,8 +81,6 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
         @BindView(R.id.textViewCatTag)
         TextView catHashTag;
 
-        Context activityContext;
-
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -134,6 +132,7 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
                 postImage.setVisibility(View.GONE);
             }
 
+            commentCount.setText(String.valueOf(postModel.getComment_count()));
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

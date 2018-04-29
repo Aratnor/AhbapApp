@@ -32,16 +32,6 @@ import id.zelory.compressor.Compressor;
 
 public class NewPostPresenter implements NewPostContract.NewPostPresenter {
 
-    private static final String AUTHOR_ID = "author_id";
-    private static final String AUTHOR_NAME = "author_name";
-    private static final String AUTHOR_IMAGE = "author_image";
-    private static final String CONTENT = "content";
-    private static final String CITY = "city";
-    private static final String CATEGORY = "category";
-    private static final String IMAGE_URL = "image_url";
-    private static final String CREATED_AT = "created_at";
-    private static final String UPDATED_AT = "updated_at";
-
     private NewPostContract.NewPostView mView;
     private PostModel post;
     private String currentUserID;
@@ -128,6 +118,7 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
         post.setCity(city);
         post.setCategory(category);
         post.setImage_url(imageUrl);
+        post.setComment_count(0);
         post.setCreated_at(new Date());
         post.setUpdated_at(new Date());
 

@@ -15,22 +15,13 @@ public class PostModel{
     private String category;
     private String content;
     private String image_url;
+    private int comment_count;
     private Date created_at;
     private Date updated_at;
 
     public PostModel() {
     }
 
-    public PostModel(String author_id, String city, String category, String content, String image_url,
-                     Date created_at, Date updated_at) {
-        this.author_id = author_id;
-        this.city = city;
-        this.category = category;
-        this.content = content;
-        this.image_url = image_url;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
 
     public String getAuthor_id() {
         return author_id;
@@ -86,6 +77,14 @@ public class PostModel{
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+    public int getComment_count() {
+        return comment_count;
+    }
+
+    public void setComment_count(int comment_count) {
+        this.comment_count = comment_count;
     }
 
     public Date getCreated_at() {
