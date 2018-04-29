@@ -6,12 +6,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.account.AccountActivity;
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.notificationlist.NotificationFragment;
@@ -27,12 +36,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity{
 
     @BindView(R.id.mainBottomNav)
     BottomNavigationViewEx mainBottomNav;
 
+    @BindView(R.id.main_toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+
+    TextView nav_header_name;
+
+    TextView nav_header_email;
+
+    CircleImageView nav_header_image;
 
     private static final String TAG = "MainActivity";
     public static final String USER_ID = "userID";
@@ -50,6 +74,19 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.profileNavView :
+                        startAccountActivity();
+                        mDrawerLayout.closeDrawers();
+                }
+                return false;
+            }
+        });
+
+
         mAuth = FirebaseAuth.getInstance();
 
         if(mAuth.getCurrentUser() != null) {
@@ -59,8 +96,21 @@ public class MainActivity extends AppCompatActivity{
             mNotificationFragment = new NotificationFragment();
             initFragment();
             initBottomNav();
+            initToolBar();
+            setNavHeaderData();
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override protected void onStart() {
         super.onStart();
@@ -84,6 +134,13 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
     }
 
+    private void initToolBar() {
+        setSupportActionBar(toolbar);
+
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
+    }
     private void initBottomNav(){
         mainBottomNav.enableAnimation(false);
         mainBottomNav.enableItemShiftingMode(false);
@@ -98,9 +155,6 @@ public class MainActivity extends AppCompatActivity{
                     return true;
                     case R.id.notificationNav:
                         replaceFragment(mNotificationFragment);
-                        return true;
-                    case R.id.accountNav:
-                        startAccountActivity();
                         return true;
                 default:
                     return false;
@@ -121,6 +175,35 @@ public class MainActivity extends AppCompatActivity{
                 }
         }});
 
+    }
+
+    private void setNavHeaderData() {
+
+        View header = navigationView.getHeaderView(0);
+
+        nav_header_name = header.findViewById(R.id.nav_header_name);
+        nav_header_email = header.findViewById(R.id.nav_header_email);
+        nav_header_image = header.findViewById(R.id.nav_header_image);
+
+        String image_url;
+        String name;
+        String email;
+
+        SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp"
+                ,Context.MODE_PRIVATE);
+
+        image_url = sharedPref.getString(USER_IMAGE,"");
+
+        if(!image_url.isEmpty())
+        Glide.with(this)
+                .load(image_url)
+                .into(nav_header_image);
+
+        name = sharedPref.getString(USER_NAME,"");
+
+        nav_header_name.setText(name);
+
+        nav_header_email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
     }
 
     private void setUserDataSharedPref() {

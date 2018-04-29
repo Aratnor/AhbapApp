@@ -14,8 +14,4 @@
         android:id="@+id/messageNav"
         android:icon="@drawable/ic_mail_white_24dp"
         android:title="@string/messages" />
-    <item
-        android:id="@+id/accountNav"
-        android:icon="@drawable/ic_person_white_24dp"
-        android:title="@string/account" />
 </menu>
