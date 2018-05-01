@@ -13,6 +13,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/logo" />
 
     <TextView
@@ -22,7 +23,7 @@
         android:layout_toEndOf="@+id/notification_user_image"
         android:layout_marginStart="8dp"
         android:layout_alignTop="@+id/notification_user_image"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="TextView" />
 
     <de.hdodenhof.circleimageview.CircleImageView

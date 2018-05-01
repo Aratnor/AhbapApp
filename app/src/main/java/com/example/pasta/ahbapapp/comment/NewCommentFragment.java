@@ -134,7 +134,7 @@ public class NewCommentFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if(task.isSuccessful()) {
-                            Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Notification sent");
                         }
                     }
                 });
