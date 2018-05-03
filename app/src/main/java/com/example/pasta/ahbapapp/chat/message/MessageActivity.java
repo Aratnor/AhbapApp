@@ -13,8 +13,12 @@ import android.widget.ImageButton;
 
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -51,7 +55,25 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.messageButton :
                 if(!currentUserId.isEmpty()) {
-                    db.collection("message").document(currentUserId).collection(messageUserId)
+                    String context = message.getText().toString();
+                    Date timeStamp = new Date();
+                    HashMap<String,Object> map = new HashMap<>();
+                    map.put("message",context);
+                    map.put("timeStamp",timeStamp);
+                    map.put("sender",true);
+                    db.collection("message").document(currentUserId).collection(messageUserId).add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.i(TAG,"Message successfully added to currentUser Database");
+                        }
+                    });
+                    map.put("sender",false);
+                    db.collection("message").document(messageUserId).collection(currentUserId).add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.i(TAG,"Message succesfully added to messageUser Database");
+                        }
+                    });
                 }
                 else {
                     Log.i(TAG,"userid is null from sharedPref");
