@@ -3,6 +3,8 @@ package com.example.pasta.ahbapapp.login;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
+import com.example.pasta.ahbapapp.MainActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -25,6 +27,8 @@ class LoginPresenter implements LoginContract.Presenter{
     private FirebaseAuth mAuth;
     private LoginContract.View mView;
     private FirebaseFirestore db;
+
+    private String token_id;
 
     LoginPresenter(LoginContract.View mView){
         this.mView = mView;
@@ -62,11 +66,11 @@ class LoginPresenter implements LoginContract.Presenter{
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-
                         if (document.exists()) {
-                            userRef.update("token_id", FirebaseInstanceId.getInstance().getToken()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            userRef.update("token_id", token_id).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+                                    Log.i("Toke_id is",token_id);
                                     mView.updateUI();
                                 }
                             });
@@ -107,5 +111,8 @@ class LoginPresenter implements LoginContract.Presenter{
 
                 }
             });
+    }
+    public void getTokenID(String token_id) {
+        this.token_id = token_id;
     }
 }

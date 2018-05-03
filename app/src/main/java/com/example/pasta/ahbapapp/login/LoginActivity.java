@@ -1,7 +1,9 @@
 package com.example.pasta.ahbapapp.login;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,6 +84,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp"
+                        , Context.MODE_PRIVATE);
+                presenter.getTokenID(sharedPref.getString("token_id",""));
                 presenter.logInWithFirebase(account);
             } catch (ApiException e) {
 
