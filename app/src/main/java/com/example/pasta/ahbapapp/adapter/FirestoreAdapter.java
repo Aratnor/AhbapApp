@@ -90,31 +90,32 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
             return;
         }
         // Dispatch the event
-        for (DocumentChange change : queryDocumentSnapshots.getDocumentChanges()) {
-            // Snapshot of the changed document
-            Log.d(TAG, "OnEvent");
+        if (queryDocumentSnapshots != null)
+            for (DocumentChange change : queryDocumentSnapshots.getDocumentChanges()) {
+                // Snapshot of the changed document
+                Log.d(TAG, "OnEvent");
 
-            if (isFirstLoaded) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    Log.d(TAG, "firsPageLoaded");
-                    lastVisible = queryDocumentSnapshots.getDocuments()
-                            .get(queryDocumentSnapshots.size() - 1);
+                if (isFirstLoaded) {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        Log.d(TAG, "firsPageLoaded");
+                        lastVisible = queryDocumentSnapshots.getDocuments()
+                                .get(queryDocumentSnapshots.size() - 1);
+                    }
+                }
+
+                DocumentSnapshot snapshot = change.getDocument();
+                switch (change.getType()) {
+                    case ADDED:
+                        onDocumentAdded(change);
+                        break;
+                    case MODIFIED:
+                        onDocumentModified(change);
+                        break;
+                    case REMOVED:
+                        onDocumentRemoved(change);
+                        break;
                 }
             }
-
-            DocumentSnapshot snapshot = change.getDocument();
-            switch (change.getType()) {
-                case ADDED:
-                    onDocumentAdded(change);
-                    break;
-                case MODIFIED:
-                    onDocumentModified(change);
-                    break;
-                case REMOVED:
-                    onDocumentRemoved(change);
-                    break;
-            }
-        }
         isFirstLoaded = false;
         onDataChanged();
     }
@@ -151,17 +152,18 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
         query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot queryDocumentSnapshots, FirebaseFirestoreException e) {
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    lastVisible = queryDocumentSnapshots.getDocuments()
-                            .get(queryDocumentSnapshots.size() - 1);
-                    for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
-                        if (doc.getType() == DocumentChange.Type.ADDED) {
-                            mSnapshots.add(getItemCount(),doc.getDocument());
-                            notifyItemInserted(getItemCount());
-                            Log.d(TAG, "loadMore");
+                if(queryDocumentSnapshots != null)
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        lastVisible = queryDocumentSnapshots.getDocuments()
+                                .get(queryDocumentSnapshots.size() - 1);
+                        for (DocumentChange doc : queryDocumentSnapshots.getDocumentChanges()) {
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
+                                mSnapshots.add(getItemCount(),doc.getDocument());
+                                notifyItemInserted(getItemCount());
+                                Log.d(TAG, "loadMore");
+                            }
                         }
                     }
-                }
             }
         });
     }

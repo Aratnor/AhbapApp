@@ -81,11 +81,13 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.profileNavView :
                         startAccountActivity();
                         mDrawerLayout.closeDrawers();
+                        return true;
                     case R.id.logOutNavView:
                         logOut();
                         mDrawerLayout.closeDrawers();
+                        return true;
+                    default: return false;
                 }
-                return false;
             }
         });
 
@@ -259,5 +261,6 @@ public class MainActivity extends AppCompatActivity{
         mAuth.signOut();
         mGoogleSignInClient.signOut();
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        finish();
     }
 }
