@@ -1,7 +1,6 @@
 package com.example.pasta.ahbapapp.adapter;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -127,7 +125,8 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             dialogImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogFragment postDialogFragment = new PostDialogFragment();
+                    PostDialogFragment postDialogFragment = new PostDialogFragment();
+                    postDialogFragment.setUserID(postModel.getAuthor_id());
                     postDialogFragment.show(activity.getFragmentManager(), "postDialog" );
                 }
             });
