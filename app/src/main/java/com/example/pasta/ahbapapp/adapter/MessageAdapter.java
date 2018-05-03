@@ -40,7 +40,7 @@ public class MessageAdapter extends FirestoreAdapter<MessageAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.message)
+        @BindView(R.id.message_list)
         TextView message;
         @BindView(R.id.message_date)
         TextView messageDate;
