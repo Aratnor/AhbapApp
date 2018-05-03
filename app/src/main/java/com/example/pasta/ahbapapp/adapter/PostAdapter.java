@@ -1,18 +1,16 @@
 package com.example.pasta.ahbapapp.adapter;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -20,10 +18,11 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.account.AccountActivity;
 import com.example.pasta.ahbapapp.model.PostModel;
+import com.example.pasta.ahbapapp.postlist.PostDialogFragment;
 import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,10 +40,16 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
     }
 
     private OnPostSelectedListener mListener;
-
+    private Activity activity;
 
     public PostAdapter(Query query, OnPostSelectedListener mListener) {
         super(query);
+        this.mListener = mListener;
+    }
+
+    public PostAdapter(Query query, OnPostSelectedListener mListener, Activity activity) {
+        super(query);
+        this.activity = activity;
         this.mListener = mListener;
     }
 
@@ -80,6 +85,8 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
         TextView cityHashTag;
         @BindView(R.id.textViewCatTag)
         TextView catHashTag;
+        @BindView(R.id.dialog_image)
+        ImageView dialogImage;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -117,6 +124,13 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
             postContent.setText(postModel.getContent());
             cityHashTag.setText(String.format("#%s", postModel.getCity().toLowerCase()));
             catHashTag.setText(String.format("#%s", postModel.getCategory().toLowerCase()));
+            dialogImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DialogFragment postDialogFragment = new PostDialogFragment();
+                    postDialogFragment.show(activity.getFragmentManager(), "postDialog" );
+                }
+            });
             String postImageUrl = postModel.getImage_url();
             if (postImageUrl == null || !postImageUrl.isEmpty()){
                 postImage.setVisibility(View.VISIBLE);

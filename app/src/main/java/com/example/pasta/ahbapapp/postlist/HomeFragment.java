@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
             Log.d(TAG, "No query, not initializing RecyclerView");
         }
         Query firstQuery = mQuery.limit(LIMIT);
-        mAdapter = new PostAdapter(firstQuery,this);
+        mAdapter = new PostAdapter(firstQuery,this, getActivity());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()
                 , LinearLayoutManager.VERTICAL, false);
