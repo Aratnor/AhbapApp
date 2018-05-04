@@ -12,7 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.MessageAdapter;
@@ -30,6 +32,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageActivity extends AppCompatActivity {
     @BindView(R.id.message)
@@ -38,7 +41,10 @@ public class MessageActivity extends AppCompatActivity {
     ImageButton messageButton;
     @BindView(R.id.messageList)
     RecyclerView mMessageRecycler;
-
+    @BindView(R.id.message_toolbar_image)
+    CircleImageView message_toolbar_image;
+    @BindView(R.id.message_toolbar_name)
+    TextView message_toolbar_name;
     private final String TAG = "MEssageActivity";
     private final int LIMIT = 5;
 
@@ -65,8 +71,26 @@ public class MessageActivity extends AppCompatActivity {
         currentUserId = sharedPreferences.getString(MainActivity.USER_ID,"");
         initQuery();
         initRecyclerView();
+        setToolBar();
     }
 
+    private void setToolBar() {
+        String imageUrl = sharedPreferences.getString(MainActivity.USER_IMAGE,"");
+        String name = sharedPreferences.getString(MainActivity.USER_NAME,"");
+        if(!imageUrl.isEmpty())
+        Glide.with(this)
+                .load(imageUrl)
+                .into(message_toolbar_image);
+        else {
+            Log.i(TAG,"image url empty");
+        }
+        if(!name.isEmpty()) {
+            message_toolbar_name.setText(name);
+        }
+        else {
+            Log.i(TAG,"name text empty");
+        }
+    }
 
     private void initRecyclerView(){
         if (mQuery == null){
