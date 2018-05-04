@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +15,13 @@ import android.widget.ImageButton;
 
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
+import com.example.pasta.ahbapapp.adapter.MessageAdapter;
+import com.example.pasta.ahbapapp.adapter.PostAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -31,8 +36,14 @@ public class MessageActivity extends AppCompatActivity {
     EditText message;
     @BindView(R.id.messageButton)
     ImageButton messageButton;
+    @BindView(R.id.message_list)
+    RecyclerView mMessageRecycler;
 
     private final String TAG = "MEssageActivity";
+    private final int LIMIT = 5;
+
+    private MessageAdapter mAdapter;
+    private Query mQuery;
 
     private String messageUserId;
     private String currentUserId;
@@ -52,9 +63,44 @@ public class MessageActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("com.example.pasta.ahbapapp"
                 , Context.MODE_PRIVATE);
         currentUserId = sharedPreferences.getString(MainActivity.USER_ID,"");
+        initQuery();
+        initRecyclerView();
     }
 
 
+    private void initRecyclerView(){
+        if (mQuery == null){
+            Log.d(TAG, "No query, not initializing RecyclerView");
+        }
+        Query firstQuery = mQuery.limit(LIMIT);
+        mAdapter = new MessageAdapter(firstQuery);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this
+                , LinearLayoutManager.VERTICAL, false);
+        mMessageRecycler.setLayoutManager(layoutManager);
+        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration
+                (mMessageRecycler.getContext(),layoutManager.getOrientation());
+        mMessageRecycler.addItemDecoration(mDividerItemDecoration);
+        mMessageRecycler.setAdapter(mAdapter);
+        mMessageRecycler.setItemViewCacheSize(30);
+
+        mMessageRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Boolean topReached = !recyclerView.canScrollVertically(-1);
+                if (topReached){
+                    Query moreQ = mQuery.startAfter(mAdapter.getLastVisible()).limit(LIMIT);
+                    mAdapter.loadMore(moreQ);
+                }
+            }
+        });
+        mAdapter.startListening();
+    }
+
+    public void initQuery() {
+        mQuery = db.collection("message").document(currentUserId).collection(messageUserId).orderBy("timeStamp",Query.Direction.DESCENDING);
+    }
 
     @OnClick(R.id.messageButton)
     public void sendMessage() {

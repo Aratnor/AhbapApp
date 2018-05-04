@@ -68,6 +68,7 @@ public class ChatListFragment extends Fragment implements ChatAdapter.OnChatSele
     private void initFirestore() {
         FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
 
+
         mQuery = mFirestore.collection("chat").document(currentUserID).collection("chats")
                 .orderBy("updated_at", Query.Direction.DESCENDING);
     }
