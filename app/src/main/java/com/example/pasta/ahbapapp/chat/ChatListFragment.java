@@ -51,9 +51,9 @@ public class ChatListFragment extends Fragment implements ChatAdapter.OnChatSele
         ButterKnife.bind(this,view);
 
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
+            currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
             initFirestore();
             initRecyclerView();
-            currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
         return view;
     }
