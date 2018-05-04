@@ -60,7 +60,7 @@ public class MessageAdapter extends FirestoreAdapter<MessageAdapter.ViewHolder> 
 
             if(messageSnapshot.getSender()){
                 message.setBackgroundColor(Color.parseColor("#FF03A9F4"));
-                messageLayout.setGravity(Gravity.END);
+                messageLayout.setGravity(Gravity.RIGHT);
             }
             else {
                 message.setBackgroundColor(Color.parseColor("#FFFFFFFF"));

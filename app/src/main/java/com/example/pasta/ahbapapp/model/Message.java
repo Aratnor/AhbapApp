@@ -7,6 +7,8 @@ public class Message {
     private Date timeStamp;
     private boolean sender;
 
+    public Message() {}
+
     public Message(String message, Date timeStamp, boolean isSender) {
         this.message = message;
         this.timeStamp = timeStamp;

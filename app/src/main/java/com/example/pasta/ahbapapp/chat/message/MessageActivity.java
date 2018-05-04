@@ -36,7 +36,7 @@ public class MessageActivity extends AppCompatActivity {
     EditText message;
     @BindView(R.id.messageButton)
     ImageButton messageButton;
-    @BindView(R.id.message_list)
+    @BindView(R.id.messageList)
     RecyclerView mMessageRecycler;
 
     private final String TAG = "MEssageActivity";
