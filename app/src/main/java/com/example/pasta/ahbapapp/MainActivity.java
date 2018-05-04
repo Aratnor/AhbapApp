@@ -19,9 +19,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.account.AccountActivity;
+import com.example.pasta.ahbapapp.chat.ChatListFragment;
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.notificationlist.NotificationFragment;
 import com.example.pasta.ahbapapp.postlist.HomeFragment;
@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity{
     DrawerLayout mDrawerLayout;
 
     TextView nav_header_name;
-
     TextView nav_header_email;
-
     CircleImageView nav_header_image;
 
     private static final String TAG = "MainActivity";
@@ -65,6 +63,7 @@ public class MainActivity extends AppCompatActivity{
     private GoogleSignInClient mGoogleSignInClient;
     private HomeFragment mHomeFragment;
     private NotificationFragment mNotificationFragment;
+    private ChatListFragment mChatListFragment;
     private FirebaseAuth mAuth;
 
 
@@ -99,6 +98,7 @@ public class MainActivity extends AppCompatActivity{
             //Fragments
             mHomeFragment = new HomeFragment();
             mNotificationFragment = new NotificationFragment();
+            mChatListFragment = new ChatListFragment();
             initFragment();
             initBottomNav();
             initToolBar();
@@ -155,14 +155,16 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                case R.id.homeNav:
-                    replaceFragment(mHomeFragment);
-                    return true;
+                    case R.id.homeNav:
+                        replaceFragment(mHomeFragment);
+                        return true;
                     case R.id.notificationNav:
                         replaceFragment(mNotificationFragment);
                         return true;
-                default:
-                    return false;
+                    case R.id.messageNav:
+                        replaceFragment(mChatListFragment);
+                        return true;
+                    default:return false;
                 }
             }
         });
@@ -177,6 +179,10 @@ public class MainActivity extends AppCompatActivity{
                     case R.id.notificationNav:
                         mNotificationFragment.scrollTop();
                         break;
+                    case R.id.messageNav:
+                        mChatListFragment.scrollTop();
+                        break;
+                    default:break;
                 }
         }});
 

@@ -12,11 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.NotificationAdapter;
-import com.example.pasta.ahbapapp.adapter.PostAdapter;
 import com.example.pasta.ahbapapp.postdetail.PostDetailActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,7 +33,6 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
     @BindView(R.id.notification_list_recycler)
     RecyclerView mNotificationRecycler;
 
-    private FirebaseFirestore mFirestore;
     private Query mQuery;
     private NotificationAdapter mAdapter;
     private String currentUser_id;
@@ -66,9 +62,8 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
     }
 
     private void initFirestore() {
-        mFirestore = FirebaseFirestore.getInstance();
+        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
 
-        // Get the 50 highest rated restaurants
         mQuery = mFirestore.collection("users/" + currentUser_id + "/Notifications/").orderBy("created_at", Query.Direction.DESCENDING);
     }
 
@@ -82,7 +77,6 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         if (mQuery == null){
             Log.d(TAG, "No query, not initializing RecyclerView");
         }
-        Query firstQuery = mQuery.limit(LIMIT);
         mAdapter = new NotificationAdapter(mQuery.limit(LIMIT),this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()
