@@ -22,7 +22,9 @@
         android:layout_toEndOf="@id/message"
         android:id="@+id/messageList"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:scrollbars="vertical"
+        android:layout_above="@id/message"/>
 
     <EditText
         android:id="@+id/message"

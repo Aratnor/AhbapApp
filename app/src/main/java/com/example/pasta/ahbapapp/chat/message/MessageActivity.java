@@ -18,6 +18,7 @@ import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.MessageAdapter;
 import com.example.pasta.ahbapapp.adapter.PostAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -40,7 +41,7 @@ public class MessageActivity extends AppCompatActivity {
     RecyclerView mMessageRecycler;
 
     private final String TAG = "MEssageActivity";
-    private final int LIMIT = 5;
+    private final int LIMIT = 15;
 
     private MessageAdapter mAdapter;
     private Query mQuery;
@@ -73,14 +74,19 @@ public class MessageActivity extends AppCompatActivity {
             Log.d(TAG, "No query, not initializing RecyclerView");
         }
         Query firstQuery = mQuery.limit(LIMIT);
-        mAdapter = new MessageAdapter(firstQuery);
+        mAdapter = new MessageAdapter(firstQuery){
+            @Override
+            protected void onDocumentAdded(DocumentChange change) {
+                super.onDocumentAdded(change);
+                mMessageRecycler.scrollToPosition(0);
+            }
+        };
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this
-                , LinearLayoutManager.VERTICAL, false);
+                , LinearLayoutManager.VERTICAL, true);
         mMessageRecycler.setLayoutManager(layoutManager);
         mMessageRecycler.setAdapter(mAdapter);
-        mMessageRecycler.setItemViewCacheSize(30);
-
+        mMessageRecycler.setHasFixedSize(true);
         mMessageRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -96,7 +102,8 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     public void initQuery() {
-        mQuery = db.collection("message").document(currentUserId).collection(messageUserId).orderBy("timeStamp",Query.Direction.DESCENDING);
+        mQuery = db.collection("message").document(currentUserId).collection(messageUserId)
+                .orderBy("timeStamp",Query.Direction.DESCENDING);
     }
 
     @OnClick(R.id.messageButton)
