@@ -78,7 +78,8 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             protected void onDocumentAdded(DocumentChange change) {
                 super.onDocumentAdded(change);
-                mMessageRecycler.scrollToPosition(0);
+                if ((boolean)change.getDocument().get("sender"))
+                    mMessageRecycler.scrollToPosition(0);
             }
         };
 
