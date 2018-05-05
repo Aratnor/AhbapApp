@@ -127,6 +127,7 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
                 public void onClick(View v) {
                     PostDialogFragment postDialogFragment = new PostDialogFragment();
                     postDialogFragment.setUserID(postModel.getAuthor_id());
+                    postDialogFragment.setPostID(snapshot.getReference().getId());
                     postDialogFragment.show(activity.getFragmentManager(), "postDialog" );
                 }
             });

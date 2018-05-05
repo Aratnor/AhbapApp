@@ -84,6 +84,8 @@ public class DrawerLayoutHelper {
                         logOut();
                         mDrawerLayout.closeDrawers();
                         return true;
+                    case R.id.bookmarkNavView:
+
                     default: return false;
                 }
             }

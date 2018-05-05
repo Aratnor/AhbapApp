@@ -8,8 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.chat.message.MessageActivity;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by pasta on 3.05.2018.
@@ -19,6 +24,8 @@ public class PostDialogFragment extends DialogFragment {
 
     private static final String TAG ="PostDialogFragment" ;
     private String userID;
+    private String postID;
+    private FirebaseFirestore db;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -34,7 +41,7 @@ public class PostDialogFragment extends DialogFragment {
                         startActivity(intent);
                         break;
                     case 1:
-                        Log.d(TAG, "1 item clicked");
+                        addBookMark();
                         break;
                     default: break;
                 }
@@ -43,6 +50,14 @@ public class PostDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    public void addBookMark() {
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("post_id",postID);
+        map.put("bookmarked_date",new Date());
+        db.collection("users").document(userID).collection("bookmarks").add(map);
+    }
+
+    public void setPostID(String postID) {this.postID = postID;}
     public void setUserID(String userID){
         this.userID = userID;
     }

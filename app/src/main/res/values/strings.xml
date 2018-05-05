@@ -39,5 +39,6 @@
     <string name="comments">Yorumlar</string>
     <string name="message">message</string>
     <string name="messageHint">Mesajınızı girin...</string>
+    <string name="bookmarks">Takip Edilenler</string>
 
 </resources>

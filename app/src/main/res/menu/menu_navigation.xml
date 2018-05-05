@@ -10,4 +10,7 @@
     <item
         android:id="@+id/logOutNavView"
         android:title="@string/logout" />
+    <item
+        android:id="@+id/bookmarkNavView"
+        android:title="@string/bookmarks" />
 </menu>
