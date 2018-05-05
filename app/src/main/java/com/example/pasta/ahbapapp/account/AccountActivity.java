@@ -2,6 +2,7 @@ package com.example.pasta.ahbapapp.account;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
+import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.PostAdapter;
 import com.example.pasta.ahbapapp.chat.message.MessageActivity;
@@ -48,7 +50,9 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
 
     private FirebaseFirestore mFirestore;
     private PostAdapter mAdapter;
+
     String user_id;
+    String user_name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
         setContentView(R.layout.activity_account);
 
         ButterKnife.bind(this);
+
 
         mFirestore = FirebaseFirestore.getInstance();
         user_id = getIntent().getExtras().getString("user_id");
@@ -108,7 +113,7 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
                 if (scrollRange + verticalOffset < 100) {
                     isShow = true;
                     //TODO set title to username
-                    collapsingToolbarLayout.setTitle("Mehmet Ali Ocak");
+                    collapsingToolbarLayout.setTitle(user_name);
                 } else if (isShow) {
                     isShow = false;
                     collapsingToolbarLayout.setTitle("");
@@ -149,7 +154,8 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
                 Glide.with(userImage.getContext())
                         .load(documentSnapshot.get("image_url"))
                         .into(userImage);
-                userName.setText(documentSnapshot.get("name").toString());
+                user_name = documentSnapshot.get("name").toString().toUpperCase();
+                userName.setText(user_name);
             }
         });
     }
@@ -159,7 +165,7 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
                 .whereEqualTo("author_id", id)
                 .orderBy("created_at", Query.Direction.DESCENDING);
 
-        mAdapter = new PostAdapter(mQuery, this);
+        mAdapter = new PostAdapter(mQuery, this,AccountActivity.this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext()
                 , LinearLayoutManager.VERTICAL, false);
