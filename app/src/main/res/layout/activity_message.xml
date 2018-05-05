@@ -13,7 +13,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".chat.message.MessageActivity">
+    tools:context=".chat.message.MessageActivity"
+    android:background="@color/colorGrey">
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/main_appbar"
         android:layout_width="match_parent"
