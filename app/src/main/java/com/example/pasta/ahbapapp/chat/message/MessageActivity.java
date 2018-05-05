@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -45,6 +47,9 @@ public class MessageActivity extends AppCompatActivity {
     CircleImageView message_toolbar_image;
     @BindView(R.id.message_toolbar_name)
     TextView message_toolbar_name;
+    @BindView(R.id.message_toolbar)
+    Toolbar message_toolbar;
+
     private final String TAG = "MEssageActivity";
     private final int LIMIT = 5;
 
@@ -75,6 +80,10 @@ public class MessageActivity extends AppCompatActivity {
     }
 
     private void setToolBar() {
+        setSupportActionBar(message_toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         String imageUrl = sharedPreferences.getString(MainActivity.USER_IMAGE,"");
         String name = sharedPreferences.getString(MainActivity.USER_NAME,"");
         if(!imageUrl.isEmpty())
@@ -90,6 +99,12 @@ public class MessageActivity extends AppCompatActivity {
         else {
             Log.i(TAG,"name text empty");
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void initRecyclerView(){
