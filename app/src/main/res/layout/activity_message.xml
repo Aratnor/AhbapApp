@@ -41,31 +41,45 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_toEndOf="@id/message"
         android:id="@+id/messageList"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:scrollbars="vertical"
-        android:layout_above="@id/message"/>
-
-    <EditText
-        android:id="@+id/message"
+        android:layout_above="@id/messageSendLayout"/>
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:id="@+id/messageSendLayout"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_toStartOf="@id/messageButton"
-        android:text="Name" />
+        android:background="@color/colorPrimaryDark"
+        android:focusableInTouchMode="true">
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="@color/colorWhiteTransparent"
+            android:textColor="@color/colorWhite"
+            android:maxHeight="150dp"
+            android:hint="@string/messageHint"
+            android:textColorHint="@color/colorWhiteTransparent"
+            android:scrollbars="vertical"/>
 
-    <ImageButton
-        android:id="@+id/messageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:srcCompat="@drawable/ic_send_white_36dp" />
+        <ImageButton
+            android:id="@+id/messageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_send_white_36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>
 

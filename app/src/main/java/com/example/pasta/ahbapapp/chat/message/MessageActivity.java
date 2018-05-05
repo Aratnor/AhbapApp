@@ -201,6 +201,7 @@ public class MessageActivity extends AppCompatActivity {
                     }
                 }
             });
+            message.setText("");
         }
         else {
             Log.i(TAG,"UserID is null from sharedPref");
