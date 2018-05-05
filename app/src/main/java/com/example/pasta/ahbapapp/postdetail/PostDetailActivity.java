@@ -18,6 +18,7 @@ import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.comment.CommentListFragment;
 import com.example.pasta.ahbapapp.comment.NewCommentFragment;
 import com.example.pasta.ahbapapp.model.PostModel;
+import com.example.pasta.ahbapapp.postlist.PostDialogFragment;
 import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,6 +31,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PostDetailActivity extends AppCompatActivity {
 
@@ -57,6 +59,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private DocumentReference mPostDocumentReference;
     private ListenerRegistration mPostRegistration;
+    private String postAuthorID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +102,7 @@ public class PostDetailActivity extends AppCompatActivity {
                 }
 
                 PostModel post = documentSnapshot.toObject(PostModel.class);
-
+                postAuthorID = post.getAuthor_id();
                 Glide.with(userImage.getContext())
                         .load(post.getAuthor_image())
                         .into(userImage);
@@ -148,5 +151,12 @@ public class PostDetailActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.comments_frame_container, commentListFragment);
         fragmentTransaction.add(R.id.new_comment_frame_container, newCommentFragment);
         fragmentTransaction.commit();
+    }
+
+    @OnClick(R.id.dialog_image)
+    protected void dialogBtnClick(){
+        PostDialogFragment postDialogFragment = new PostDialogFragment();
+        postDialogFragment.setUserID(postAuthorID);
+        postDialogFragment.show(getFragmentManager(), "postDialog" );
     }
 }
