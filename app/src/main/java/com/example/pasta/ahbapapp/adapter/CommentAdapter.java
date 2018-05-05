@@ -1,24 +1,23 @@
 package com.example.pasta.ahbapapp.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.R;
+import com.example.pasta.ahbapapp.account.AccountActivity;
+import com.example.pasta.ahbapapp.chat.message.MessageActivity;
 import com.example.pasta.ahbapapp.model.CommentModel;
 import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-
-import java.util.Date;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -57,6 +56,8 @@ public class CommentAdapter extends FirestoreAdapter<CommentAdapter.ViewHolder> 
         TextView commentDate;
         @BindView(R.id.comment_body)
         TextView commentBody;
+        @BindView(R.id.message_image)
+        ImageView messageBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -64,7 +65,7 @@ public class CommentAdapter extends FirestoreAdapter<CommentAdapter.ViewHolder> 
         }
 
         public void bind(DocumentSnapshot snapshot) {
-            CommentModel commentModel = snapshot.toObject(CommentModel.class);
+            final CommentModel commentModel = snapshot.toObject(CommentModel.class);
 
             Glide.with(commentUserImage.getContext())
                     .load(commentModel.getAuthor_image_url())
@@ -72,7 +73,7 @@ public class CommentAdapter extends FirestoreAdapter<CommentAdapter.ViewHolder> 
             commentUserImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "User Image Clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(commentModel.getAuthor_id(), AccountActivity.class);
                 }
             });
 
@@ -80,12 +81,25 @@ public class CommentAdapter extends FirestoreAdapter<CommentAdapter.ViewHolder> 
             commentUserName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "Username Clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(commentModel.getAuthor_id(), AccountActivity.class);
                 }
             });
 
             commentDate.setText(TimeAgo.getTimeAgo(commentModel.getCreated_at()));
             commentBody.setText(commentModel.getComment_body());
+            messageBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), MessageActivity.class);
+                    intent.putExtra("userID" ,commentModel.getAuthor_id());
+                    itemView.getContext().startActivity(intent);                }
+            });
+        }
+
+        private void startActivity(String userID, Class context){
+            Intent intent = new Intent(itemView.getContext(), context);
+            intent.putExtra("user_id" ,userID);
+            itemView.getContext().startActivity(intent);
         }
     }
 }
