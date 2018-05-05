@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.PostAdapter;
+import com.example.pasta.ahbapapp.chat.message.MessageActivity;
 import com.example.pasta.ahbapapp.postdetail.PostDetailActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountActivity extends AppCompatActivity implements PostAdapter.OnPostSelectedListener {
@@ -46,6 +48,7 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
 
     private FirebaseFirestore mFirestore;
     private PostAdapter mAdapter;
+    String user_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
         ButterKnife.bind(this);
 
         mFirestore = FirebaseFirestore.getInstance();
-        String user_id = getIntent().getExtras().getString("user_id");
+        user_id = getIntent().getExtras().getString("user_id");
         initToolbar();
         initAppBar();
         setUser(user_id);
@@ -75,6 +78,12 @@ public class AccountActivity extends AppCompatActivity implements PostAdapter.On
         mAdapter.stopListening();
     }
 
+    @OnClick(R.id.account_message_button)
+    public void sendMessage() {
+        Intent intent = new Intent(AccountActivity.this, MessageActivity.class);
+        intent.putExtra("userID",user_id);
+        startActivity(intent);
+    }
 
     private void initToolbar(){
         setSupportActionBar(mToolbar);
