@@ -2,6 +2,8 @@ package com.example.pasta.ahbapapp.chat.message;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.adapter.MessageAdapter;
+import com.example.pasta.ahbapapp.util.DrawerLayoutHelper;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -41,6 +44,10 @@ public class MessageActivity extends AppCompatActivity {
     TextView message_toolbar_name;
     @BindView(R.id.message_toolbar)
     Toolbar message_toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView nNavView;
 
     private final String TAG = "MEssageActivity";
     private final int LIMIT = 15;
@@ -69,6 +76,13 @@ public class MessageActivity extends AppCompatActivity {
         initQuery();
         initRecyclerView();
         setToolBar();
+        initDrawerLayout();
+    }
+
+    private void initDrawerLayout() {
+        DrawerLayoutHelper helper = new DrawerLayoutHelper(nNavView,this);
+        helper.setNavigationViewListener(mDrawerLayout);
+        helper.setNavHeaderData();
     }
 
     private void setToolBar() {

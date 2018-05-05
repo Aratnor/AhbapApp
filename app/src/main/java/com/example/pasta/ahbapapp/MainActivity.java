@@ -25,6 +25,7 @@ import com.example.pasta.ahbapapp.chat.ChatListFragment;
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.example.pasta.ahbapapp.notificationlist.NotificationFragment;
 import com.example.pasta.ahbapapp.postlist.HomeFragment;
+import com.example.pasta.ahbapapp.util.DrawerLayoutHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -52,43 +53,22 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 
-    TextView nav_header_name;
-    TextView nav_header_email;
-    CircleImageView nav_header_image;
-
     private static final String TAG = "MainActivity";
     public static final String USER_ID = "userID";
-    public static final String USER_NAME = "userName";
-    public static final String USER_IMAGE = "userImage";
-    private GoogleSignInClient mGoogleSignInClient;
+    public static final String USER_NAME = "name";
+    public static final String USER_IMAGE = "image_url";
+    public static final String USER_EMAIL = "email";
     private HomeFragment mHomeFragment;
     private NotificationFragment mNotificationFragment;
     private ChatListFragment mChatListFragment;
-    private FirebaseAuth mAuth;
 
+    private FirebaseAuth mAuth;
 
     @SuppressLint("RestrictedApi")
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.profileNavView :
-                        startAccountActivity();
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    case R.id.logOutNavView:
-                        logOut();
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    default: return false;
-                }
-            }
-        });
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -102,7 +82,9 @@ public class MainActivity extends AppCompatActivity{
             initFragment();
             initBottomNav();
             initToolBar();
-            setNavHeaderData();
+            DrawerLayoutHelper drawerLayoutHelper = new DrawerLayoutHelper(navigationView,MainActivity.this);
+            drawerLayoutHelper.setNavHeaderData();
+            drawerLayoutHelper.setNavigationViewListener(mDrawerLayout);
         }
     }
 
@@ -124,7 +106,6 @@ public class MainActivity extends AppCompatActivity{
         if(currentUser == null){
             sendToLogin();
         }
-        initializeGoogleClient();
     }
 
     private void sendToLogin() {
@@ -188,34 +169,6 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    private void setNavHeaderData() {
-
-        View header = navigationView.getHeaderView(0);
-
-        nav_header_name = header.findViewById(R.id.nav_header_name);
-        nav_header_email = header.findViewById(R.id.nav_header_email);
-        nav_header_image = header.findViewById(R.id.nav_header_image);
-
-        String image_url;
-        String name;
-
-        SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp"
-                ,Context.MODE_PRIVATE);
-
-        image_url = sharedPref.getString(USER_IMAGE,"");
-
-        if(!image_url.isEmpty())
-        Glide.with(this)
-                .load(image_url)
-                .into(nav_header_image);
-
-        name = sharedPref.getString(USER_NAME,"");
-
-        nav_header_name.setText(name);
-
-        nav_header_email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-    }
-
     private void setUserDataSharedPref() {
         Log.d(TAG,"setUserDataSharedPref");
         final String currentUserID = mAuth.getCurrentUser().getUid();
@@ -225,8 +178,9 @@ public class MainActivity extends AppCompatActivity{
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                        String name = documentSnapshot.getString("name");
-                        String imageUrl = documentSnapshot.getString("image_url");
+                        String name = documentSnapshot.getString(USER_NAME);
+                        String imageUrl = documentSnapshot.getString(USER_IMAGE);
+                        String email = documentSnapshot.getString(USER_EMAIL);
 
                         SharedPreferences sharedPref = getSharedPreferences("com.example.pasta.ahbapapp"
                                 ,Context.MODE_PRIVATE);
@@ -234,20 +188,11 @@ public class MainActivity extends AppCompatActivity{
                         editor.putString(USER_ID, currentUserID);
                         editor.putString(USER_NAME, name);
                         editor.putString(USER_IMAGE, imageUrl);
+                        editor.putString(USER_EMAIL,email);
                         editor.apply();
                         Log.d(TAG,"setUserDataSharedPref onSuccess");
                     }
                 });
-    }
-
-    private void initializeGoogleClient() {
-        GoogleSignInOptions gso = new GoogleSignInOptions
-                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -256,17 +201,5 @@ public class MainActivity extends AppCompatActivity{
         fragmentTransaction.commit();
     }
 
-    private void startAccountActivity() {
-        String userID = mAuth.getCurrentUser().getUid();
-        Intent intent = new Intent(MainActivity.this, AccountActivity.class);
-        intent.putExtra("user_id", userID);
-        startActivity(intent);
-    }
 
-    private void logOut() {
-        mAuth.signOut();
-        mGoogleSignInClient.signOut();
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        finish();
-    }
 }
