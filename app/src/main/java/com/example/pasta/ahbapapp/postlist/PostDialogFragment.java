@@ -24,8 +24,7 @@ public class PostDialogFragment extends DialogFragment {
 
     private static final String TAG ="PostDialogFragment" ;
     private String userID;
-    private String postID;
-    private FirebaseFirestore db;
+    private String postID = "";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -51,6 +50,7 @@ public class PostDialogFragment extends DialogFragment {
     }
 
     public void addBookMark() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         HashMap<String,Object> map = new HashMap<>();
         map.put("post_id",postID);
         map.put("bookmarked_date",new Date());

@@ -46,7 +46,8 @@
 
         <activity android:name=".postdetail.PostDetailActivity" />
         <activity android:name=".account.AccountActivity" />
-        <activity android:name=".chat.message.MessageActivity"></activity>
+        <activity android:name=".chat.message.MessageActivity" />
+        <activity android:name=".bookmark.BookMarkActivity"></activity>
     </application>
 
 </manifest>

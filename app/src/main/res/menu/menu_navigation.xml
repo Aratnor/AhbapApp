@@ -8,9 +8,9 @@
         android:id="@+id/settingsNavView"
         android:title="@string/settings" />
     <item
-        android:id="@+id/logOutNavView"
-        android:title="@string/logout" />
-    <item
         android:id="@+id/bookmarkNavView"
         android:title="@string/bookmarks" />
+    <item
+        android:id="@+id/logOutNavView"
+        android:title="@string/logout" />
 </menu>

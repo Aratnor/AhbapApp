@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.example.pasta.ahbapapp.MainActivity;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.account.AccountActivity;
+import com.example.pasta.ahbapapp.bookmark.BookMarkActivity;
 import com.example.pasta.ahbapapp.login.LoginActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -85,7 +86,9 @@ public class DrawerLayoutHelper {
                         mDrawerLayout.closeDrawers();
                         return true;
                     case R.id.bookmarkNavView:
-
+                        startBookMarkActivity();
+                        mDrawerLayout.closeDrawers();
+                        return true;
                     default: return false;
                 }
             }
@@ -109,5 +112,9 @@ public class DrawerLayoutHelper {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
+    }
+    private void startBookMarkActivity() {
+        Intent intent = new Intent(context, BookMarkActivity.class);
+        context.startActivity(intent);
     }
 }

@@ -157,6 +157,7 @@ public class PostDetailActivity extends AppCompatActivity {
     protected void dialogBtnClick(){
         PostDialogFragment postDialogFragment = new PostDialogFragment();
         postDialogFragment.setUserID(postAuthorID);
+        postDialogFragment.setPostID(postId);
         postDialogFragment.show(getFragmentManager(), "postDialog" );
     }
 }
