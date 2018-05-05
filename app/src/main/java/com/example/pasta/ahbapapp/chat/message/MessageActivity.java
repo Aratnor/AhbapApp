@@ -78,9 +78,6 @@ public class MessageActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this
                 , LinearLayoutManager.VERTICAL, false);
         mMessageRecycler.setLayoutManager(layoutManager);
-        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration
-                (mMessageRecycler.getContext(),layoutManager.getOrientation());
-        mMessageRecycler.addItemDecoration(mDividerItemDecoration);
         mMessageRecycler.setAdapter(mAdapter);
         mMessageRecycler.setItemViewCacheSize(30);
 
@@ -112,14 +109,16 @@ public class MessageActivity extends AppCompatActivity {
             map.put("message",context);
             map.put("timeStamp",timeStamp);
             map.put("sender",true);
-            db.collection("message").document(currentUserId).collection(messageUserId).add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            db.collection("message").document(currentUserId).collection(messageUserId)
+                    .add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Log.i(TAG,"Message successfully added to currentUser Database");
                 }
             });
             map.put("sender",false);
-            db.collection("message").document(messageUserId).collection(currentUserId).add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            db.collection("message").document(messageUserId).collection(currentUserId)
+                    .add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     Log.i(TAG,"Message successfully added to messageUser Database");

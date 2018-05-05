@@ -1,24 +1,17 @@
 package com.example.pasta.ahbapapp.adapter;
 
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.model.Message;
 import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
-
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -30,8 +23,19 @@ public class MessageAdapter extends FirestoreAdapter<MessageAdapter.ViewHolder> 
     @NonNull
     @Override
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater =LayoutInflater.from(parent.getContext());
-        return new ViewHolder(inflater.inflate(R.layout.message_list_item,parent,false));
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        switch (viewType){
+            case 0: return new ViewHolder(inflater.inflate(R.layout.message_list_sender_item,parent,false));
+            case 1: return new ViewHolder(inflater.inflate(R.layout.message_list_receiver_item,parent,false));
+            default:return new ViewHolder(inflater.inflate(R.layout.message_list_receiver_item,parent,false));
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        boolean sender = (boolean) getSnapshot(position).get("sender");
+        if (sender) return 0;
+        else return 1;
     }
 
     @Override
@@ -43,9 +47,7 @@ public class MessageAdapter extends FirestoreAdapter<MessageAdapter.ViewHolder> 
         @BindView(R.id.message_list)
         TextView message;
         @BindView(R.id.message_date)
-        TextView messageDate;
-        @BindView(R.id.message_layout)
-        LinearLayout messageLayout;
+       TextView messageDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -55,16 +57,18 @@ public class MessageAdapter extends FirestoreAdapter<MessageAdapter.ViewHolder> 
             Message messageSnapshot = snapShot.toObject(Message.class);
 
             message.setText(messageSnapshot.getMessage());
-
             messageDate.setText(TimeAgo.getTimeAgo(messageSnapshot.getTimeStamp()));
-
-            if(messageSnapshot.getSender()){
-                message.setBackgroundColor(Color.parseColor("#FF03A9F4"));
-                messageLayout.setGravity(Gravity.RIGHT);
-            }
-            else {
-                message.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
-            }
+            message.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (messageDate.getVisibility() == View.VISIBLE){
+                        messageDate.setVisibility(View.GONE);
+                    }
+                    else{
+                        messageDate.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
     }
 }
