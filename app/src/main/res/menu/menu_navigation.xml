@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group>
     <item
+        android:icon="@drawable/ic_person_black_24dp"
         android:id="@+id/profileNavView"
         android:title="@string/profile" />
     <item
+        android:icon="@drawable/ic_settings"
         android:id="@+id/settingsNavView"
         android:title="@string/settings" />
     <item
+        android:icon="@drawable/ic_bookmark_black_24dp"
         android:id="@+id/bookmarkNavView"
         android:title="@string/bookmarks" />
     <item
+        android:icon="@drawable/ic_close_black_24dp"
         android:id="@+id/logOutNavView"
         android:title="@string/logout" />
+    </group>
 </menu>
