@@ -1,15 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pasta.ahbapapp.notificationlist.NotificationFragment">
+    android:id="@+id/notification_list_recycler"
+    tools:context="com.example.pasta.ahbapapp.notificationlist.NotificationFragment"/>
 
-
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/notification_list_recycler"
-        android:layout_marginTop="8dp"/>
-
-</RelativeLayout>

@@ -37,20 +37,14 @@ import butterknife.OnItemSelected;
 
 public class HomeFragment extends Fragment implements PostAdapter.OnPostSelectedListener{
 
-    private static final String TAG = "HomeFragment";
-
     @BindView(R.id.postListRecyclerView)
     RecyclerView mPostRecycler;
-    @BindView(R.id.spinnerCity)
-    Spinner spinnerCity;
-    @BindView(R.id.spinnerCat)
-    Spinner spinnerCat;
 
     private FirebaseFirestore mFirestore;
     private Query mQuery;
     private PostAdapter mAdapter;
-    private String currentUser_id;
 
+    private static final String TAG = "HomeFragment";
     private static final int LIMIT = 15;
 
     @Nullable
@@ -63,7 +57,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
         if (FirebaseAuth.getInstance().getCurrentUser() != null){
             initFirestore();
             initRecyclerView();
-            currentUser_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
 
         return view;
@@ -138,41 +131,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostSelected
                     .orderBy("created_at", Query.Direction.DESCENDING);
             mAdapter.setQuery(mQuery.limit(LIMIT));
         }
-    }
-
-    @OnClick(R.id.randomPosts)
-    public void setRandomPosts(){
-
-        FirebaseFirestore mFirestore = FirebaseFirestore.getInstance();
-        CollectionReference posts = mFirestore.collection("posts");
-
-        for (int i = 0; i < 10; i++) {
-            // Get a random Restaurant POJO
-            PostModel post = PostUtil.getRandom(getActivity().getApplicationContext());
-
-            // Add a new document to the restaurants collection
-            posts.add(post);
-        }
-    }
-
-    @OnItemSelected(R.id.spinnerCity)
-    public void spinnerCitySelected(){
-        Log.d(TAG, "spinnerCitySelected" + spinnerCity.getSelectedItem().toString()
-                + spinnerCat.getSelectedItem().toString());
-        setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
-    }
-
-    @OnItemSelected(R.id.spinnerCat)
-    public void spinnerCatSelected(){
-        Log.d(TAG, "spinnerCatSelected" + spinnerCat.getSelectedItem().toString()
-                + spinnerCity.getSelectedItem().toString());
-        setQuery(spinnerCat.getSelectedItem().toString(),spinnerCity.getSelectedItem().toString());
-    }
-
-    @OnClick(R.id.addFloatingBtn)
-    public void sendNewPostActivity(){
-        Intent intent = new Intent(getActivity(), NewPostActivity.class);
-        startActivity(intent);
     }
 
     @Override

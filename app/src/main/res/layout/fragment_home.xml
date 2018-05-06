@@ -1,41 +1,7 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.pasta.ahbapapp.postlist.HomeFragment">
-
-    <include layout="@layout/layout_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_gravity="top"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/postListRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="36dp"
-        android:scrollbars="vertical"/>
-
-    <Button
-        android:id="@+id/randomPosts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_gravity="bottom|start"
-        android:text="RandomPosts"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/addFloatingBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@color/colorPrimary"
-        android:layout_gravity="bottom|end"
-        app:srcCompat="@drawable/ic_add_white_48dp" />
-
-</android.support.design.widget.CoordinatorLayout>
+    android:scrollbars="vertical"
+    android:id="@+id/postListRecyclerView"
+    tools:context="com.example.pasta.ahbapapp.postlist.HomeFragment"/>

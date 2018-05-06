@@ -11,14 +11,34 @@
    <android.support.design.widget.CoordinatorLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent">
-       <include layout="@layout/layout_main_no_spinner_appbar"/>
+       <include layout="@layout/layout_main_spinner_appbar"/>
 
        <FrameLayout
            android:id="@+id/main_frame_container"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           android:layout_marginBottom="50dp"
+           android:layout_marginBottom="48dp"
            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+       <Button
+           android:id="@+id/randomPosts"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="64dp"
+           android:layout_marginStart="8dp"
+           android:layout_gravity="bottom|start"
+           android:text="RandomPosts"/>
+
+       <android.support.design.widget.FloatingActionButton
+           android:id="@+id/addFloatingBtn"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:layout_marginBottom="64dp"
+           android:layout_marginEnd="16dp"
+           android:clickable="true"
+           android:focusable="true"
+           app:backgroundTint="@color/colorPrimary"
+           android:layout_gravity="bottom|end"
+           app:srcCompat="@drawable/ic_add_white_48dp" />
 
        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
            android:id="@+id/mainBottomNav"
@@ -36,7 +56,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/menu_navigation"
-        />
+        app:menu="@menu/menu_navigation" />
 
 </android.support.v4.widget.DrawerLayout>
