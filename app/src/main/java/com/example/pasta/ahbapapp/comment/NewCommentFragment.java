@@ -27,9 +27,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -45,6 +48,8 @@ public class NewCommentFragment extends Fragment {
     private CommentModel comment = new CommentModel();
     private FirebaseFirestore mFirestore;
     private String postId;
+    private String currentID;
+    private String message;
 
     public NewCommentFragment()
     {
@@ -121,24 +126,37 @@ public class NewCommentFragment extends Fragment {
         final Map<String,Object> notification = new HashMap<>();
         SharedPreferences sharedPref = getActivity()
                 .getSharedPreferences("com.example.pasta.ahbapapp", Context.MODE_PRIVATE);
-        notification.put("from",sharedPref.getString(MainActivity.USER_ID, ""));
-        notification.put("message", sharedPref.getString(MainActivity.USER_NAME, "") + " içeriğine yorum ekledi.");
+        currentID = sharedPref.getString(MainActivity.USER_ID, "");
+        message = sharedPref.getString(MainActivity.USER_NAME, "") + " içeriğine yorum ekledi.";
+        notification.put("message", message);
         notification.put("post_id", postId);
         notification.put("created_at",new Date());
-        DocumentReference documentReference = mFirestore.collection("posts").document(postId);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        notification.put("from",currentID);
+        final HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("currentID",currentID);
+        mFirestore.collection("posts").document(postId).collection("user_ids").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                mFirestore.collection("users/"+ documentSnapshot.get("author_id").toString()+"/Notifications")
-                        .add(notification).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if(task.isSuccessful()) {
-                            Log.d(TAG, "Notification sent");
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                if(queryDocumentSnapshots.isEmpty()) {
+                    mFirestore.collection("posts").document(postId).collection("user_ids").add(hashMap);
+                }
+                else {
+                    boolean isAccepted = false;
+                    for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()){
+                        if(currentID.equals(documentSnapshot.get("currentID"))){
+                            isAccepted = true;
+                        }
+                        else {
+
+                            mFirestore.collection("users")
+                                    .document((String) documentSnapshot.get("currentID"))
+                                    .collection("Notifications").add(notification);
                         }
                     }
-                });
-
+                    if (!isAccepted) {
+                        mFirestore.collection("posts").document(postId).collection("user_ids").add(hashMap);
+                    }
+                }
             }
         });
     }

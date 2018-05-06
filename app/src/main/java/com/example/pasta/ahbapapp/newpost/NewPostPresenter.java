@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.pasta.ahbapapp.model.PostModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -22,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 import id.zelory.compressor.Compressor;
@@ -122,13 +124,14 @@ public class NewPostPresenter implements NewPostContract.NewPostPresenter {
         post.setCreated_at(new Date());
         post.setUpdated_at(new Date());
 
-        firebaseFirestore.collection("posts").add(post).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override public void onComplete(@NonNull Task<DocumentReference> task) {
-                Log.d("OnComplete","before if");
-                if (task.isSuccessful()){
-                    mView.sendBack();
-                    mView.hideProgress();
-                }
+        firebaseFirestore.collection("posts").add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                HashMap<String,String> map = new HashMap<>();
+                map.put("currentID",currentUserID);
+                documentReference.collection("user_ids").add(map);
+                mView.sendBack();
+                mView.hideProgress();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override public void onFailure(@NonNull Exception e) {
