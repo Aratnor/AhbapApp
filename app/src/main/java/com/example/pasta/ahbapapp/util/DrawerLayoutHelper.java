@@ -89,10 +89,27 @@ public class DrawerLayoutHelper {
                         startBookMarkActivity();
                         mDrawerLayout.closeDrawers();
                         return true;
+                    case R.id.settingsNavView:
+                        startSettingActivity();
+                        return true;
+
                     default: return false;
                 }
             }
         });
+    }
+    private void startSettingActivity() {
+        Intent intent = new Intent();
+        intent.setAction("android.settings.APP_NOTIFICATION_SETTINGS");
+
+//for Android 5-7
+        intent.putExtra("app_package", context.getPackageName());
+        intent.putExtra("app_uid", context.getApplicationInfo().uid);
+
+// for Android O
+        intent.putExtra("android.provider.extra.APP_PACKAGE", context.getPackageName());
+
+        context.startActivity(intent);
     }
     private void startAccountActivity() {
         Intent intent = new Intent(context, AccountActivity.class);
