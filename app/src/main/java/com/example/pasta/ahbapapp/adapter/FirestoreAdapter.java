@@ -102,8 +102,6 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
                                 .get(queryDocumentSnapshots.size() - 1);
                     }
                 }
-
-                DocumentSnapshot snapshot = change.getDocument();
                 switch (change.getType()) {
                     case ADDED:
                         onDocumentAdded(change);
@@ -121,6 +119,9 @@ public abstract class FirestoreAdapter<VH extends RecyclerView.ViewHolder>
     }
 
     protected void onDocumentAdded(DocumentChange change) {
+        if (lastVisible == null){
+            lastVisible = change.getDocument();
+        }
         mSnapshots.add(change.getNewIndex(), change.getDocument());
         notifyItemInserted(change.getNewIndex());
         Log.d(TAG, "onDocumentAdded");

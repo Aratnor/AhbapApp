@@ -57,7 +57,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private DocumentReference mPostDocumentReference;
     private ListenerRegistration mPostRegistration;
-    private String currentUserID;
+    private String postUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,8 @@ public class PostDetailActivity extends AppCompatActivity {
                 }
 
                 PostModel post = documentSnapshot.toObject(PostModel.class);
+
+                postUserID = post.getAuthor_id();
                 Glide.with(userImage.getContext())
                         .load(post.getAuthor_image())
                         .into(userImage);
@@ -154,7 +156,7 @@ public class PostDetailActivity extends AppCompatActivity {
     protected void dialogBtnClick(){
         PostDialogFragment postDialogFragment = new PostDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(PostDialogFragment.USER_ID, currentUserID);
+        bundle.putString(PostDialogFragment.USER_ID, postUserID);
         bundle.putString(PostDialogFragment.POST_ID, postId);
         bundle.putInt(PostDialogFragment.ARRAY_ID, R.array.post_actions);
         postDialogFragment.setArguments(bundle);
