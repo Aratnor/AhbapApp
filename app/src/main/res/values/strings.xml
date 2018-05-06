@@ -33,6 +33,10 @@
         <item>Mesaj gönder</item>
         <item>İçeriği takip et</item>
     </string-array>
+    <string-array name="post_actions_2">
+        <item>Mesaj gönder</item>
+        <item>İçeriği takibi bırak</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

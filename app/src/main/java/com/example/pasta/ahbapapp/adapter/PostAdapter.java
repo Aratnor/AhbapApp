@@ -2,6 +2,7 @@ package com.example.pasta.ahbapapp.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.account.AccountActivity;
 import com.example.pasta.ahbapapp.model.PostModel;
-import com.example.pasta.ahbapapp.postlist.PostDialogFragment;
+import com.example.pasta.ahbapapp.util.PostDialogFragment;
 import com.example.pasta.ahbapapp.util.TimeAgo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
@@ -126,8 +127,11 @@ public class PostAdapter extends FirestoreAdapter<PostAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     PostDialogFragment postDialogFragment = new PostDialogFragment();
-                    postDialogFragment.setUserID(postModel.getAuthor_id());
-                    postDialogFragment.setPostID(snapshot.getReference().getId());
+                    Bundle bundle = new Bundle();
+                    bundle.putString(PostDialogFragment.USER_ID, postModel.getAuthor_id());
+                    bundle.putString(PostDialogFragment.POST_ID, snapshot.getReference().getId());
+                    bundle.putInt(PostDialogFragment.ARRAY_ID, R.array.post_actions);
+                    postDialogFragment.setArguments(bundle);
                     postDialogFragment.show(activity.getFragmentManager(), "postDialog" );
                 }
             });

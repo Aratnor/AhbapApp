@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,6 +57,8 @@ public class MessageActivity extends AppCompatActivity {
     private Query mQuery;
 
     private String messageUserId;
+    private String messageUserName;
+    private String messageUserImageUrl;
     private String currentUserId;
     private SharedPreferences sharedPreferences;
     private FirebaseFirestore db;
@@ -90,21 +93,29 @@ public class MessageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        String imageUrl = sharedPreferences.getString(MainActivity.USER_IMAGE,"");
-        String name = sharedPreferences.getString(MainActivity.USER_NAME,"");
-        if(!imageUrl.isEmpty())
-        Glide.with(this)
-                .load(imageUrl)
-                .into(message_toolbar_image);
-        else {
-            Log.i(TAG,"image url empty");
-        }
-        if(!name.isEmpty()) {
-            message_toolbar_name.setText(name);
-        }
-        else {
-            Log.i(TAG,"name text empty");
-        }
+        FirebaseFirestore.getInstance().collection("users")
+                .document(messageUserId).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot snapshot) {
+                messageUserName = (String) snapshot.get("name");
+                messageUserImageUrl = (String) snapshot.get("image_url");
+                if(!TextUtils.isEmpty(messageUserImageUrl))
+                    Glide.with(getApplicationContext())
+                            .load(messageUserImageUrl)
+                            .into(message_toolbar_image);
+                else {
+                    Log.i(TAG,"image url empty");
+                }
+                if(!TextUtils.isEmpty(messageUserName)) {
+                    message_toolbar_name.setText(messageUserName);
+                }
+                else {
+                    Log.i(TAG,"name text empty");
+                }
+            }
+        });
+
     }
 
     @Override

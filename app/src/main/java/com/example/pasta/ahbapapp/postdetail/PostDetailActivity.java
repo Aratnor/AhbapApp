@@ -4,7 +4,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,16 +17,15 @@ import com.example.pasta.ahbapapp.R;
 import com.example.pasta.ahbapapp.comment.CommentListFragment;
 import com.example.pasta.ahbapapp.comment.NewCommentFragment;
 import com.example.pasta.ahbapapp.model.PostModel;
-import com.example.pasta.ahbapapp.postlist.PostDialogFragment;
+import com.example.pasta.ahbapapp.util.PostDialogFragment;
 import com.example.pasta.ahbapapp.util.TimeAgo;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
-
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,7 +57,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private DocumentReference mPostDocumentReference;
     private ListenerRegistration mPostRegistration;
-    private String postAuthorID;
+    private String currentUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +100,6 @@ public class PostDetailActivity extends AppCompatActivity {
                 }
 
                 PostModel post = documentSnapshot.toObject(PostModel.class);
-                postAuthorID = post.getAuthor_id();
                 Glide.with(userImage.getContext())
                         .load(post.getAuthor_image())
                         .into(userImage);
@@ -156,8 +153,11 @@ public class PostDetailActivity extends AppCompatActivity {
     @OnClick(R.id.dialog_image)
     protected void dialogBtnClick(){
         PostDialogFragment postDialogFragment = new PostDialogFragment();
-        postDialogFragment.setUserID(postAuthorID);
-        postDialogFragment.setPostID(postId);
+        Bundle bundle = new Bundle();
+        bundle.putString(PostDialogFragment.USER_ID, currentUserID);
+        bundle.putString(PostDialogFragment.POST_ID, postId);
+        bundle.putInt(PostDialogFragment.ARRAY_ID, R.array.post_actions);
+        postDialogFragment.setArguments(bundle);
         postDialogFragment.show(getFragmentManager(), "postDialog" );
     }
 }
